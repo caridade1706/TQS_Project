@@ -1,0 +1,73 @@
+.home-page {
+    position: relative;
+    width: 100%;
+    background-color: #111111;
+}
+  
+.background-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+  
+
+/*   B U T T O N S  */
+
+.homepage-button {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-right: 5px;
+    background-color: #111111;
+    font-size: 1rem;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10%;
+}
+
+.hp-hospital-button {
+    border: 2px solid #78B7FF;
+    color: #78B7FF;
+    border-radius: 30px 0px 0px 30px;
+
+}
+
+.hp-medico-button {
+    border: 2px solid #49C493;
+    color: #49C493;
+    border-radius: 0px;
+}
+
+.hp-especialidade-button {
+    border: 2px solid #F6CE57;
+    color: #F6CE57;
+    border-radius: 0px 30px 30px 0px;
+}
+
+.hp-hospital-button:hover {
+    background-color: #78B7FF; 
+    color: #111111;
+}
+
+.hp-medico-button:hover {
+    background-color: #49C493; 
+    color: #111111;
+}
+
+.hp-especialidade-button:hover {
+    background-color: #F6CE57; 
+    color: #111111;
+}
+
+/*   C A R D S   */
+
+.hospital-cards-container {
+    margin-left: 20%;
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+  }
+  
