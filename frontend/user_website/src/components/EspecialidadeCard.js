@@ -1,16 +1,16 @@
 import React from 'react';
-import './HospitalCard.css'; 
+import './EspecialidadeCard.css'; 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 
-const HospitalCard = ({ image, name, city, number, location }) => {
+const EspecialidadeCard = ({ image, name, city, number, location }) => {
   return (
-    <div className="hospital-card">
-      <div className="hospital-image">
+    <div className="especialidade-card">
+      <div className="especialidade-image">
         <img src={image} alt={name} />
       </div>
-      <div className="hospital-info">
+      <div className="especialidade-info">
         <p>{city}</p>
         <h2>{name}</h2>
     
@@ -22,4 +22,4 @@ const HospitalCard = ({ image, name, city, number, location }) => {
   );
 };
 
-export default HospitalCard;
+export default EspecialidadeCard;

@@ -1,13 +1,42 @@
 .home-page {
     position: relative;
     width: 100%;
-    background-color: #111111;
+    background-color: #fff;
+    padding-bottom: 20px;
 }
-  
-.background-image {
+
+.overlay-hp {
+    position: relative;
     width: 100%;
     height: 500px;
+}
+
+.background-image-hp {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+.overlay-hp::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.overlay-hospital::after {
+    background-color: #5AA7FF;
+}
+
+.overlay-medico::after {
+    background-color: #49C493;
+}
+
+.overlay-especialidade::after {
+    background-color: #FFCB2F;
 }
   
 
@@ -17,7 +46,7 @@
     margin-top: 20px;
     margin-bottom: 30px;
     margin-right: 5px;
-    background-color: #111111;
+    background-color: #fff;
     font-size: 1rem;
     border-radius: 30px;
     padding: 0.5rem 1rem;
@@ -27,8 +56,8 @@
 }
 
 .hp-hospital-button {
-    border: 2px solid #78B7FF;
-    color: #78B7FF;
+    border: 2px solid #5AA7FF;
+    color: #5AA7FF;
     border-radius: 30px 0px 0px 30px;
 
 }
@@ -40,24 +69,24 @@
 }
 
 .hp-especialidade-button {
-    border: 2px solid #F6CE57;
-    color: #F6CE57;
+    border: 2px solid #FFCB2F;
+    color: #FFCB2F;
     border-radius: 0px 30px 30px 0px;
 }
 
-.hp-hospital-button:hover {
-    background-color: #78B7FF; 
-    color: #111111;
+.hp-hospital-button:hover, .hp-hospital-button-active {
+    background-color: #5AA7FF; 
+    color: #fff;
 }
 
-.hp-medico-button:hover {
+.hp-medico-button:hover, .hp-medico-button-active {
     background-color: #49C493; 
-    color: #111111;
+    color: #fff;
 }
 
-.hp-especialidade-button:hover {
-    background-color: #F6CE57; 
-    color: #111111;
+.hp-especialidade-button:hover, .hp-especialidade-button-active {
+    background-color: #FFCB2F; 
+    color: #fff;
 }
 
 /*   C A R D S   */

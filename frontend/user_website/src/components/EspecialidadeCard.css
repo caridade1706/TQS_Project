@@ -1,14 +1,14 @@
-.hospital-card {
+.especialidade-card {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #5AA7FF;
+    background-color: #F6CE57;
     border-radius: 8px;
     width: 91%;
     margin-bottom: 13px;
 }
   
-.hospital-image img {
+.especialidade-image img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -16,18 +16,18 @@
     margin-right: 20px;
 }
   
-.hospital-info {
+.especialidade-info {
     flex: 1;
     text-align: left; 
 }
   
-.hospital-info h3 {
+.especialidade-info h3 {
     margin: 0;
     font-size: 18px;
     font-weight: bold;
 }
   
-.hospital-info p {
+.especialidade-info p {
     margin: 5px 0;
     font-size: 14px;
     color: rgb(46, 45, 45);
