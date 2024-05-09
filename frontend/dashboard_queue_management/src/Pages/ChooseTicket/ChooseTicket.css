@@ -19,7 +19,7 @@
 }
 
 .ticket-button {
-    padding: 40px 70px;
+    padding: 30px 60px;
     background-color: #007bff;
     color: white;
     border: none;
@@ -33,5 +33,5 @@
 
 .ticket-button:hover {
     background-color: #0056b3;
-    transform: scale(1.5);
+    transform: scale(1.1);
 }
