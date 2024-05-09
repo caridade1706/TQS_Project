@@ -1,0 +1,50 @@
+.queue-dashboard {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card h2 {
+    margin: 0;
+    color: #007bff;
+    font-size: 350%;
+}
+
+.card p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 250%;
+}
+
+.last-called,
+.previous-called {
+    margin-top: 10px;
+}
+
+.previous-called h3 {
+    margin-top: 10px;
+    font-size: 200%;
+    color: #555;
+}
+
+.previous-called p {
+    font-size: 250%;
+    /* Smaller font size for sub-items */
+}

@@ -1,0 +1,51 @@
+.home-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('https://media.npr.org/assets/img/2021/02/19/scott_kobner03_wide-fd05f3d15fbb710e3b0d1f63940134616c2987a6.jpg?s=1400&c=100&f=jpeg') no-repeat center center; /* Corrected URL */
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 150px);
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.buttons-container {
+    background: rgba(255, 255, 255, 0.8);
+    width: 50%;
+    height: 250px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    gap: 40px;
+}
+
+
+.button {
+    width: 60%;
+    height: 50%;
+    flex-grow: 1;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-size: 200%;
+    transition: background-color 1s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    /* Darker blue when hovered */
+}
