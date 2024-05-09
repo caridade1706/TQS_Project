@@ -16,10 +16,10 @@ const Navbar = () => {
   return (
     <nav className="navbar">
         <div className="navbar-text">
-          <a onClick={handleHome}>
-            <FontAwesomeIcon icon={faHospital} className="navbar-icon"/>
-            Clini Connect - Dashboard Queue Management
-          </a>
+          <div onClick={handleHome}>
+            <FontAwesomeIcon  icon={faHospital} className="navbar-icon"/>
+            CliniConnect - Dashboard Queue Management
+          </div>
         </div>
     </nav>
   );

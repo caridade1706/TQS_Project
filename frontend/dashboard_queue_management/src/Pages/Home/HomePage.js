@@ -7,14 +7,14 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const handleTicketPage = () => {
-    navigate("/queue");
-  };
-
-  const handleChooseTicketPage = () => {
     navigate("/chosseTicket");
   };
 
-  return (
+  const handleChooseTicketPage = () => {
+    navigate("/queue");
+  };
+
+  return (    
     <div className="home-page">
       <div className="buttons-container">
         <button className="button" onClick={handleTicketPage} >

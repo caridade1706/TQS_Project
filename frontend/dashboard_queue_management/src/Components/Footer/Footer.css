@@ -1,29 +1,24 @@
 .footer {
-    background-color: #333;  /* Dark background */
-    color: white;  /* White text color */
-    text-align: center;  /* Centering the text */
-    padding: 20px;  /* Some padding around the content */
-    position: fixed;  /* Fix position to the bottom of the page */
-    left: 0;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;  /* Distributes space between the content */
-    align-items: center;
-    max-width: 960px;
-    margin: 0 auto;  /* Centering the content block horizontally */
-  }
-  
-  .footer-links a {
-    color: white;
-    margin: 0 10px;  /* Space out the links */
-    text-decoration: none;  /* Remove underline from links */
-  }
-  
-  .footer-links a:hover {
-    text-decoration: underline;  /* Underline on hover for better interaction */
-  }
-  
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-links a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
