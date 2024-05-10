@@ -1,0 +1,35 @@
+.medico-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #49C493;
+    border-radius: 8px;
+    width: 91%;
+    margin-bottom: 13px;
+}
+  
+.medico-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+  
+.medico-info {
+    flex: 1;
+    text-align: left; 
+}
+  
+.medico-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+  
+.medico-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: rgb(46, 45, 45);
+}
+  

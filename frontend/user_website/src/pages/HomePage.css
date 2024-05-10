@@ -1,0 +1,102 @@
+.home-page {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    padding-bottom: 20px;
+}
+
+.overlay-hp {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.background-image-hp {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-hp::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.overlay-hospital::after {
+    background-color: #5AA7FF;
+}
+
+.overlay-medico::after {
+    background-color: #49C493;
+}
+
+.overlay-especialidade::after {
+    background-color: #FFCB2F;
+}
+  
+
+/*   B U T T O N S  */
+
+.homepage-button {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-right: 5px;
+    background-color: #fff;
+    font-size: 1rem;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10%;
+}
+
+.hp-hospital-button {
+    border: 2px solid #5AA7FF;
+    color: #5AA7FF;
+    border-radius: 30px 0px 0px 30px;
+
+}
+
+.hp-medico-button {
+    border: 2px solid #49C493;
+    color: #49C493;
+    border-radius: 0px;
+}
+
+.hp-especialidade-button {
+    border: 2px solid #FFCB2F;
+    color: #FFCB2F;
+    border-radius: 0px 30px 30px 0px;
+}
+
+.hp-hospital-button:hover, .hp-hospital-button-active {
+    background-color: #5AA7FF; 
+    color: #fff;
+}
+
+.hp-medico-button:hover, .hp-medico-button-active {
+    background-color: #49C493; 
+    color: #fff;
+}
+
+.hp-especialidade-button:hover, .hp-especialidade-button-active {
+    background-color: #FFCB2F; 
+    color: #fff;
+}
+
+/*   C A R D S   */
+
+.hospital-cards-container {
+    margin-left: 20%;
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+  }
+  
