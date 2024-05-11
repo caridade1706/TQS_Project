@@ -15,4 +15,9 @@ public class Doctor extends Persona {
 
     @OneToMany(mappedBy = "doctor")
     private Set<Appointment> appointments;
+
+    @Override
+    public String getUsername() {
+        return super.getEmail();
+    }
 }
