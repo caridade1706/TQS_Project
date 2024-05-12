@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import java.util.Set;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Patient extends Persona {
