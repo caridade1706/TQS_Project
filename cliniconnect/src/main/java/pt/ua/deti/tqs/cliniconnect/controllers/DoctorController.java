@@ -23,7 +23,9 @@ public class DoctorController {
 
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {
+        
         List<Doctor> doctors = doctorService.getDoctorsBySpeciality(speciality);
+        
         if (!doctors.isEmpty()) {
             return ResponseEntity.ok(doctors);
         } else {
