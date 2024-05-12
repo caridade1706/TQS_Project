@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import java.util.Set;
 import lombok.*;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Doctor extends Persona {
     private String speciality;
@@ -15,4 +16,9 @@ public class Doctor extends Persona {
 
     @OneToMany(mappedBy = "doctor")
     private Set<Appointment> appointments;
+
+    @Override
+    public String getUsername() {
+        return super.getEmail();
+    }
 }

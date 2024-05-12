@@ -4,13 +4,19 @@ import jakarta.persistence.*;
 import java.util.Set;
 import lombok.*;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Staff extends Persona {
     private String department;
-    private String role;
+    private String task;
 
     @ManyToMany(mappedBy = "staffs")
     private Set<Hospital> hospitals;
+
+    @Override
+    public String getUsername() {
+        return super.getEmail();
+    }
 }

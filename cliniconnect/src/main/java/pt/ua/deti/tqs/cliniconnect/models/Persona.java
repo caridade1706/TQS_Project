@@ -1,18 +1,25 @@
 package pt.ua.deti.tqs.cliniconnect.models;
 
-import java.util.Date;
-import java.util.UUID;
-
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import pt.ua.deti.tqs.cliniconnect.Roles;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Persona {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED) // Or another appropriate strategy
+public class Persona implements UserDetails {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -26,4 +33,37 @@ public abstract class Persona {
     private String phone;
     private String address;
     private String city;
+
+    @Enumerated(EnumType.STRING)
+    Roles role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority((role.name())));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 }
