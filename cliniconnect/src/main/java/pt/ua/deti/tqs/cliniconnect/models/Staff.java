@@ -6,7 +6,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 public class Staff extends Persona {
     private String department;

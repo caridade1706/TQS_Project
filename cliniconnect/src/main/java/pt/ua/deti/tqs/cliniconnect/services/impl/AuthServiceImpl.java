@@ -2,8 +2,6 @@ package pt.ua.deti.tqs.cliniconnect.services.impl;
 
 import java.util.Optional;
 
-import javax.management.relation.Role;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

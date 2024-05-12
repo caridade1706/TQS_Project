@@ -6,7 +6,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 public class Patient extends Persona {
     private String preferredHospital;
