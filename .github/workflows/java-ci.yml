@@ -42,7 +42,7 @@ jobs:
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:
-        path: ~/cliniconnect/.m2
+        path: ./.m2  # This assumes that the .m2 directory you want to cache is at the root of your repository
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-m2
@@ -55,4 +55,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: packaged-artifacts
-        path: .~/cliniconnect/target/*.jar
+        path: ./cliniconnect/target/*.jar
