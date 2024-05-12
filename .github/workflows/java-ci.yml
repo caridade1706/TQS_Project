@@ -26,19 +26,21 @@ jobs:
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:
-        path: ~/.m2
+        path: ~/cliniconnect/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-m2
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      working-directory: ./cliniconnect 
 
     - name: Run tests
       run: mvn test
+      working-directory: ./cliniconnect 
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: packaged-artifacts
-        path: target/*.jar
+        path: ./cliniconnect target/*.jar
