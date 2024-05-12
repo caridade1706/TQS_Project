@@ -8,7 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
