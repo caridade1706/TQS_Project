@@ -48,6 +48,9 @@ public class AppointmentControllerTest {
                         .content("{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(appointment.getId().toString()));
+
+        
+        verify(appointmentService, times(1)).bookAppointment(any(Appointment.class));
     }
 
     @Test
@@ -59,6 +62,8 @@ public class AppointmentControllerTest {
         mockMvc.perform(delete("/api/appointments/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).cancelAppointment(id);
     }
 
     @Test
@@ -73,5 +78,7 @@ public class AppointmentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+        
+        verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
     }
 }

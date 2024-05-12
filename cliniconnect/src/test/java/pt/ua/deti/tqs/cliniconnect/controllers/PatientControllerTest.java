@@ -48,6 +48,8 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value(patient.getEmail()));
+
+        verify(patientService, times(1)).getPatientByEmail(anyString());
     }
 
 }
