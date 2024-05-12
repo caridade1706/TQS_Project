@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.support.BeanDefinitionDsl.Role;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.services.PatientService;
 
@@ -38,6 +41,7 @@ class PatientControllerTest {
     public void testGetPatientByEmail() throws Exception {
         Patient patient = new Patient();
         patient.setEmail("test@example.com");
+        patient.setRole(Roles.PATIENT);
         when(patientService.getPatientByEmail("test@example.com")).thenReturn(patient);
 
         mockMvc.perform(get(url + "/test@example.com")

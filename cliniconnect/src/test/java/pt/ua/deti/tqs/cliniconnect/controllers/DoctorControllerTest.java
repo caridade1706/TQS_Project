@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
@@ -39,12 +41,21 @@ public class DoctorControllerTest {
     @Test
     @DisplayName("Testa a procura de médicos por especialidade")
     public void testGetDoctorsBySpeciality() throws Exception {
-        List<Doctor> doctors = List.of(new Doctor(), new Doctor());
+
+        Doctor doctor1 = new Doctor();
+        doctor1.setRole(Roles.DOCTOR);
+        Doctor doctor2 = new Doctor();
+        doctor2.setRole(Roles.DOCTOR);  
+
+        List<Doctor> doctors = List.of(doctor1, doctor2);
+
         when(doctorService.getDoctorsBySpeciality("Cardiology")).thenReturn(doctors);
 
         mockMvc.perform(get(url + "/speciality/Cardiology")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+
+        verify(doctorService, times(1)).getDoctorsBySpeciality("Cardiology");
     }
 }

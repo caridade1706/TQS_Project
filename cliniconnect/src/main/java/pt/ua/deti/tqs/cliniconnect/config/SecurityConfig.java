@@ -27,9 +27,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authRequest ->
                 authRequest
-                    .requestMatchers("/api/patients/register").permitAll()
-                    .requestMatchers("/api/patients/login").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll() 
+                    // .requestMatchers("/api/patients/register").permitAll()
+                    // .requestMatchers("/api/patients/login").permitAll()
+                    // .anyRequest().authenticated()
             )
             .sessionManagement(sessionManagement ->
                 sessionManagement
