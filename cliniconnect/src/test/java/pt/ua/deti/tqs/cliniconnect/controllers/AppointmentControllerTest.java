@@ -54,6 +54,22 @@ public class AppointmentControllerTest {
     }
 
     @Test
+    @DisplayName("Testa a criação de um novo agendamento e falha")
+    public void testCreateAppointmentFail() throws Exception {
+        Appointment appointment = new Appointment();
+        appointment.setId(UUID.randomUUID());
+        when(appointmentService.bookAppointment(any(Appointment.class))).thenReturn(null);
+
+        mockMvc.perform(post("/api/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
+                .andExpect(status().isNotFound());
+
+        
+        verify(appointmentService, times(1)).bookAppointment(any(Appointment.class));
+    }
+
+    @Test
     @DisplayName("Testa a cancelação de um agendamento")
     public void testCancelAppointment() throws Exception {
         UUID id = UUID.randomUUID();
@@ -62,6 +78,19 @@ public class AppointmentControllerTest {
         mockMvc.perform(delete("/api/appointments/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).cancelAppointment(id);
+    }
+
+    @Test
+    @DisplayName("Testa a cancelação de um agendamento e não encontra o agendamento")
+    public void testCancelAppointmentNotFound() throws Exception {
+        UUID id = UUID.randomUUID();
+        when(appointmentService.cancelAppointment(id)).thenReturn(false);
+
+        mockMvc.perform(delete("/api/appointments/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
         verify(appointmentService, times(1)).cancelAppointment(id);
     }
@@ -78,6 +107,34 @@ public class AppointmentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+        
+        verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
+    }
+
+    @Test
+    @DisplayName("Testa a obtenção de agendamentos por paciente e não encontra agendamentos")
+    public void testGetAppointmentsByPatientAndAppointmentsNotFound() throws Exception {
+        UUID patientId = UUID.randomUUID();
+        List<Appointment> appointments = new ArrayList<>();
+        when(appointmentService.getAppointmentsByPatient(patientId)).thenReturn(appointments);
+
+        mockMvc.perform(get("/api/appointments/patient/" + patientId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+        
+        verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
+    }
+
+    @Test
+    @DisplayName("Testa a obtenção de agendamentos por paciente e null")
+    public void testGetAppointmentsByPatientAndAppointmentsNull() throws Exception {
+        UUID patientId = UUID.randomUUID();
+        List<Appointment> appointments = null;
+        when(appointmentService.getAppointmentsByPatient(patientId)).thenReturn(appointments);
+
+        mockMvc.perform(get("/api/appointments/patient/" + patientId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
         
         verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
     }
