@@ -54,9 +54,9 @@ public class AuthServiceImpl implements AuthService {
         patientRepository.save(patient);
 
         return AuthResponse.builder()
-            .token(jwtService.getToken(patient))
-            .build();
-        
+                .token(jwtService.getToken(patient))
+                .build();
+
     }
 
     @Override
@@ -81,79 +81,49 @@ public class AuthServiceImpl implements AuthService {
         staffRepository.save(staff);
 
         return AuthResponse.builder()
-            .token(jwtService.getToken(staff))
-            .build();
+                .token(jwtService.getToken(staff))
+                .build();
     }
 
     @Override
-    public AuthResponse loginPatient(LoginDTO loginDTO) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+    public AuthResponse loginPatient(LoginDTO loginDTO) throws RuntimeException {
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
+                loginDTO.getPassword()));
+
         UserDetails user = personaRepository.findByEmail(loginDTO.getEmail()).orElseThrow();
-        
-        if (user == null) {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+
         Optional<Persona> p = personaRepository.findByEmail(loginDTO.getEmail());
-        
-        
+
         if (p.get().getRole() != Roles.PATIENT) {
-            System.out.println("Invalid Permissions");
             throw new RuntimeException("Invalid Permissions");
         }
-        
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (encoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            String token = jwtService.getToken(user);
-            
-            System.out.println(AuthResponse.builder()
-                .token(token)
-                .build());
-            
-            return AuthResponse.builder()
+        String token = jwtService.getToken(user);
+
+        return AuthResponse.builder()
                 .token(token)
                 .build();
-        } else {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
     }
 
     @Override
     public AuthResponse loginStaff(LoginDTO loginDTO) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
         UserDetails user = personaRepository.findByEmail(loginDTO.getEmail()).orElseThrow();
-        
-        if (user == null) {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+
         Optional<Persona> p = personaRepository.findByEmail(loginDTO.getEmail());
-        
-        
+
         if (p.get().getRole() != Roles.STAFF) {
-            System.out.println("Invalid Permissions");
             throw new RuntimeException("Invalid Permissions");
         }
-        
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (encoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            String token = jwtService.getToken(user);
-            
-            System.out.println(AuthResponse.builder()
-                .token(token)
-                .build());
-            
-            return AuthResponse.builder()
+        String token = jwtService.getToken(user);
+
+        return AuthResponse.builder()
                 .token(token)
                 .build();
-        } else {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
     }
-
-
 }
