@@ -7,37 +7,28 @@ function Login(props) {
 
   const navigate = useNavigate()
   const [credentials, setCredentials] = useState({})
-  const [username, setUsername] = useState({})
 
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
       [e.target.name]: e.target.value
     })
-    setUsername({
-        ...username,
-        [e.target.name]: e.target.value
-    })
   }
 
   const handleLogin = () => {
     // perform the login request 
   
-    axios.post('http://localhost:5000/api/login',{
+    axios.post('http://localhost:8080/api/patients/login',{
       email: credentials.email, 
       password: credentials.password    
     }).then(response => {
       if(response.data) {     
         const token = response.data.token
-        console.log(token)
-        localStorage.setItem('access_token', token)
-        localStorage.setItem('username', response.data.username)
-        // set default headers 
-        // setAuthenticationHeader(token) 
+        localStorage.setItem(credentials.email, token)
         navigate('/'); 
-        /* props.history.push('/accounts')
+        props.history.push('/accounts')
         localStorage.setItem('email', credentials.email)
-        props.onLoggedIn()   */ 
+        props.onLoggedIn()   
       }
     }).catch(error => {
       console.log(error)    
@@ -47,7 +38,6 @@ function Login(props) {
 
   const handleLogOut = () => {
     localStorage.removeItem('access_token')
-    localStorage.removeItem('username')
   }
 
   return (
