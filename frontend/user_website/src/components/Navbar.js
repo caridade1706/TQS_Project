@@ -12,7 +12,8 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faHospital} className="navbar-icon"/>
             Clini Connect
         </div>
-        <Link to="/consultas" className='navbar-link'><button className="navbar-button">Entrar</button></Link>
+        <Link to="/login" className='navbar-link'><button className="navbar-button">Entrar</button></Link>
+        <Link to="/consultas" className='navbar-link'><button className="navbar-button">Consultas</button></Link>
     </nav>
   );
 };

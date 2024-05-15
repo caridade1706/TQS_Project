@@ -8,6 +8,8 @@ import HomeMedicoPage from './pages/HomeMedicoPage';
 import HomeEspecialidadePage from './pages/HomeEspecialidadePage';
 import ConsultasPage from './pages/ConsultasPage';
 import AgendamentoPage from './pages/AgendamentoPage';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/especialidades" element={<HomeEspecialidadePage />} />
           <Route path="/consultas" element={<ConsultasPage />} />
           <Route path="/agendamento" element={<AgendamentoPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>
