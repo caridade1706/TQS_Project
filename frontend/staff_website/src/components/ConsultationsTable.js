@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
+import './ConsultationsTable.css';
+import AddConsultationForm from '../components/AddConsultationForm';
 
-function ConsultationsTable({ consultations }) {
+function ConsultationsTable() {
+
+    const initialConsultations = [
+        { number: 1, name: 'John Doe', date: '2024-05-09', time: '14:00', doctor: 'Dr. Smith', specialty: 'Cardiology', hospital: 'City Hospital' },
+        { number: 2, name: 'Jane Smith', date: '2024-05-10', time: '09:00', doctor: 'Dr. Adams', specialty: 'Dermatology', hospital: 'Regional Health Center' }
+    ];
+
+    const [consultations, setConsultations] = useState(initialConsultations);
+    const [showForm, setShowForm] = useState(false); // Estado para controlar a visibilidade do formulário
+
+    const addConsultation = (consultation) => {
+        setConsultations([...consultations, consultation]);
+    };
+
     const [filter, setFilter] = useState('');
 
     const filteredConsultations = consultations.filter(consultation =>
@@ -10,8 +25,15 @@ function ConsultationsTable({ consultations }) {
     );
 
     return (
-        <div>
-            <input type="text" placeholder="Search..." onChange={e => setFilter(e.target.value)} />
+        <div className="table-consultation-container">
+            <button 
+                className="new-consultation-btn"
+                onClick={() => setShowForm(!showForm)}
+            >
+                New Consultation
+            </button>
+            {showForm && <AddConsultationForm addConsultation={addConsultation} />}
+            <input type="text" placeholder="Search..." className="table-consultation-search" onChange={e => setFilter(e.target.value)} />
             <table>
                 <thead>
                     <tr>
