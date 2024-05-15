@@ -3,7 +3,6 @@ package pt.ua.deti.tqs.cliniconnect.dto;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
