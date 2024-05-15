@@ -53,9 +53,11 @@ public class AuthServiceImpl implements AuthService {
 
         patientRepository.save(patient);
 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(patient))
-                .build();
+        return new AuthResponse(jwtService.getToken(patient));
+
+        // return AuthResponse.builder()
+        //         .token(jwtService.getToken(patient))
+        //         .build();
 
     }
 
@@ -80,9 +82,10 @@ public class AuthServiceImpl implements AuthService {
 
         staffRepository.save(staff);
 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(staff))
-                .build();
+        return new AuthResponse(jwtService.getToken(staff));
+        // return AuthResponse.builder()
+        //         .token(jwtService.getToken(staff))
+        //         .build();
     }
 
     @Override
@@ -99,11 +102,13 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Invalid Permissions");
         }
 
-        String token = jwtService.getToken(user);
+        return new AuthResponse(jwtService.getToken(user));
 
-        return AuthResponse.builder()
-                .token(token)
-                .build();
+        // String token = jwtService.getToken(user);
+
+        // return AuthResponse.builder()
+        //         .token(token)
+        //         .build();
     }
 
     @Override
@@ -120,10 +125,12 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Invalid Permissions");
         }
 
-        String token = jwtService.getToken(user);
+        return new AuthResponse(jwtService.getToken(user));
 
-        return AuthResponse.builder()
-                .token(token)
-                .build();
+        // String token = jwtService.getToken(user);
+
+        // return AuthResponse.builder()
+        //         .token(token)
+        //         .build();
     }
 }
