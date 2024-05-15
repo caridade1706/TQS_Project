@@ -24,9 +24,6 @@ public class AuthResponseTest {
     @Test
     void testGetters() {
         authResponse.setToken("token");
-
         assertEquals("token", authResponse.getToken());
     }
-
-    
 }
