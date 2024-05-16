@@ -1,4 +1,4 @@
-package pt.ua.deti.tqs.cliniconnect.Jwt;
+package pt.ua.deti.tqs.cliniconnect.jwt;
 
 import java.security.Key;
 import java.util.Date;
@@ -38,9 +38,7 @@ public class JwtService {
 
     private Key getKey() {
 
-        System.out.println("JwtService: getKey: " + SECRET_KEY);
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        System.out.println("JwtService: getKey: keyBytes: " + keyBytes);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

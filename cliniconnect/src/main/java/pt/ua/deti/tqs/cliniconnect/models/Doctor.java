@@ -17,10 +17,10 @@ public class Doctor extends Persona {
     private String speciality;
 
     @ManyToMany(mappedBy = "doctors")
-    private Set<Hospital> hospitals;
+    private transient Set<Hospital> hospitals;
 
     @OneToMany(mappedBy = "doctor")
-    private Set<Appointment> appointments;
+    private transient Set<Appointment> appointments;
 
     public Doctor(UUID id, String name, Date dob, String email, String password, String phone, String address, String city, String speciality, Set<Hospital> hospitals, Set<Appointment> appointments) {
         super(id, name, dob, email, password, phone, address, city, Roles.DOCTOR);

@@ -2,7 +2,6 @@ package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
-    @Autowired
     private final AppointmentService appointmentService;
 
     @PostMapping
@@ -41,7 +39,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<?> getAppointmentsByPatient(@PathVariable UUID patientId) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByPatient(@PathVariable UUID patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatient(patientId);
         if (appointments != null && !appointments.isEmpty()) {
             return ResponseEntity.ok(appointments);

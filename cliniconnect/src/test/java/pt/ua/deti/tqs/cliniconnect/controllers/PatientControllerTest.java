@@ -227,8 +227,8 @@ class PatientControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(newSpecialties)))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.specialties.Cardiology").value(5))
-                                .andExpect(jsonPath("$.specialties.Neurology").value(3));
+                                .andExpect(jsonPath("$.specialty.Cardiology").value(5))
+                                .andExpect(jsonPath("$.specialty.Neurology").value(3));
 
                 verify(patientService, times(1)).getPatientByEmail(email);
                 verify(specialtiesService, times(1)).addSpecialty(eq(patient), any(HashMap.class));

@@ -1,6 +1,6 @@
 package pt.ua.deti.tqs.cliniconnect.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class SpecialtiesServiceImpl implements SpecialtiesService {
 
-    @Autowired
     private SpecialtiesRepository specialtiesRepository;
 
     @Override

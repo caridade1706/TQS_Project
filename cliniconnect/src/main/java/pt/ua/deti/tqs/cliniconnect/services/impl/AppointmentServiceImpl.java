@@ -6,7 +6,6 @@ import pt.ua.deti.tqs.cliniconnect.repositories.AppointmentRepository;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.services.AppointmentService {
 
-    @Autowired
     private AppointmentRepository appointmentRepository;
 
     @Override

@@ -2,7 +2,6 @@ package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,6 @@ import pt.ua.deti.tqs.cliniconnect.services.SpecialtiesService;
 @RequestMapping("/api/patients")
 public class PatientController {
 
-    @Autowired
     private PatientService patientService;
     private AuthService authService;
     private SpecialtiesService specialtiesService;

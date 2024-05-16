@@ -18,7 +18,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {

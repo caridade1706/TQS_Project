@@ -21,11 +21,11 @@ public class Specialties {
     @JoinColumn(name = "persona")
     private Patient patient;
 
-    private HashMap<String, Integer> specialties;
+    private HashMap<String, Integer> specialty;
 
     public Specialties(Patient patient, HashMap<String, Integer> specialties) {
         this.patient = patient;
-        this.specialties = specialties;
+        this.specialty = specialties;
     }
  
 }

@@ -31,8 +31,8 @@ public class SpecialtiesTest {
     @Test
     void testGetSpecialties() {
         HashMap<String, Integer> specialtiesMap = new HashMap<>();
-        specialties.setSpecialties(specialtiesMap);
-        assertEquals(specialtiesMap, specialties.getSpecialties());
+        specialties.setSpecialty(specialtiesMap);
+        assertEquals(specialtiesMap, specialties.getSpecialty());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class SpecialtiesTest {
         HashMap<String, Integer> specialtiesMap = new HashMap<>();
         specialties = new Specialties(patient, specialtiesMap);
         assertEquals(patient, specialties.getPatient());
-        assertEquals(specialtiesMap, specialties.getSpecialties());
+        assertEquals(specialtiesMap, specialties.getSpecialty());
     }
     
 }
