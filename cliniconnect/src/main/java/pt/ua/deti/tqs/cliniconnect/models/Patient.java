@@ -20,6 +20,7 @@ public class Patient extends Persona {
 
     @OneToMany(mappedBy = "patient")
     @JsonManagedReference
+    @Transient
     private Set<Appointment> appointments;
 
     public Patient(UUID id, String name, Date dob, String email, String password, String phone, String address,
