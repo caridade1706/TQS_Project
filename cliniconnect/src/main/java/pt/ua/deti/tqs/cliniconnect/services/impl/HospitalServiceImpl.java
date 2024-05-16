@@ -3,6 +3,7 @@ package pt.ua.deti.tqs.cliniconnect.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.repositories.HospitalRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class HospitalServiceImpl implements HospitalService {
 
     @Autowired

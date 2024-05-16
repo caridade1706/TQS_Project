@@ -20,12 +20,17 @@ public class HospitalController {
     @PostMapping(path = "/")
     public ResponseEntity<Hospital> createHospital(@RequestBody CreateHospitalDTO createHospitalDTO) {
         Hospital savedHospital = hospitalService.saveHospital(createHospitalDTO);
+        
+        if (savedHospital == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
         return ResponseEntity.ok(savedHospital);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Hospital> getHospitalById(@PathVariable UUID id) {
-        return hospitalService.getHospitalById(id)
+    public ResponseEntity<Hospital> getHospitalById(@PathVariable String id) {
+        return hospitalService.getHospitalById(UUID.fromString(id))
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -33,6 +38,11 @@ public class HospitalController {
     @GetMapping("/")
     public ResponseEntity<List<Hospital>> getAllHospitals() {
         List<Hospital> hospitals = hospitalService.getAllHospitals();
+
+        if (hospitals == null || hospitals.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(hospitals);
     }
 

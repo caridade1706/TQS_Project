@@ -2,11 +2,13 @@ package pt.ua.deti.tqs.cliniconnect.services.impl;
 
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
+import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Persona;
 import pt.ua.deti.tqs.cliniconnect.repositories.*;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,8 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     @Override
     public Appointment bookAppointment(CreateAppointmentDTO createAppointmentDTO) {
         
+        System.out.println("AQUIiiii: " + createAppointmentDTO.getDoctorName());
+        
         Appointment appointment = new Appointment();
         appointment.setDate(createAppointmentDTO.getDate());
         
@@ -60,7 +64,10 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         appointment.setPatient(patient.get());
 
         // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
-        // appointment.setDoctor(doctor.get());
+        
+        Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName", Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA", "Aveiro", "Cardiology", null, null);
+
+        appointment.setDoctor(doctor);
 
         Optional<Hospital> hospital = hospitalRepository.findByName(createAppointmentDTO.getHospitalName());
         appointment.setHospital(hospital.get());

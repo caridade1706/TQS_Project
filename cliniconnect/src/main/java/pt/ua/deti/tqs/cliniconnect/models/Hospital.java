@@ -28,7 +28,7 @@ public class Hospital {
 
     @ManyToMany
     @JoinTable(
-        name = "doctor_hospitals",
+        name = "staff_hospitals",
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
@@ -36,7 +36,7 @@ public class Hospital {
 
     @ManyToMany
     @JoinTable(
-        name = "staff_hospitals",
+        name = "doctor_hospitals",
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "doctor_id")
     )

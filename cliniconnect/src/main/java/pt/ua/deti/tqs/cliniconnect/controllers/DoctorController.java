@@ -19,9 +19,6 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
-
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {
         
