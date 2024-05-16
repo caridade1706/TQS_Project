@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import pt.ua.deti.tqs.cliniconnect.Jwt.JwtAuthenticationFilter;
 
@@ -24,11 +25,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         
         return http
+            .csrf(csrf -> csrf.disable())
+            // .csrf(csrf -> csrf // Enable CSRF protection
+            //     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
             .authorizeHttpRequests(authRequest ->
                 authRequest
                 .anyRequest().permitAll() 
-                    // .requestMatchers("/api/patients/register").permitAll()
-                    // .requestMatchers("/api/patients/login").permitAll()
+                // .requestMatchers("/api/patients/register").permitAll()
+                // .requestMatchers("/api/patients/login").permitAll()
                     // .anyRequest().authenticated()
             )
             .sessionManagement(sessionManagement ->

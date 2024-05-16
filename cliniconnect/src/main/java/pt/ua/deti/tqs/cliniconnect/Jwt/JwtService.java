@@ -15,6 +15,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class JwtService {
@@ -22,6 +23,15 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("SECRET_KEY: " + SECRET_KEY);
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.SECRET_KEY = secretKey;
+    }
+    
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
     }
