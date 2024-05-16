@@ -1,9 +1,16 @@
 package pt.ua.deti.tqs.cliniconnect.services.impl;
 
+import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
-import pt.ua.deti.tqs.cliniconnect.repositories.AppointmentRepository;
+import pt.ua.deti.tqs.cliniconnect.models.Hospital;
+import pt.ua.deti.tqs.cliniconnect.models.Patient;
+import pt.ua.deti.tqs.cliniconnect.models.Persona;
+import pt.ua.deti.tqs.cliniconnect.repositories.*;
 
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +25,50 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private PersonaRepository personaRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
+
     @Override
-    public Appointment bookAppointment(Appointment appointment) {
+    public Appointment bookAppointment(CreateAppointmentDTO createAppointmentDTO) {
+        
+        Appointment appointment = new Appointment();
+        appointment.setDate(createAppointmentDTO.getDate());
+        
+
+        LocalTime lt = LocalTime.now(); //mudar a logica da hora
+
+        appointment.setTime(lt);
+        appointment.setStatus("Created");
+        appointment.setPrice(createAppointmentDTO.getPrice());
+        appointment.setType(createAppointmentDTO.getType());
+        appointment.setCurrency("EUR");
+
+        System.out.print("AQUIIIIIIIIIIIIIIIIIII:");
+        System.out.println(createAppointmentDTO.getPatientName());
+
+        Persona p = personaRepository.findByName(createAppointmentDTO.getPatientName());
+        Optional<Patient> patient = patientRepository.findById(p.getId());
+
+        System.out.print("AQUIIIIIIIIIIIIIIIIIII:");
+        System.out.println(patient.get().getName());
+
+        appointment.setPatient(patient.get());
+
+        // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
+        // appointment.setDoctor(doctor.get());
+
+        Optional<Hospital> hospital = hospitalRepository.findByName(createAppointmentDTO.getHospitalName());
+        appointment.setHospital(hospital.get());
+
         return appointmentRepository.save(appointment);
     }
 
@@ -36,5 +85,22 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     public List<Appointment> getAppointmentsByPatient(UUID patientId) {
         List<Appointment> appointments = appointmentRepository.findByPatient_Id(patientId);
         return appointments;
+    }
+
+    @Override
+    public boolean updateAppointmentStatus(UUID id, String status) {
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        if (optionalAppointment.isPresent()) {
+            Appointment appointment = optionalAppointment.get();
+            appointment.setStatus(status);
+            appointmentRepository.save(appointment);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByDate(Date date) {
+        return appointmentRepository.findByDate(date);
     }
 }

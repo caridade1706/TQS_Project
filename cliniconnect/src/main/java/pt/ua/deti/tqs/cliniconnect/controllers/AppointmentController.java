@@ -1,5 +1,6 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
+import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 
@@ -20,13 +22,21 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        Appointment createdAppointment = appointmentService.bookAppointment(appointment);
-        
+    public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentDTO createAppointmentDTO) {
+        System.out.println(createAppointmentDTO.getDate());
+        System.out.println(createAppointmentDTO.getTime());
+        System.out.println(createAppointmentDTO.getPrice());
+        System.out.println(createAppointmentDTO.getType());
+        System.out.println(createAppointmentDTO.getPatientName());
+        System.out.println(createAppointmentDTO.getDoctorName());
+        System.out.println(createAppointmentDTO.getHospitalName());
+
+        Appointment createdAppointment = appointmentService.bookAppointment(createAppointmentDTO);
+
         if (createdAppointment == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         return ResponseEntity.ok(createdAppointment);
     }
 
@@ -48,5 +58,15 @@ public class AppointmentController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<Appointment>> getAppointmentsToday() {
+        Date today = new Date();
+        List<Appointment> todayAppointments = appointmentService.getAppointmentsByDate(today);
+        if (todayAppointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(todayAppointments);
     }
 }

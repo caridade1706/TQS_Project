@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
+import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
 @RestController
@@ -20,6 +18,9 @@ public class DoctorController {
     
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {
@@ -32,4 +33,10 @@ public class DoctorController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // @PostMapping()
+    // public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+    //     Doctor d = doctorRepository.save(doctor);
+    //     return  ResponseEntity.ok(d);
+    // }
 }
