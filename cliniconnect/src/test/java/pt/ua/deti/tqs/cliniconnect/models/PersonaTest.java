@@ -10,7 +10,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PersonaTest {
+public class PersonaTest {
 
     private Persona persona;
 

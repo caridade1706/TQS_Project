@@ -1,4 +1,4 @@
-package pt.ua.deti.tqs.cliniconnect.jwt;
+package pt.ua.deti.tqs.cliniconnect.Jwt;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         
         final String token = getTokenFromRequest(request);

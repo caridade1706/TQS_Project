@@ -1,4 +1,4 @@
-package pt.ua.deti.tqs.cliniconnect.jwt;
+package pt.ua.deti.tqs.cliniconnect.Jwt;
 
 import java.security.Key;
 import java.util.Date;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +18,18 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
 
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-    
     public String getToken(UserDetails user) {
+        System.out.println("Cheguei aqui");
+        System.out.println("JwtService: getToken: user: " + user);
         return getToken(new HashMap<>(), user);
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
 
+        System.out.println("JwtService: getToken: user: " + user.getUsername());
+        System.out.println(SignatureAlgorithm.HS256);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -43,7 +41,10 @@ public class JwtService {
     }
 
     private Key getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+
+        System.out.println("JwtService: getKey: " + SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        System.out.println("JwtService: getKey: keyBytes: " + keyBytes);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -74,7 +75,7 @@ public class JwtService {
         return getClaim(token, Claims::getExpiration);
     }
 
-    public boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return getExpiration(token).before(new Date());
     }
 }
