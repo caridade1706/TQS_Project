@@ -8,9 +8,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.authentication.AuthenticationProvider;
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

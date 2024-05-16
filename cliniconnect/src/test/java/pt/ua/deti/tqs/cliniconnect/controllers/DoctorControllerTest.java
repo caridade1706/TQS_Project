@@ -14,6 +14,7 @@ import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DoctorControllerTest {
+class DoctorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +41,7 @@ public class DoctorControllerTest {
 
     @Test
     @DisplayName("Testa a procura de médicos por especialidade")
-    public void testGetDoctorsBySpeciality() throws Exception {
+    void testGetDoctorsBySpeciality() throws Exception {
 
         Doctor doctor1 = new Doctor();
         doctor1.setRole(Roles.DOCTOR);
@@ -55,6 +56,21 @@ public class DoctorControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+
+        verify(doctorService, times(1)).getDoctorsBySpeciality("Cardiology");
+    }
+
+    @Test
+    @DisplayName("Testa a procura de médicos por especialidade nao encontrada")
+    void testGetDoctorsBySpecialityNotFound() throws Exception {
+
+        List<Doctor> doctors = new ArrayList<>();
+
+        when(doctorService.getDoctorsBySpeciality("Cardiology")).thenReturn(doctors);
+
+        mockMvc.perform(get(url + "/speciality/Cardiology")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
         verify(doctorService, times(1)).getDoctorsBySpeciality("Cardiology");
     }

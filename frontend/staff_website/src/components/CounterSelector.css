@@ -1,0 +1,23 @@
+.button-counter {
+    font-size: large;
+    margin-top: 30px;
+    margin-right: 5px;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #111111;
+    border: 1px solid #111111;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-counter.selected {
+    background-color: #111111;
+    color: #fff;
+    border-color: #111111;
+}
+
+.button-counter:hover {
+    background-color: #111111;
+    color: #fff;
+}

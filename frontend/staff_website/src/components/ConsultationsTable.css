@@ -1,0 +1,37 @@
+.table-consultation-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.table-consultation-search {
+    max-width: 80%;
+    border-radius: 30px !important;
+    font-size: large;
+}
+
+.new-consultation-btn {
+    background-color: #fff;
+    color: #111111;
+    border: 1px solid #111111;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: large;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.new-consultation-btn:hover {
+    background-color: #5AA7FF; 
+    border: 1px solid #5AA7FF;
+    color: #fff;
+}
+
+table,
+table th,
+table td {
+    border: none;
+}
