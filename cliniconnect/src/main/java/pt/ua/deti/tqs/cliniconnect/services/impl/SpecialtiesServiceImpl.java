@@ -19,30 +19,29 @@ public class SpecialtiesServiceImpl implements SpecialtiesService {
     private SpecialtiesRepository specialtiesRepository;
 
     @Override
-    public Specialties addSpecialty( Patient persona,HashMap<String, Integer> specialties) {
-        if (specialtiesRepository.findByPatient(persona) != null) {
-            HashMap<String, Integer>  s = specialtiesRepository.findByPatient(persona);
-            s.putAll(specialties);
-            return specialtiesRepository.save(new Specialties(persona, s));
-        }
-        else {
+    public Specialties addSpecialty(Patient persona, HashMap<String, Integer> specialties) {
+        HashMap<String, Integer> existingSpecialties = specialtiesRepository.findByPatient(persona);
+        if (existingSpecialties != null) {
+            existingSpecialties.putAll(specialties);
+            return specialtiesRepository.save(new Specialties(persona, existingSpecialties));
+        } else {
             return specialtiesRepository.save(new Specialties(persona, specialties));
         }
     }
 
     @Override
     public HashMap<String, Integer> getByPatient(Patient persona) {
-        return specialtiesRepository.findByPatient(persona);
+        HashMap<String, Integer> specialties = specialtiesRepository.findByPatient(persona);
+        return specialties != null ? specialties : new HashMap<>();
     }
 
     @Override
     public Specialties deleteSpecialty(Patient persona, String specialty) {
-        HashMap<String, Integer> s = specialtiesRepository.findByPatient(persona);
-        if (s != null) {
-            s.remove(specialty);
-            return specialtiesRepository.save(new Specialties(persona, s));
+        HashMap<String, Integer> specialties = specialtiesRepository.findByPatient(persona);
+        if (specialties != null) {
+            specialties.remove(specialty);
+            return specialtiesRepository.save(new Specialties(persona, specialties));
         }
-        return null;
+        return new Specialties(persona, new HashMap<>());  // Retorna um objeto vazio se não encontrar
     }
 }
-
