@@ -19,10 +19,10 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtServiceTest {
+class JwtServiceTest {
 
     private String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
 

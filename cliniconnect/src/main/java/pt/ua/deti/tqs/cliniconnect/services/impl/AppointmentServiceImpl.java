@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -24,29 +23,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.services.AppointmentService {
 
-    @Autowired
     private AppointmentRepository appointmentRepository;
-
-    @Autowired
     private PatientRepository patientRepository;
-
-    @Autowired
     private PersonaRepository personaRepository;
-    
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
     private HospitalRepository hospitalRepository;
 
     @Override
     public Appointment bookAppointment(CreateAppointmentDTO createAppointmentDTO) {
         
-        System.out.println("AQUIiiii: " + createAppointmentDTO.getDoctorName());
-        
         Appointment appointment = new Appointment();
         appointment.setDate(createAppointmentDTO.getDate());
-        
 
         LocalTime lt = LocalTime.now(); //mudar a logica da hora
 
@@ -55,16 +41,11 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         appointment.setPrice(createAppointmentDTO.getPrice());
         appointment.setType(createAppointmentDTO.getType());
         appointment.setCurrency("EUR");
-
-        System.out.print("AQUIIIIIIIIIIIIIIIIIII:");
-        System.out.println(createAppointmentDTO.getPatientName());
-
         Persona p = personaRepository.findByName(createAppointmentDTO.getPatientName());
         Optional<Patient> patient = patientRepository.findById(p.getId());
         appointment.setPatient(patient.get());
 
         // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
-        
         Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName", Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA", "Aveiro", "Cardiology", null, null);
 
         appointment.setDoctor(doctor);
@@ -86,8 +67,7 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
 
     @Override
     public List<Appointment> getAppointmentsByPatient(UUID patientId) {
-        List<Appointment> appointments = appointmentRepository.findByPatient_Id(patientId);
-        return appointments;
+        return appointmentRepository.findByPatient_Id(patientId);
     }
 
     @Override

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
-public class CreateAppointmentDTOTest {
+class CreateAppointmentDTOTest {
 
     private CreateAppointmentDTO createAppointmentDTO;
 

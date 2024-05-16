@@ -2,13 +2,11 @@ package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
-import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
 @RestController
@@ -16,7 +14,6 @@ import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 @RequestMapping("/api/doctors")
 public class DoctorController {
     
-    @Autowired
     private DoctorService doctorService;
 
     @GetMapping("/speciality/{speciality}")
@@ -30,10 +27,4 @@ public class DoctorController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    // @PostMapping()
-    // public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
-    //     Doctor d = doctorRepository.save(doctor);
-    //     return  ResponseEntity.ok(d);
-    // }
 }

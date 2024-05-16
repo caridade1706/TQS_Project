@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AppointmentControllerTest {
+class AppointmentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test creating a new appointment")
-    public void testCreateAppointment() throws Exception {
+    void testCreateAppointment() throws Exception {
         UUID hospitalId = UUID.randomUUID();
         UUID doctorId = UUID.randomUUID();
         UUID patientId = UUID.randomUUID();
@@ -106,7 +106,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test creating a new appointment with error")
-    public void testCreateAppointmentNull() throws Exception {
+    void testCreateAppointmentNull() throws Exception {
         // Setup DTO
         CreateAppointmentDTO createAppointmentDTO = new CreateAppointmentDTO();
 
@@ -124,7 +124,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test canceling an existing appointment")
-    public void testCancelAppointmentSuccess() throws Exception {
+    void testCancelAppointmentSuccess() throws Exception {
         UUID appointmentId = UUID.randomUUID();
 
         // Mock service call to return true indicating successful cancellation
@@ -139,7 +139,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test canceling a non-existing appointment")
-    public void testCancelAppointmentNotFound() throws Exception {
+    void testCancelAppointmentNotFound() throws Exception {
         UUID appointmentId = UUID.randomUUID();
 
         // Mock service call to return false indicating appointment not found
@@ -154,7 +154,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test getting appointments by patient when appointments exist")
-    public void testGetAppointmentsByPatientSuccess() throws Exception {
+    void testGetAppointmentsByPatientSuccess() throws Exception {
         UUID patientId = UUID.randomUUID();
 
         // Setup mock data
@@ -180,7 +180,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test getting appointments by patient when no appointments exist")
-    public void testGetAppointmentsByPatientNotFound() throws Exception {
+    void testGetAppointmentsByPatientNotFound() throws Exception {
         UUID patientId = UUID.randomUUID();
 
         // Mock service call to return an empty list
@@ -195,7 +195,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test getting appointments by patient when appointments is null")
-    public void testGetAppointmentsByPatientNull() throws Exception {
+    void testGetAppointmentsByPatientNull() throws Exception {
         UUID patientId = UUID.randomUUID();
 
         // Mock service call to return null
@@ -210,7 +210,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test getting today's appointments when appointments exist")
-    public void testGetAppointmentsTodaySuccess() throws Exception {
+    void testGetAppointmentsTodaySuccess() throws Exception {
         // Setup mock data
         Appointment appointment = new Appointment();
         appointment.setId(UUID.randomUUID());
@@ -234,7 +234,7 @@ public class AppointmentControllerTest {
 
     @Test
     @DisplayName("Test getting today's appointments when no appointments exist")
-    public void testGetAppointmentsTodayNoContent() throws Exception {
+    void testGetAppointmentsTodayNoContent() throws Exception {
         // Mock service call to return an empty list
         when(appointmentService.getAppointmentsByDate(any(Date.class))).thenReturn(List.of());
 

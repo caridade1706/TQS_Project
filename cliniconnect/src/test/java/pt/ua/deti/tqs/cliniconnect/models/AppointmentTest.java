@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalTime;
 import java.util.*;
 
-public class AppointmentTest {
+class AppointmentTest {
 
     private Appointment appointment;
 

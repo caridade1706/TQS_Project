@@ -24,7 +24,7 @@ import pt.ua.deti.tqs.cliniconnect.repositories.HospitalRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.HospitalServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class HospitalServiceTest {
+class HospitalServiceTest {
 
     @Mock(lenient = true)
     HospitalRepository hospitalRepository;

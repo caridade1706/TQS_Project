@@ -1,4 +1,4 @@
-package pt.ua.deti.tqs.cliniconnect.Jwt;
+package pt.ua.deti.tqs.cliniconnect.jwt;
 
 import java.security.Key;
 import java.util.Date;
@@ -15,21 +15,15 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 
 @Service
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private String SECRET_KEY;
-
-    @PostConstruct
-    public void init() {
-        System.out.println("SECRET_KEY: " + SECRET_KEY);
-    }
+    private String secretKey;
 
     public void setSecretKey(String secretKey) {
-        this.SECRET_KEY = secretKey;
+        this.secretKey = secretKey;
     }
     
     public String getToken(UserDetails user) {
@@ -49,10 +43,7 @@ public class JwtService {
     }
 
     private Key getKey() {
-
-        System.out.println("JwtService: getKey: " + SECRET_KEY);
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        System.out.println("JwtService: getKey: keyBytes: " + keyBytes);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +40,7 @@ import pt.ua.deti.tqs.cliniconnect.repositories.PersonaRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.AppointmentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class AppointmentServiceTest {
+class AppointmentServiceTest {
 
     @Mock(lenient = true)
     AppointmentRepository appointmentRepository;

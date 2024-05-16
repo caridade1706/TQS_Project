@@ -1,6 +1,5 @@
 package pt.ua.deti.tqs.cliniconnect.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class HospitalServiceImpl implements HospitalService {
 
-    @Autowired
     private HospitalRepository hospitalRepository;
 
     @Override

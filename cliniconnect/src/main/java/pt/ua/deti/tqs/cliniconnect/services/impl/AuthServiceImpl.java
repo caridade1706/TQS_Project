@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.Roles;
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.models.Persona;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Staff;
@@ -54,11 +54,6 @@ public class AuthServiceImpl implements AuthService {
         patientRepository.save(patient);
 
         return new AuthResponse(jwtService.getToken(patient));
-
-        // return AuthResponse.builder()
-        //         .token(jwtService.getToken(patient))
-        //         .build();
-
     }
 
     @Override
@@ -83,9 +78,6 @@ public class AuthServiceImpl implements AuthService {
         staffRepository.save(staff);
 
         return new AuthResponse(jwtService.getToken(staff));
-        // return AuthResponse.builder()
-        //         .token(jwtService.getToken(staff))
-        //         .build();
     }
 
     @Override
@@ -103,12 +95,6 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new AuthResponse(jwtService.getToken(user));
-
-        // String token = jwtService.getToken(user);
-
-        // return AuthResponse.builder()
-        //         .token(token)
-        //         .build();
     }
 
     @Override
@@ -126,11 +112,5 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new AuthResponse(jwtService.getToken(user));
-
-        // String token = jwtService.getToken(user);
-
-        // return AuthResponse.builder()
-        //         .token(token)
-        //         .build();
     }
 }
