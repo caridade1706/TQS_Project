@@ -20,12 +20,12 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenciationFilter;
     private final AuthenticationProvider authProvider;
-   
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            // .csrf().disable()
             .csrf(csrf -> csrf
+                .csrfTokenRepository(cookieCsrfTokenRepository())
                 .ignoringRequestMatchers("/api/patients/register", "/api/patients/login"))
             .authorizeHttpRequests(authRequest ->
                 authRequest
@@ -40,5 +40,13 @@ public class SecurityConfig {
             .authenticationProvider(authProvider)
             .addFilterBefore(jwtAuthenciationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Bean
+    public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        repository.setCookieHttpOnly(true);  // Manually set the HttpOnly attribute
+        return repository;
     }
 }
