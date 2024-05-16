@@ -13,7 +13,6 @@ public class Staff extends Persona {
     private String task;
 
     @ManyToMany(mappedBy = "staffs")
-    @Transient
     private Set<Hospital> hospitals;
 
     @Override

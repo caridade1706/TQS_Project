@@ -19,12 +19,10 @@ public class Doctor extends Persona {
     private String speciality;
 
     @ManyToMany(mappedBy = "doctors")
-    @Transient
     private Set<Hospital> hospitals;
 
     @OneToMany(mappedBy = "doctor")
     @JsonManagedReference
-    @Transient
     private Set<Appointment> appointments;
 
     public Doctor(UUID id, String name, Date dob, String email, String password, String phone, String address, String city, String speciality, Set<Hospital> hospitals, Set<Appointment> appointments) {
