@@ -22,7 +22,7 @@ import pt.ua.deti.tqs.cliniconnect.repositories.PatientRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.PatientServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class PatientServiceTest {
+class PatientServiceTest {
 
     @Mock(lenient = true)
     PatientRepository patientRepository;

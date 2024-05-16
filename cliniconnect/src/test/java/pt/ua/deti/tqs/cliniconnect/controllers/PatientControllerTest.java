@@ -49,7 +49,7 @@ class PatientControllerTest {
 
     @Test
     @DisplayName("Testa a procura de um paciente por email")
-    public void testGetPatientByEmail() throws Exception {
+    void testGetPatientByEmail() throws Exception {
         Patient patient = new Patient();
         patient.setEmail("test@example.com");
         patient.setRole(Roles.PATIENT);
@@ -65,7 +65,7 @@ class PatientControllerTest {
 
     @Test
     @DisplayName("Testa a procura de um paciente por email e esse paciente não existir")
-    public void testGetPatientByEmailNotExits() throws Exception {
+    void testGetPatientByEmailNotExits() throws Exception {
         Patient patient = null;
         
         when(patientService.getPatientByEmail("test@example.com")).thenReturn(patient);
@@ -79,7 +79,7 @@ class PatientControllerTest {
 
     @Test
     @DisplayName("Testa o register de um paciente")
-    public void testRegisterPatient() throws Exception {
+    void testRegisterPatient() throws Exception {
         
         RegisterPatientDTO registerPatientDTO = new RegisterPatientDTO();
         registerPatientDTO.setName("Test");
@@ -103,12 +103,12 @@ class PatientControllerTest {
                 .andExpect(status().isOk());
 
         // Verify the interaction with the authentication service
-        //verify(authService, times(1)).registerPatient(registerPatientDTO);
+        verify(authService, times(1)).registerPatient(any());
     }
 
     @Test
     @DisplayName("Testa o login de um paciente")
-    public void testLoginPatien() throws Exception {
+    void testLoginPatien() throws Exception {
         Patient patient = new Patient();
         patient.setEmail("test@example.com");
         patient.setPassword("password123");
@@ -129,7 +129,6 @@ class PatientControllerTest {
                 .content(new ObjectMapper().writeValueAsString(loginDTO))) // Convert loginDTO to JSON string
                 .andExpect(status().isOk());
 
-        // Verify the interaction with the authentication service
-        //verify(authService, times(1)).loginPatient(loginDTO);
+        verify(authService, times(1)).loginPatient(any());
     }
 }

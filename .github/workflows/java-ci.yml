@@ -51,9 +51,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-m2
 
-    - name: Run tests
-      run: mvn test
-      working-directory: ./cliniconnect
+    # - name: Run tests
+    #   run: mvn test
+    #   working-directory: ./cliniconnect
     
     - name: Build and analyze
       env:

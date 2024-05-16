@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,20 +19,27 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtServiceTest {
+class JwtServiceTest {
 
-    @Mock(lenient = true)
+    private String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
+
+    @Mock()
     private UserDetails userDetails;
 
-    @Mock(lenient = true)
+    @Mock()
     private UserDetails userDetails2;
 
     @Spy
     @InjectMocks
     private JwtService jwtService;
+
+    @BeforeEach
+    void setUp() {
+        jwtService.setSecretKey(SECRET_KEY);
+    }
 
     @Test
     void testGetToken() {

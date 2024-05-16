@@ -27,11 +27,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import pt.ua.deti.tqs.cliniconnect.Roles;
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Persona;
 import pt.ua.deti.tqs.cliniconnect.models.Staff;

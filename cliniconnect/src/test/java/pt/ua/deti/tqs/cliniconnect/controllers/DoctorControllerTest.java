@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DoctorControllerTest {
+class DoctorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +41,7 @@ public class DoctorControllerTest {
 
     @Test
     @DisplayName("Testa a procura de médicos por especialidade")
-    public void testGetDoctorsBySpeciality() throws Exception {
+    void testGetDoctorsBySpeciality() throws Exception {
 
         Doctor doctor1 = new Doctor();
         doctor1.setRole(Roles.DOCTOR);
@@ -62,7 +62,7 @@ public class DoctorControllerTest {
 
     @Test
     @DisplayName("Testa a procura de médicos por especialidade nao encontrada")
-    public void testGetDoctorsBySpecialityNotFound() throws Exception {
+    void testGetDoctorsBySpecialityNotFound() throws Exception {
 
         List<Doctor> doctors = new ArrayList<>();
 
