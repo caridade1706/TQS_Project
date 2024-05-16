@@ -2,6 +2,8 @@ package pt.ua.deti.tqs.cliniconnect.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.repositories.HospitalRepository;
 import pt.ua.deti.tqs.cliniconnect.services.HospitalService;
@@ -17,7 +19,13 @@ public class HospitalServiceImpl implements HospitalService {
     private HospitalRepository hospitalRepository;
 
     @Override
-    public Hospital saveHospital(Hospital hospital) {
+    public Hospital saveHospital(CreateHospitalDTO createHospitalDTO) {
+        
+        Hospital hospital = new Hospital();
+        hospital.setName(createHospitalDTO.getName());
+        hospital.setAddress(createHospitalDTO.getAddress());
+        hospital.setCity(createHospitalDTO.getCity());
+        
         return hospitalRepository.save(hospital);
     }
 

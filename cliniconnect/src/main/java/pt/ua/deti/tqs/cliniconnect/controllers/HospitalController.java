@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.services.HospitalService;
 
@@ -16,9 +17,9 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
-    @PostMapping("/")
-    public ResponseEntity<Hospital> createHospital(@RequestBody Hospital hospital) {
-        Hospital savedHospital = hospitalService.saveHospital(hospital);
+    @PostMapping(path = "/")
+    public ResponseEntity<Hospital> createHospital(@RequestBody CreateHospitalDTO createHospitalDTO) {
+        Hospital savedHospital = hospitalService.saveHospital(createHospitalDTO);
         return ResponseEntity.ok(savedHospital);
     }
 

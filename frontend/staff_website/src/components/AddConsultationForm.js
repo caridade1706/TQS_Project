@@ -51,7 +51,7 @@ function AddConsultationForm() {
                     <input type="time" name="time" value={formData.time} onChange={handleChange} required />
                 </div>
                 <div className="form-row">
-                    <input type="text" name="doctorName" value={formData.doctorName} onChange={handleChange} placeholder="Doctor ID" required />
+                    <input type="text" name="doctorName" value={formData.doctorName} onChange={handleChange} placeholder="Doctor Name" required />
                     <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="Specialty" required />
                 </div>
                 <div className="form-row">
