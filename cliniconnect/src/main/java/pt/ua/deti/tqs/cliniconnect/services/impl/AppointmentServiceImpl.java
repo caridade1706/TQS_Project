@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
 
     @Autowired
     private PersonaRepository personaRepository;
-
+    
     @Autowired
     private DoctorRepository doctorRepository;
 
