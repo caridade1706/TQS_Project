@@ -29,7 +29,7 @@ public class AppointmentTest {
         UUID apointmentUUID = UUID.randomUUID();
         LocalTime time = LocalTime.of(10, 0);
         Date date = new Date();
-        appointment = new Appointment(apointmentUUID,date, time, "status", 10.0, "type", "currency", patient, doctor, hospital);
+        appointment = new Appointment(apointmentUUID, date, time, "status", 10.0, "type", "currency", patient, doctor, hospital);
 
         assertEquals(apointmentUUID, appointment.getId());
         assertEquals(date, appointment.getDate());
@@ -46,14 +46,14 @@ public class AppointmentTest {
 
     @Test
     void testSetters() {
-        UUID apointmentUUID = UUID.randomUUID();
+        UUID UUID = java.util.UUID.randomUUID();
         LocalTime time = LocalTime.of(10, 0);
         Date date = new Date();
         Patient patient = new Patient();
         Doctor doctor = new Doctor();
         Hospital hospital = new Hospital();
 
-        appointment.setId(apointmentUUID);
+        appointment.setId(UUID);
         appointment.setDate(date);
         appointment.setTime(time);
         appointment.setStatus("status");
@@ -64,7 +64,7 @@ public class AppointmentTest {
         appointment.setDoctor(doctor);
         appointment.setHospital(hospital);
 
-        assertEquals(apointmentUUID, appointment.getId());
+        assertEquals(UUID, appointment.getId());
         assertEquals(date, appointment.getDate());
         assertEquals(time, appointment.getTime());
         assertEquals("status", appointment.getStatus());
@@ -74,8 +74,5 @@ public class AppointmentTest {
         assertEquals(patient, appointment.getPatient());
         assertEquals(doctor, appointment.getDoctor());
         assertEquals(hospital, appointment.getHospital());
-    }
-
-
-    
+    }   
 }

@@ -57,10 +57,6 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
 
         Persona p = personaRepository.findByName(createAppointmentDTO.getPatientName());
         Optional<Patient> patient = patientRepository.findById(p.getId());
-
-        System.out.print("AQUIIIIIIIIIIIIIIIIIII:");
-        System.out.println(patient.get().getName());
-
         appointment.setPatient(patient.get());
 
         // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());

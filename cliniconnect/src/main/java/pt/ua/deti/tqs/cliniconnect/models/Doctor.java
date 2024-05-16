@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 
@@ -20,6 +22,7 @@ public class Doctor extends Persona {
     private Set<Hospital> hospitals;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonManagedReference
     private Set<Appointment> appointments;
 
     public Doctor(UUID id, String name, Date dob, String email, String password, String phone, String address, String city, String speciality, Set<Hospital> hospitals, Set<Appointment> appointments) {

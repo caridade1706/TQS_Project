@@ -41,15 +41,16 @@
 //     public void testCreateAppointment() throws Exception {
 //         Appointment appointment = new Appointment();
 //         appointment.setId(UUID.randomUUID());
+
 //         when(appointmentService.bookAppointment(any(Appointment.class))).thenReturn(appointment);
 
 //         mockMvc.perform(post("/api/appointments")
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content("{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
+//                 .contentType(MediaType.APPLICATION_JSON)
+//                 .content(
+//                         "{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
 //                 .andExpect(status().isOk())
 //                 .andExpect(jsonPath("$.id").value(appointment.getId().toString()));
 
-        
 //         verify(appointmentService, times(1)).bookAppointment(any(Appointment.class));
 //     }
 
@@ -61,11 +62,11 @@
 //         when(appointmentService.bookAppointment(any(Appointment.class))).thenReturn(null);
 
 //         mockMvc.perform(post("/api/appointments")
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content("{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
+//                 .contentType(MediaType.APPLICATION_JSON)
+//                 .content(
+//                         "{\"id\": \"123\", \"patientId\": \"456\", \"doctorId\": \"789\", \"date\": \"2024-04-16T10:00:00Z\"}"))
 //                 .andExpect(status().isNotFound());
 
-        
 //         verify(appointmentService, times(1)).bookAppointment(any(Appointment.class));
 //     }
 
@@ -76,7 +77,7 @@
 //         when(appointmentService.cancelAppointment(id)).thenReturn(true);
 
 //         mockMvc.perform(delete("/api/appointments/" + id)
-//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .contentType(MediaType.APPLICATION_JSON))
 //                 .andExpect(status().isOk());
 
 //         verify(appointmentService, times(1)).cancelAppointment(id);
@@ -89,7 +90,7 @@
 //         when(appointmentService.cancelAppointment(id)).thenReturn(false);
 
 //         mockMvc.perform(delete("/api/appointments/" + id)
-//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .contentType(MediaType.APPLICATION_JSON))
 //                 .andExpect(status().isNotFound());
 
 //         verify(appointmentService, times(1)).cancelAppointment(id);
@@ -104,10 +105,10 @@
 //         when(appointmentService.getAppointmentsByPatient(patientId)).thenReturn(appointments);
 
 //         mockMvc.perform(get("/api/appointments/patient/" + patientId)
-//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .contentType(MediaType.APPLICATION_JSON))
 //                 .andExpect(status().isOk())
 //                 .andExpect(jsonPath("$", hasSize(1)));
-        
+
 //         verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
 //     }
 
@@ -119,9 +120,9 @@
 //         when(appointmentService.getAppointmentsByPatient(patientId)).thenReturn(appointments);
 
 //         mockMvc.perform(get("/api/appointments/patient/" + patientId)
-//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .contentType(MediaType.APPLICATION_JSON))
 //                 .andExpect(status().isNotFound());
-        
+
 //         verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
 //     }
 
@@ -133,9 +134,9 @@
 //         when(appointmentService.getAppointmentsByPatient(patientId)).thenReturn(appointments);
 
 //         mockMvc.perform(get("/api/appointments/patient/" + patientId)
-//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .contentType(MediaType.APPLICATION_JSON))
 //                 .andExpect(status().isNotFound());
-        
+
 //         verify(appointmentService, times(1)).getAppointmentsByPatient(patientId);
 //     }
 // }

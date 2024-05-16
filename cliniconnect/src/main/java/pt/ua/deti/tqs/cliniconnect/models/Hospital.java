@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 @Getter
@@ -41,6 +43,7 @@ public class Hospital {
     private Set<Doctor> doctors;
 
     @OneToMany(mappedBy = "hospital")
+    @JsonManagedReference
     private Set<Appointment> appointments;
 
     @OneToOne(mappedBy = "hospital")

@@ -88,7 +88,9 @@ public class AppointmentServiceTest {
         Patient patient = new Patient(UUID.randomUUID(), "Roberto Castro", new Date(), "robertorcasto@ua.pt",
                 "password",
                 "989345890", "Rua do Hospital", "Porto", "Lisboa CliniConnect Hospital", null);
-        expectedAppointment = new Appointment(UUID.randomUUID(), Date.from(Instant.parse("2024-07-10T00:00:00Z")),
+        
+        
+                expectedAppointment = new Appointment(UUID.randomUUID(), Date.from(Instant.parse("2024-07-10T00:00:00Z")),
                 LocalTime.of(15, 30, 0), "confirmed", 50.0, "Cardioligy", "EUR", patient, null, null);
 
         List<Appointment> expectedAppointmentList = new ArrayList<Appointment>();

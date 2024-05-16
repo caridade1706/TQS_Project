@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
@@ -23,14 +23,6 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentDTO createAppointmentDTO) {
-        System.out.println(createAppointmentDTO.getDate());
-        System.out.println(createAppointmentDTO.getTime());
-        System.out.println(createAppointmentDTO.getPrice());
-        System.out.println(createAppointmentDTO.getType());
-        System.out.println(createAppointmentDTO.getPatientName());
-        System.out.println(createAppointmentDTO.getDoctorName());
-        System.out.println(createAppointmentDTO.getHospitalName());
-
         Appointment createdAppointment = appointmentService.bookAppointment(createAppointmentDTO);
 
         if (createdAppointment == null) {
