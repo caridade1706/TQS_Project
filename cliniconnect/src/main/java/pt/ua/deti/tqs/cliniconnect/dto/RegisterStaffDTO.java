@@ -3,12 +3,12 @@ package pt.ua.deti.tqs.cliniconnect.dto;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterStaffDTO {

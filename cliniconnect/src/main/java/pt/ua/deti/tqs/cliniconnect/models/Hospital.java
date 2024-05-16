@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.*;
 
 @Getter
@@ -28,7 +26,7 @@ public class Hospital {
 
     @ManyToMany
     @JoinTable(
-        name = "staff_hospitals",
+        name = "doctor_hospitals",
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
@@ -36,14 +34,13 @@ public class Hospital {
 
     @ManyToMany
     @JoinTable(
-        name = "doctor_hospitals",
+        name = "staff_hospitals",
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "doctor_id")
     )
     private Set<Doctor> doctors;
 
     @OneToMany(mappedBy = "hospital")
-    @JsonManagedReference
     private Set<Appointment> appointments;
 
     @OneToOne(mappedBy = "hospital")

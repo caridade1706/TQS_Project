@@ -6,7 +6,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QueueManagementTest {
+public class QueueManagementTest {
 
     private QueueManagement queueManagement;
 

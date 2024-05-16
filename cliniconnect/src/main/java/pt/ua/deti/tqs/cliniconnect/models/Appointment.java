@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,16 +31,13 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonBackReference
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    @JsonBackReference
     private Doctor doctor;
 
     @ManyToOne
     @JoinColumn(name = "hospital_id")
-    @JsonBackReference
     private Hospital hospital;
 }

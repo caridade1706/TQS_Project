@@ -4,35 +4,22 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    padding-right: 20rem;
-    padding-left: 20rem;
     background-color: #fff;
     border-bottom: solid 1px #111111;
 }
   
 .navbar-text {
-    text-align: center;
+    margin-left: 20%;
     font-family: 'Roboto'; 
     color: #111111;
     font-size: 1.5rem;
 }
 
 .navbar-icon {
-    margin-right: 1rem;
-}
-
-.navbar-item {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    text-align: center;
-    font-family: 'Roboto'; 
-    color: #111111;
-    font-size: 1.5rem;
+    margin-right: 10px;
 }
   
 .navbar-button {
-    width: 7rem;
     background-color: #fff;
     color: #111111;
     font-size: 1rem;
@@ -44,7 +31,7 @@
 }
 
 .navbar-link {
-    margin-right: 2%;
+    margin-right: 20%;
 }
   
 .navbar-button:hover {
