@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import pt.ua.deti.tqs.cliniconnect.Jwt.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -23,11 +24,11 @@ public class SecurityConfig {
    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        
         return http
-            .csrf(csrf -> csrf.disable())
-            // .csrf(csrf -> csrf // Enable CSRF protection
-            //     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            // .csrf().disable()
+            .csrf(csrf -> csrf
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringRequestMatchers("/api/patients/register", "/api/patients/login"))
             .authorizeHttpRequests(authRequest ->
                 authRequest
                 .anyRequest().permitAll() 
