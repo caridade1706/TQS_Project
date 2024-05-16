@@ -4,7 +4,7 @@ on:
   push:
     branches: [ dev, main ]
   pull_request:
-    branches: [ dev, main ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -50,10 +50,6 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-m2
-    
-    # - name: Build with Maven
-    #   run: mvn -B package --file pom.xml
-    #   working-directory: ./cliniconnect
 
     - name: Run tests
       run: mvn test
@@ -65,8 +61,3 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cliniconnect_cliniconnect
       working-directory: ./cliniconnect
-    # - name: Upload Artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: packaged-artifacts
-    #     path: ./cliniconnect/target/*.jar

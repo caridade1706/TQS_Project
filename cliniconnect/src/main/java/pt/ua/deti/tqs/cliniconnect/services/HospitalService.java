@@ -2,7 +2,6 @@ package pt.ua.deti.tqs.cliniconnect.services;
 
 import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
