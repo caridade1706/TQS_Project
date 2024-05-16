@@ -103,7 +103,7 @@ class PatientControllerTest {
                 .andExpect(status().isOk());
 
         // Verify the interaction with the authentication service
-        //verify(authService, times(1)).registerPatient(registerPatientDTO);
+        verify(authService, times(1)).registerPatient(any());
     }
 
     @Test
@@ -129,7 +129,6 @@ class PatientControllerTest {
                 .content(new ObjectMapper().writeValueAsString(loginDTO))) // Convert loginDTO to JSON string
                 .andExpect(status().isOk());
 
-        // Verify the interaction with the authentication service
-        //verify(authService, times(1)).loginPatient(loginDTO);
+        verify(authService, times(1)).loginPatient(any());
     }
 }

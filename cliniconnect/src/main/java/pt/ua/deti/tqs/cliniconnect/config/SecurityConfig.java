@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import pt.ua.deti.tqs.cliniconnect.Jwt.JwtAuthenticationFilter;
 
@@ -20,18 +19,17 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenciationFilter;
     private final AuthenticationProvider authProvider;
-
+   
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        
         return http
-            .csrf(csrf -> csrf
-                .csrfTokenRepository(cookieCsrfTokenRepository())
-                .ignoringRequestMatchers("/api/patients/register", "/api/patients/login"))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authRequest ->
                 authRequest
-                .anyRequest().permitAll() 
-                // .requestMatchers("/api/patients/register").permitAll()
-                // .requestMatchers("/api/patients/login").permitAll()
+                    .anyRequest().permitAll() 
+                    // .requestMatchers("/api/patients/register").permitAll()
+                    // .requestMatchers("/api/patients/login").permitAll()
                     // .anyRequest().authenticated()
             )
             .sessionManagement(sessionManagement ->
@@ -40,13 +38,5 @@ public class SecurityConfig {
             .authenticationProvider(authProvider)
             .addFilterBefore(jwtAuthenciationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Bean
-    public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
-        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        repository.setCookieHttpOnly(true);  // Manually set the HttpOnly attribute
-        return repository;
     }
 }
