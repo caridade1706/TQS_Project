@@ -10,8 +10,8 @@ import { faHospital } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth(); // Usar o hook useAuth
-
+  const { isLoggedIn, logout } = useAuth();
+  
   const handleLogout = () => {
     logout();
     navigate("/");
