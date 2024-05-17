@@ -5,7 +5,6 @@ import pt.ua.deti.tqs.cliniconnect.repositories.PatientRepository;
 import pt.ua.deti.tqs.cliniconnect.services.PatientService;
 
 import org.springframework.stereotype.Service;
-
 import lombok.AllArgsConstructor;
 
 @Service
