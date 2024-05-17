@@ -3,19 +3,19 @@ package pt.ua.deti.tqs.cliniconnect.controllers;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.services.HospitalService;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/hospitals")
 public class HospitalController {
 
-    @Autowired
     private HospitalService hospitalService;
 
     @PostMapping(path = "/")

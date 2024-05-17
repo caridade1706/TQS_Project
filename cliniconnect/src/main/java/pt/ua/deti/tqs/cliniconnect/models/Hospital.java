@@ -15,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Hospital {
+public class Hospital implements java.io.Serializable{
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -47,5 +47,5 @@ public class Hospital {
     private Set<Appointment> appointments;
 
     @OneToOne(mappedBy = "hospital")
-    private QueueManagement queueManagement;
+    private transient QueueManagement queueManagement;
 }
