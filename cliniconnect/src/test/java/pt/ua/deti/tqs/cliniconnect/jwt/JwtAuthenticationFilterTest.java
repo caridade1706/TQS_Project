@@ -12,8 +12,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pt.ua.deti.tqs.cliniconnect.jwt.JwtAuthenticationFilter;
-import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

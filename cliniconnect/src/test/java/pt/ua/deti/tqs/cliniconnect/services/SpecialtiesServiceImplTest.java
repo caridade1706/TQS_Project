@@ -112,7 +112,6 @@ class SpecialtiesServiceImplTest {
         HashMap<String, Integer> specialties = new HashMap<>();
         specialties.put(specialty, 5);
 
-        Specialties specialtiesObject = new Specialties(patient, specialties);
         Specialties updatedSpecialtiesObject = new Specialties(patient, new HashMap<>());
 
         when(specialtiesRepository.findByPatient(patient)).thenReturn(specialties);
