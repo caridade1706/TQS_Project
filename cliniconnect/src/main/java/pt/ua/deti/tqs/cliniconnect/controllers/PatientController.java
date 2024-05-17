@@ -2,7 +2,6 @@ package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +28,6 @@ import pt.ua.deti.tqs.cliniconnect.services.SpecialtiesService;
 public class PatientController {
 
     private PatientService patientService;
-    
-    @Autowired
     private AuthService authService;
     private SpecialtiesService specialtiesService;
 
@@ -88,7 +85,5 @@ public class PatientController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }    
-
-
+    }   
 }
