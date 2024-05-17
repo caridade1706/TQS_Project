@@ -1,6 +1,5 @@
 package pt.ua.deti.tqs.cliniconnect.services.impl;
 
-
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -19,28 +18,50 @@ public class SpecialtiesServiceImpl implements SpecialtiesService {
 
     @Override
     public Specialties addSpecialty(Patient persona, HashMap<String, Integer> specialties) {
-        HashMap<String, Integer> existingSpecialties = specialtiesRepository.findByPatient(persona);
-        if (existingSpecialties != null) {
-            existingSpecialties.putAll(specialties);
-            return specialtiesRepository.save(new Specialties(persona, existingSpecialties));
+        Specialties specialtiesObject = specialtiesRepository.findByPatient(persona);
+
+        HashMap<String, Integer> specialtiesRetrive = specialtiesObject.getSpecialty();
+
+        if (specialtiesRetrive != null) {
+            specialtiesRetrive.putAll(specialties);
+            specialtiesObject.setSpecialty(specialtiesRetrive);
+            return specialtiesRepository.save(specialtiesObject);
         } else {
-            return specialtiesRepository.save(new Specialties(persona, specialties));
+            specialtiesObject.setSpecialty(specialtiesRetrive);
+            return specialtiesRepository.save(specialtiesObject);
         }
     }
 
     @Override
     public HashMap<String, Integer> getByPatient(Patient persona) {
-        HashMap<String, Integer> specialties = specialtiesRepository.findByPatient(persona);
-        return specialties != null ? specialties : new HashMap<>();
+
+        HashMap<String, Integer> specialties = new HashMap<>();
+        Specialties specialtieObject = specialtiesRepository.findByPatient(persona);
+        if (specialtieObject != null) {
+            specialties = specialtieObject.getSpecialty();
+        }
+        return specialties;
     }
 
     @Override
     public Specialties deleteSpecialty(Patient persona, String specialty) {
-        HashMap<String, Integer> specialties = specialtiesRepository.findByPatient(persona);
-        if (specialties != null) {
-            specialties.remove(specialty);
-            return specialtiesRepository.save(new Specialties(persona, specialties));
+        Specialties specialtiesObject = specialtiesRepository.findByPatient(persona);
+
+        if (specialtiesObject == null) {
+            Specialties specialties = new Specialties();
+            specialties.setPatient(persona);
+            specialties.setSpecialty(new HashMap<>());
+            return specialtiesRepository.save(specialties);
         }
-        return new Specialties(persona, new HashMap<>());  // Retorna um objeto vazio se não encontrar
+
+        HashMap<String, Integer> specialties = specialtiesObject.getSpecialty();
+
+        if (specialties == null || !specialties.containsKey(specialty)) {
+            return specialtiesObject;
+        } else {
+            specialties.remove(specialty);
+            specialtiesObject.setSpecialty(specialties);
+            return specialtiesRepository.save(specialtiesObject);
+        }
     }
 }

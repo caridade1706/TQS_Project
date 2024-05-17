@@ -34,11 +34,13 @@ class SpecialtiesServiceImplTest {
     @DisplayName("Testa a obtenção de especialidades por paciente existente")
     void testGetByPatient() {
         Patient patient = new Patient();
+
         HashMap<String, Integer> specialties = new HashMap<>();
         specialties.put("Cardiology", 5);
         specialties.put("Neurology", 3);
+        Specialties specialtiesObject = new Specialties(patient, specialties);
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialties);
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialtiesObject);
 
         HashMap<String, Integer> returnedSpecialties = specialtiesServiceImpl.getByPatient(patient);
         assertEquals(specialties, returnedSpecialties);
@@ -63,9 +65,12 @@ class SpecialtiesServiceImplTest {
     @Test
     @DisplayName("Testa a adição de especialidades a um paciente com especialidades existentes")
     void testAddSpecialtyWithExistingSpecialties() {
-        Patient patient = new Patient();
+
         HashMap<String, Integer> existingSpecialties = new HashMap<>();
         existingSpecialties.put("Neurology", 3);
+        Patient patient = new Patient();
+
+        Specialties specialties = new Specialties(patient, existingSpecialties);
 
         HashMap<String, Integer> newSpecialties = new HashMap<>();
         newSpecialties.put("Cardiology", 5);
@@ -75,7 +80,7 @@ class SpecialtiesServiceImplTest {
 
         Specialties specialtiesObject = new Specialties(patient, combinedSpecialties);
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(existingSpecialties);
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialties);
         when(specialtiesRepository.save(any(Specialties.class))).thenReturn(specialtiesObject);
 
         Specialties returnedSpecialties = specialtiesServiceImpl.addSpecialty(patient, newSpecialties);
@@ -89,12 +94,17 @@ class SpecialtiesServiceImplTest {
     @DisplayName("Testa a adição de especialidades a um paciente sem especialidades existentes")
     void testAddSpecialtyWithoutExistingSpecialties() {
         Patient patient = new Patient();
+        HashMap<String, Integer> specialties = new HashMap<>();
+        specialties.put("Cardiology", 5);
+
+        Specialties specialtiesNull = new Specialties(patient, null);
+
         HashMap<String, Integer> newSpecialties = new HashMap<>();
         newSpecialties.put("Cardiology", 5);
 
         Specialties specialtiesObject = new Specialties(patient, newSpecialties);
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(null);
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialtiesNull);
         when(specialtiesRepository.save(any(Specialties.class))).thenReturn(specialtiesObject);
 
         Specialties returnedSpecialties = specialtiesServiceImpl.addSpecialty(patient, newSpecialties);
@@ -105,57 +115,89 @@ class SpecialtiesServiceImplTest {
     }
 
     @Test
-    @DisplayName("Testa a remoção de uma especialidade de um paciente existente")
-    void testDeleteSpecialty() {
+    @DisplayName("Testa a remoção de uma especialidade de um paciente com especialidades nulas")
+    void testDeleteSpecialtyWithNullSpecialties() {
         Patient patient = new Patient();
         String specialty = "Cardiology";
+
+        Specialties specialtiesObject = new Specialties(patient, null);
+
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialtiesObject);
+
+        Specialties returnedSpecialties = specialtiesServiceImpl.deleteSpecialty(patient, specialty);
+
+        // The specialtiesObject should be returned unchanged because specialties are
+        // null
+        assertEquals(specialtiesObject.getPatient(), returnedSpecialties.getPatient());
+        assertEquals(specialtiesObject.getSpecialty(), returnedSpecialties.getSpecialty());
+
+        verify(specialtiesRepository, times(1)).findByPatient(patient);
+        verify(specialtiesRepository, times(0)).save(any(Specialties.class)); // Assert that save is not called
+    }
+
+    @Test
+    @DisplayName("Testa a remoção de uma especialidade existente de um paciente")
+    void testDeleteSpecialtyWithExistingSpecialty() {
+        Patient patient = new Patient();
+        String specialty = "Cardiology";
+
         HashMap<String, Integer> specialties = new HashMap<>();
         specialties.put(specialty, 5);
 
-        Specialties updatedSpecialtiesObject = new Specialties(patient, new HashMap<>());
+        Specialties specialtiesObject = new Specialties(patient, specialties);
+        Specialties expectedSpecialtiesObject = new Specialties(patient, new HashMap<>());
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialties);
-        when(specialtiesRepository.save(any(Specialties.class))).thenReturn(updatedSpecialtiesObject);
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialtiesObject);
+        when(specialtiesRepository.save(any(Specialties.class))).thenReturn(expectedSpecialtiesObject);
 
         Specialties returnedSpecialties = specialtiesServiceImpl.deleteSpecialty(patient, specialty);
-        assertEquals(updatedSpecialtiesObject, returnedSpecialties);
+
+        assertEquals(expectedSpecialtiesObject.getPatient(), returnedSpecialties.getPatient());
+        assertEquals(expectedSpecialtiesObject.getSpecialty(), returnedSpecialties.getSpecialty());
 
         verify(specialtiesRepository, times(1)).findByPatient(patient);
         verify(specialtiesRepository, times(1)).save(any(Specialties.class));
     }
 
     @Test
-    @DisplayName("Testa a remoção de uma especialidade que não existe de um paciente")
-    void testDeleteNonExistingSpecialty() {
+    @DisplayName("Testa a remoção de uma especialidade inixistente de um paciente")
+    void testDeleteNoSpecialtyObjectPatient() {
         Patient patient = new Patient();
         String specialty = "Cardiology";
         HashMap<String, Integer> specialties = new HashMap<>();
 
         Specialties specialtiesObject = new Specialties(patient, specialties);
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialties);
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(null);
         when(specialtiesRepository.save(any(Specialties.class))).thenReturn(specialtiesObject);
 
         Specialties returnedSpecialties = specialtiesServiceImpl.deleteSpecialty(patient, specialty);
-        assertEquals(specialtiesObject, returnedSpecialties);
+
+        assertEquals(specialtiesObject.getPatient(), returnedSpecialties.getPatient());
+        assertEquals(specialtiesObject.getSpecialty(), returnedSpecialties.getSpecialty());
 
         verify(specialtiesRepository, times(1)).findByPatient(patient);
         verify(specialtiesRepository, times(1)).save(any(Specialties.class));
     }
 
     @Test
-    @DisplayName("Testa a remoção de uma especialidade de um paciente não existente")
-    void testDeleteSpecialtyPatientNotFound() {
+    @DisplayName("Testa a remoção de uma especialidade que um paciente nao tem")
+    void testDeleteNoSpecialtyForThatPatient() {
         Patient patient = new Patient();
         String specialty = "Cardiology";
+        HashMap<String, Integer> specialties = new HashMap<>();
+        specialties.put("Neurology", 3);
 
-        when(specialtiesRepository.findByPatient(patient)).thenReturn(null);
+        Specialties specialtiesObject = new Specialties(patient, specialties);
+
+        when(specialtiesRepository.findByPatient(patient)).thenReturn(specialtiesObject);
 
         Specialties returnedSpecialties = specialtiesServiceImpl.deleteSpecialty(patient, specialty);
-        assertNotNull(returnedSpecialties);
-        assertTrue(returnedSpecialties.getSpecialty().isEmpty());
+
+        assertEquals(specialtiesObject.getPatient(), returnedSpecialties.getPatient());
+        assertEquals(specialtiesObject.getSpecialty(), returnedSpecialties.getSpecialty());
 
         verify(specialtiesRepository, times(1)).findByPatient(patient);
-        verify(specialtiesRepository, times(0)).save(any(Specialties.class));
     }
+
 }

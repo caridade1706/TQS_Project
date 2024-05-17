@@ -43,8 +43,11 @@ public class PatientController {
 
     @GetMapping("/{email}")
     public ResponseEntity<PatientDetailsDTO> getPatientByEmail(@PathVariable String email) {
+
         Patient patient = patientService.getPatientByEmail(email);
+        
         if (patient != null) {
+
             HashMap<String, Integer> specialties = specialtiesService.getByPatient(patient);
             PatientDetailsDTO patientDetails = new PatientDetailsDTO(patient, specialties);
             return ResponseEntity.ok(patientDetails);

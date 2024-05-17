@@ -17,21 +17,5 @@ public class PatientDetailsDTO {
     private Patient patient;
     private Map<String, Integer> specialties;
 
-    // Getters and setters
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Map<String, Integer> getSpecialties() {
-        return specialties;
-    }
-
-    public void setSpecialties(Map<String, Integer> specialties) {
-        this.specialties = specialties;
-    }
 }
 
