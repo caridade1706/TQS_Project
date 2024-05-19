@@ -1,5 +1,7 @@
 package pt.ua.deti.tqs.cliniconnect.services;
 
-public interface StaffService {
+import pt.ua.deti.tqs.cliniconnect.models.Staff;
 
+public interface StaffService {
+    Staff getPatientByEmail(String email);
 }

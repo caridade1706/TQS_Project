@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, UUID> {
-    // Add custom queries here
+    Staff findByEmail(String email);
 }

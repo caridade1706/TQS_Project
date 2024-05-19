@@ -3,7 +3,7 @@ import CounterSelector from '../components/CounterSelector';
 import CategoryDisplay from '../components/CategoryDisplay';
 import ConsultationsTable from '../components/ConsultationsTable';
 
-function HomePage() {
+function StaffPage() {
     
     
 
@@ -22,4 +22,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default StaffPage;

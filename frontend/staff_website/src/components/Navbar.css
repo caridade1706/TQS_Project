@@ -4,22 +4,34 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    padding-right: 20rem;
+    padding-left: 20rem;
     background-color: #fff;
-    border-bottom: solid 1px #111111;
 }
   
 .navbar-text {
-    margin-left: 20%;
+    text-align: center;
     font-family: 'Roboto'; 
     color: #111111;
     font-size: 1.5rem;
 }
 
 .navbar-icon {
-    margin-right: 10px;
+    margin-right: 1rem;
+}
+
+.navbar-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    text-align: center;
+    font-family: 'Roboto'; 
+    color: #111111;
+    font-size: 1.5rem;
 }
   
 .navbar-button {
+    width: 7rem;
     background-color: #fff;
     color: #111111;
     font-size: 1rem;
@@ -28,14 +40,13 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-right: 20%;
+}
+
+.navbar-link {
+    margin-right: 2%;
 }
   
 .navbar-button:hover {
     background-color: #111111; 
     color: #fff;
-}
-
-.navbar-link {
-    margin-right: 20%;
 }
