@@ -28,7 +28,7 @@ function Login(props) {
       if (response.data) {
         const { token, email } = response.data;
         login(credentials.email, token); 
-        navigate("/consultas");
+        navigate("/consultas"); // Mudar dps
       }
     } catch (error) {
       console.error("Login failed:", error);
