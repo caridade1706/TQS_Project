@@ -1,8 +1,13 @@
 package pt.ua.deti.tqs.cliniconnect.models;
 
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
+
 import lombok.*;
+import pt.ua.deti.tqs.cliniconnect.Roles;
 
 @Getter
 @Setter
@@ -11,6 +16,13 @@ import lombok.*;
 public class Staff extends Persona {
     private String department;
     private String task;
+
+    public Staff(UUID id, String name, Date dob, String email, String password, String phone, String address,
+            String city, String department, String task) {
+        super(id, name, dob, email, password, phone, address, city, Roles.STAFF);
+        this.department = department;
+        this.task = task;
+    }
 
     @ManyToMany(mappedBy = "staffs")
     private Set<Hospital> hospitals;
