@@ -1,6 +1,8 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
+import pt.ua.deti.tqs.cliniconnect.dto.HospitalUpdateDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Staff;
@@ -45,4 +48,16 @@ public class StaffController {
             return ResponseEntity.notFound().build();
         }
     } 
+
+    @PostMapping("/addHospitals")
+    public ResponseEntity<?> addHospital(@RequestBody HospitalUpdateDTO hospitalUpdateDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        boolean success = staffService.updateStaffHospitals(email, hospitalUpdateDTO.getHospitals());
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

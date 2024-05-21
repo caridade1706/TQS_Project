@@ -28,21 +28,21 @@ const Navbar = () => {
       <div className="navbar-item">
         {isLoggedIn ? (
           <>
-            <Link to="/consultas">
-              <button className="navbar-button">Consultas</button>
+            <Link to="/staffpage">
+              <button className="navbar-button">Staff Interface</button>
             </Link>
-            <Link to="/perfil">
-              <button className="navbar-button">Perfil</button>
+            <Link to="/profil">
+              <button className="navbar-button">Profile</button>
             </Link>
-            <button className="navbar-button" onClick={handleLogout}>Sair</button>
+            <button className="navbar-button" onClick={handleLogout}>Log Out</button>
           </>
         ) : (
           <>
             <Link to="/signin">
-              <button className="navbar-button">Entrar</button>
+              <button className="navbar-button">Sign In</button>
             </Link>
             <Link to="/signup">
-              <button className="navbar-button">Registar</button>
+              <button className="navbar-button">Sign Up</button>
             </Link>
           </>
         )}

@@ -1,0 +1,25 @@
+import React from 'react';
+import CounterSelector from '../../components/CounterSelector';
+import CategoryDisplay from '../../components/CategoryDisplay';
+import ConsultationsTable from '../../components/ConsultationsTable';
+
+import './StaffPage.css';
+
+function StaffPage() {
+    
+    const handleCounterSelect = (counter) => {
+        console.log("Selected counter:", counter);
+    };
+
+    return (
+        <div className='staff-page'>
+            <div className="container">
+                <CounterSelector onSelectCounter={handleCounterSelect} />
+                <CategoryDisplay />
+                <ConsultationsTable />
+            </div>
+        </div>
+    );
+}
+
+export default StaffPage;

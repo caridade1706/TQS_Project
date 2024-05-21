@@ -36,7 +36,7 @@ function Register() {
       );
       console.log(response.data);
       alert("Registration successful");
-      navigate('/login');
+      navigate('/signin');
     } catch (error) {
       console.error(error);
     }

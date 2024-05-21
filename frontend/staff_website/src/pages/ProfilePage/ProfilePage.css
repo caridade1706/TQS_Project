@@ -1,0 +1,157 @@
+.profile-page {
+    background-image: url(https://conteudo.imguol.com.br/c/entretenimento/99/2023/05/30/corredor-de-hospital-1685456204760_v2_900x506.jpg);
+    background-size: cover;
+    height: 93.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.box-info {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 70%;
+    text-align: center;
+}
+
+.box-info h1 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.info-item {
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.info-item-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.info-button {
+    margin-bottom: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.info-item h2 {
+    font-family: 'Arial', sans-serif;
+    color: #555;
+    margin: 0;
+    flex-basis: 30%;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.info-item p {
+    font-family: 'Arial', sans-serif;
+    color: #777;
+    font-size: 17px;
+    flex-basis: 70%;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.add-hospitals-button {
+    width: 30%;
+    height: 80%;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.add-hospitals-button:hover {
+    background-color: #0056b3;
+}
+
+.save-button {
+    width: 30%;
+    height: 80%;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #218838;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.hospital-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hospital-list li {
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.hospital-list li:hover {
+    background-color: #e0e0e0;
+}
+
+.close-modal-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-modal-button:hover {
+    background-color: #c82333;
+}

@@ -20,15 +20,14 @@ function Login(props) {
 
   const handleLogin = async () => {
     try {
-      console.log("credentials: ", credentials);
       const response = await axios.post(
         "http://localhost:8080/api/staff/login",
         credentials
       );
       if (response.data) {
-        const { token, email } = response.data;
+        const token  = response.data.token;
         login(credentials.email, token); 
-        navigate("/consultas"); // Mudar dps para a página de consultas
+        navigate("/staffpage");
       }
     } catch (error) {
       console.error("Login failed:", error);

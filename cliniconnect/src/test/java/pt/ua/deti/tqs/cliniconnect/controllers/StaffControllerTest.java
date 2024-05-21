@@ -14,17 +14,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
+import pt.ua.deti.tqs.cliniconnect.dto.HospitalUpdateDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Staff;
 import pt.ua.deti.tqs.cliniconnect.services.StaffService;
 import pt.ua.deti.tqs.cliniconnect.services.impl.AuthServiceImpl;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,7 +43,6 @@ class StaffControllerTest {
 
         @MockBean
         private AuthServiceImpl authService;
-
 
         private String url = "/api/staff";
 
@@ -71,7 +75,7 @@ class StaffControllerTest {
                 mockMvc.perform(post(url + "/register")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(registerStaffDTO))) // Convert loginDTO
-                                                                                                     // to JSON string
+                                                                                                   // to JSON string
                                 .andExpect(status().isOk());
 
                 // Verify the interaction with the authentication service
@@ -136,5 +140,37 @@ class StaffControllerTest {
 
                 // Verifica se o método do serviço foi chamado uma vez
                 verify(staffService, times(1)).getPatientByEmail(anyString());
+        }
+
+        @Test
+        @DisplayName("Test add hospitals to staff Success")
+        public void testAddHospitalsTrue() throws Exception {
+                HospitalUpdateDTO hospitalUpdateDTO = new HospitalUpdateDTO();
+                hospitalUpdateDTO.setHospitals(List.of("Hospital A", "Hospital B"));
+
+                when(staffService.updateStaffHospitals(anyString(), anyList())).thenReturn(true);
+
+                mockMvc.perform(post(url + "/addHospitals")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(hospitalUpdateDTO)))
+                                .andExpect(status().isOk());
+
+                verify(staffService, times(1)).updateStaffHospitals(anyString(), anyList());
+        }
+
+        @Test
+        @DisplayName("Test add hospitals to staff False")
+        public void testAddHospitalsFalse() throws Exception {
+                HospitalUpdateDTO hospitalUpdateDTO = new HospitalUpdateDTO();
+                hospitalUpdateDTO.setHospitals(List.of("Hospital A", "Hospital B"));
+
+                when(staffService.updateStaffHospitals(anyString(), anyList())).thenReturn(false);
+
+                mockMvc.perform(post(url + "/addHospitals")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(hospitalUpdateDTO)))
+                                .andExpect(status().isBadRequest());
+
+                verify(staffService, times(1)).updateStaffHospitals(anyString(), anyList());
         }
 }

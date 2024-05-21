@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 
@@ -25,6 +27,7 @@ public class Staff extends Persona {
     }
 
     @ManyToMany(mappedBy = "staffs")
+    @JsonManagedReference
     private Set<Hospital> hospitals;
 
     @Override
