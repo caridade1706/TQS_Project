@@ -1,18 +1,18 @@
 import React from 'react';
-import CounterSelector from '../components/CounterSelector';
-import CategoryDisplay from '../components/CategoryDisplay';
-import ConsultationsTable from '../components/ConsultationsTable';
+import CounterSelector from '../../components/CounterSelector';
+import CategoryDisplay from '../../components/CategoryDisplay';
+import ConsultationsTable from '../../components/ConsultationsTable';
 
-function HomePage() {
-    
-    
+import './StaffPage.css';
 
+function StaffPage() {
+    
     const handleCounterSelect = (counter) => {
         console.log("Selected counter:", counter);
     };
 
     return (
-        <div>
+        <div className='staff-page'>
             <div className="container">
                 <CounterSelector onSelectCounter={handleCounterSelect} />
                 <CategoryDisplay />
@@ -22,4 +22,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default StaffPage;
