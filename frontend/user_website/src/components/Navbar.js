@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="navbar-text">
         <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
           <FontAwesomeIcon icon={faHospital} className="navbar-icon" />
-          CliniConnect
+          CliniConnect - Patient Portal
         </Link>
       </div>
       <div className="navbar-item">
@@ -31,18 +31,18 @@ const Navbar = () => {
             <Link to="/consultas">
               <button className="navbar-button">Consultas</button>
             </Link>
-            <Link to="/perfil">
-              <button className="navbar-button">Perfil</button>
+            <Link to="/profile">
+              <button className="navbar-button">Profile</button>
             </Link>
-            <button className="navbar-button" onClick={handleLogout}>Sair</button>
+            <button className="navbar-button" onClick={handleLogout}>Exit</button>
           </>
         ) : (
           <>
             <Link to="/login">
-              <button className="navbar-button">Entrar</button>
+              <button className="navbar-button">Sign In</button>
             </Link>
             <Link to="/register">
-              <button className="navbar-button">Registar</button>
+              <button className="navbar-button">Sign Up</button>
             </Link>
           </>
         )}

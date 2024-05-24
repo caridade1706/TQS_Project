@@ -11,6 +11,7 @@ import ConsultasPage from "./pages/ConsultasPage";
 import AgendamentoPage from "./pages/AgendamentoPage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Profile from "./pages/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/agendamento" element={<AgendamentoPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </AuthProvider>

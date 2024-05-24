@@ -14,7 +14,7 @@ const HomeHospitalPage = () => {
       try {
         const email = localStorage.getItem("email"); // Assuming email is stored in localStorage
         const response = await axios.get(
-          `http://localhost:8080/api/patients/${email}`,
+          process.env.REACT_APP_API_URL + `patients/${email}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const HomeHospitalPage = () => {
 
   return (
     <div className="user-page">
-      <h1 style={{ textAlign: 'start', marginLeft: '20rem' }}>Bem-vindo, {userDetails.name}!</h1>
+      <h1 style={{ textAlign: 'start', marginLeft: '20rem' }}>Welcome back, {userDetails.name}!</h1>
       <Link to="/consultas">
         <button className="userpage-button up-consultas-button up-consultas-button-active">
           Consultas

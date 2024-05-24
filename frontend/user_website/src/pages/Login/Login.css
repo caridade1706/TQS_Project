@@ -11,9 +11,10 @@
 }
 
 .login-container {
-    width: 70%;
+    width: 50%;
     padding: 2%;
-    background-color: rgb(128, 128, 128, 0.5);
+    background-color: rgb(250, 250, 250, 0.8);
+    box-shadow: white 0px 0px 1px;
     border-radius: 30px;
 }
 
@@ -33,7 +34,7 @@
 }
 
 .input {
-    width: 60%;
+    width: 80%;
     padding: 10px;
     margin: 10px 0;
     box-sizing: border-box;

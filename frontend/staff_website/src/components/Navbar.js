@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="navbar-text">
         <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
           <FontAwesomeIcon icon={faHospital} className="navbar-icon" />
-          CliniConnect
+          CliniConnect - Staff Interface
         </Link>
       </div>
       <div className="navbar-item">

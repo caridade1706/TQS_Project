@@ -22,7 +22,7 @@ function Login(props) {
     try {
       console.log("credentials: ", credentials);
       const response = await axios.post(
-        "http://localhost:8080/api/patients/login",
+        process.env.REACT_APP_API_URL + "patients/login",
         credentials
       );
       if (response.data) {
