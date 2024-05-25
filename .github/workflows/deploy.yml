@@ -20,12 +20,12 @@ jobs:
 
     - name: Copy files via SCP
       run: |
-        scp -o StrictHostKeyChecking=no -r ./* robertorcastro@deti-tqs-09.ua.pt:~/my-docker-project/
+        scp -o StrictHostKeyChecking=no -r ./* robertorcastro@deti-tqs-09.ua.pt:~/TQS_Project_Group9/
 
     - name: Deploy with SSH
       run: |
         ssh -o StrictHostKeyChecking=no robertorcastro@deti-tqs-09.ua.pt << 'EOF'
-        cd ~/my-docker-project
+        cd ~/TQS_Project_Group9
         docker-compose down
         docker-compose up -d --build
         EOF
