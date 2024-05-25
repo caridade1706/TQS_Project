@@ -16,10 +16,10 @@ const HomePage = () => {
         {!isLoggedIn ? (
           <div className="box-container">
             <Link to="/signin">
-              <button className="box-button">Sing In</button>
+              <button className="box-button">Sign In</button>
             </Link>
             <Link to="/signup">
-              <button className="box-button">Sing Up</button>
+              <button className="box-button">Sign Up</button>
             </Link>
           </div>
         ) : (
