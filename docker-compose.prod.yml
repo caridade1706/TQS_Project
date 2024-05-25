@@ -23,9 +23,9 @@ services:
       - app-network
 
   backend:
-    build:
+    build: 
       context: ./cliniconnect
-      dockerfile: Dockerfile
+    image: ghcr.io/caridade1706/backend:${TAG:-latest}
     ports:
       - "8080:8080"
     depends_on:
@@ -35,14 +35,20 @@ services:
       - app-network
 
   frontend_staff_website:
-    build: ./frontend/staff_website
+    build: 
+      context: ./frontend/staff_website
+      dockerfile: Dockerfile.prod
+    image: ghcr.io/caridade1706/frontend_staff_website:${TAG:-latest}
     ports:
       - "3000:3000"
     depends_on:
       - backend
 
   frontend_user_website:
-    build: ./frontend/user_website
+    build: 
+      context: ./frontend/user_website
+      dockerfile: Dockerfile.prod
+    image: ghcr.io/caridade1706/frontend_user_website:${TAG:-latest}
     ports:
       - "3001:3001" 
     depends_on:
