@@ -1,0 +1,31 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - TP-21-Set-UP-CD-Pipeline
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Copy files via SCP
+      run: |
+        scp -o StrictHostKeyChecking=no -r ./* robertorcastro@deti-tqs-09.ua.pt:~/my-docker-project/
+
+    - name: Deploy with SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no robertorcastro@deti-tqs-09.ua.pt << 'EOF'
+        cd ~/my-docker-project
+        docker-compose down
+        docker-compose up -d --build
+        EOF
