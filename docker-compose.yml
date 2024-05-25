@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql/mysql-server:8.0.26
+    environment:
+      MYSQL_DATABASE: 'sql_hospital'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: '3536'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./cliniconnect
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend_staff_website:
+    build: ./frontend/staff_website
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  frontend_user_website:
+    build: ./frontend/user_website
+    ports:
+      - "5174:81" 
+    depends_on:
+      - backend
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
