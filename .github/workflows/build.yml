@@ -28,8 +28,8 @@ jobs:
       uses: docker/bake-action@v3
       with:
         push: true
-        files: compose.prod.yml
-        workdir: ./HW1
+        files: docker-compose.prod.yml
+        workdir: .
         set: |
           *.cache-to=type=gha,scope=cached-stage,mode=max
           *.cache-from=type=gha,scope=cached-stage
