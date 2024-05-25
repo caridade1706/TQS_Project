@@ -1,9 +1,7 @@
 name: Deploy to VM UA
 
 on:
-  push:
-    branches:
-      - TP-21-Set-UP-CD-Pipeline
+  workflow_dispatch:
 
 jobs:
   deploy:
