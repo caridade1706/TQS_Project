@@ -1,6 +1,7 @@
 package pt.ua.deti.tqs.cliniconnect.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +13,7 @@ import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
+import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
+import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.DoctorServiceImpl;
@@ -32,6 +36,40 @@ class DoctorServiceTest {
 
     @InjectMocks
     DoctorServiceImpl doctorService;
+
+    @Test
+    @DisplayName("Test save doctor")
+    void testSaveDoctor() {
+        UUID doctorUuid = UUID.randomUUID();
+
+        AddDoctorDTO addDoctorDTO = new AddDoctorDTO();
+        addDoctorDTO.setName("DoctorName");
+        addDoctorDTO.setDob(new Date());
+        addDoctorDTO.setEmail("d@ua.pt");
+        addDoctorDTO.setPhone("123456789");
+        addDoctorDTO.setAddress("Rua");
+        addDoctorDTO.setCity("Aveiro");
+        addDoctorDTO.setSpeciality("Cardiology");
+
+        Doctor expectedDoctor = new Doctor();
+        expectedDoctor.setId(doctorUuid);
+        expectedDoctor.setName(addDoctorDTO.getName());
+        expectedDoctor.setAddress(addDoctorDTO.getAddress());
+        expectedDoctor.setCity(addDoctorDTO.getCity());
+        expectedDoctor.setAppointments(null);
+        expectedDoctor.setHospitals(null);
+
+        // Mock the save operation
+        when(doctorRepository.save(any(Doctor.class))).thenReturn(expectedDoctor);
+
+        Doctor actualDoctor = doctorService.addDoctor(addDoctorDTO);
+
+        assertEquals(expectedDoctor.getName(), actualDoctor.getName());
+        assertEquals(expectedDoctor.getAddress(), expectedDoctor.getAddress());
+        assertEquals(expectedDoctor.getCity(), expectedDoctor.getCity());
+
+        verify(doctorRepository, times(1)).save(any(Doctor.class));
+    }
 
     @Test
     void testGetDoctorsBySpeciality() {
