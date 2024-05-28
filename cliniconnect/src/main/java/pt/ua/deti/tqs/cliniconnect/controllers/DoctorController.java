@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
+import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
@@ -15,6 +16,17 @@ import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 public class DoctorController {
     
     private DoctorService doctorService;
+
+    @PostMapping(path = "/")
+    public ResponseEntity<Doctor> addDoctor(@RequestBody AddDoctorDTO addDoctorDTO) {
+        Doctor doctor = doctorService.addDoctor(addDoctorDTO);
+
+        if (doctor != null) {
+            return ResponseEntity.ok(doctor);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {

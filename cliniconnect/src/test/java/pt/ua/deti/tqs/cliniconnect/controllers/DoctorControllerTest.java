@@ -10,14 +10,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.cucumber.java.sl.In;
 import pt.ua.deti.tqs.cliniconnect.Roles;
+import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,6 +43,44 @@ class DoctorControllerTest {
     @BeforeEach
     void setUp() {
 
+    }
+
+    @Test
+    @DisplayName("Testa a adição de um médico")
+    void testGetAddDoctor() throws Exception {
+
+        Date date = Date.valueOf("1999-01-01");
+
+        AddDoctorDTO addDoctorDTO = new AddDoctorDTO();
+        addDoctorDTO.setName("DoctorName");
+        addDoctorDTO.setDob(date);
+        addDoctorDTO.setEmail("DoctorName@ua.pt");
+        addDoctorDTO.setPhone("123456789");
+        addDoctorDTO.setAddress("Rua");
+        addDoctorDTO.setCity("Aveiro");
+        addDoctorDTO.setSpeciality("Cardiology");
+        
+
+        Doctor doctor = new Doctor();
+        doctor.setName("DoctorName");
+        doctor.setDob(date);
+        doctor.setEmail("DoctorName@ua.pt");
+        doctor.setPhone("123456789");
+        doctor.setAddress("Rua");
+        doctor.setCity("Aveiro");
+        doctor.setSpeciality("Cardiology");
+        doctor.setRole(Roles.DOCTOR);
+        doctor.setHospitals(null);
+        doctor.setAppointments(null);
+
+        when(doctorService.addDoctor(any(AddDoctorDTO.class))).thenReturn(doctor);
+
+        mockMvc.perform(post(url + "/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(addDoctorDTO)))
+                        .andExpect(status().isOk());
+
+        verify(doctorService, times(1)).addDoctor(any(AddDoctorDTO.class));
     }
 
     @Test

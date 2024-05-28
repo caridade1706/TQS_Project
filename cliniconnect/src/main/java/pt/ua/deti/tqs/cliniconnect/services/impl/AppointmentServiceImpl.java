@@ -27,6 +27,7 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     private PatientRepository patientRepository;
     private PersonaRepository personaRepository;
     private HospitalRepository hospitalRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
     public Appointment bookAppointment(CreateAppointmentDTO createAppointmentDTO) {
@@ -34,7 +35,7 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         Appointment appointment = new Appointment();
         appointment.setDate(createAppointmentDTO.getDate());
 
-        LocalTime lt = LocalTime.now(); //mudar a logica da hora
+        LocalTime lt = LocalTime.parse(createAppointmentDTO.getTime());
 
         appointment.setTime(lt);
         appointment.setStatus("Created");
@@ -45,10 +46,11 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         Optional<Patient> patient = patientRepository.findById(p.getId());
         appointment.setPatient(patient.get());
 
-        // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
-        Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName", Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA", "Aveiro", "Cardiology", null, null);
+        Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
+        // Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName", Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA", "Aveiro", "Cardiology", null, null);
+        // doctorRepository.save(doctor);
 
-        appointment.setDoctor(doctor);
+        appointment.setDoctor(doctor.get());
 
         Optional<Hospital> hospital = hospitalRepository.findByName(createAppointmentDTO.getHospitalName());
         appointment.setHospital(hospital.get());
