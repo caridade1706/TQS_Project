@@ -90,21 +90,33 @@ function ConsultationsTable() {
     const [showHospitalForm, setShowHospitalForm] = useState(false);
 
     // Busca as consultas de hoje e filtra por hospital e especialidade
+
     useEffect(() => {
+        console.log("Buscando consultas de hoje...");
         const fetchConsultations = () => {
             axios.get('http://localhost:8080/api/appointments/today')
-                .then(response => {
-                    const filteredData = response.data.filter(consultation =>
-                        consultation.hospital.includes(hospitalFilter) &&
-                        consultation.specialty.includes(specialtyFilter)
-                    );
-                    setConsultations(filteredData);
+               .then(response => {
+                    console.log("Status da resposta:", response.status);
+                    if (response.status === 204 || response.data.length === 0) {
+                        console.log("Sem consultas para o dia atual.");
+                        setConsultations([]);
+                    } else {
+                        console.log("Resposta completa:", response); 
+                        /*
+                        const filteredData = response.data.filter(consultation =>
+                            consultation.hospital.includes(hospitalFilter) &&
+                            consultation.specialty.includes(specialtyFilter)
+                        );*/
+                        setConsultations(response.data);
+                        console.log("Consultas filtradas:", response.data);
+                    }
                 })
-                .catch(error => console.error('Failed to fetch consultations', error));
+               .catch(error => console.error('Failed to fetch consultations', error));
         };
-
+    
         fetchConsultations();
     }, [hospitalFilter, specialtyFilter]);
+    
 
     const handleCheckIn = (id) => {
         axios.patch(`/api/appointments/${id}/status`, { status: 'esperando' })
@@ -168,13 +180,13 @@ function ConsultationsTable() {
                 <tbody>
                     {consultations.map(consultation => (
                         <tr key={consultation.id}>
-                            <td>{consultation.number}</td>
-                            <td>{consultation.name}</td>
+                            <td>{consultation.id}</td>
+                            <td>{consultation.patient.name}</td>
                             <td>{consultation.date}</td>
                             <td>{consultation.time}</td>
-                            <td>{consultation.doctor}</td>
+                            <td>{consultation.doctor.name}</td>
                             <td>{consultation.specialty}</td>
-                            <td>{consultation.hospital}</td>
+                            <td>{consultation.hospital.name }</td>
                             <td>{consultation.status}</td>
                             <td>
                                 <button onClick={() => handleCheckIn(consultation.id)}>Check-In</button>
@@ -182,6 +194,7 @@ function ConsultationsTable() {
                                 <button onClick={() => handleCancel(consultation.id)}>Cancel</button>
                             </td>
                         </tr>
+                        
                     ))}
                 </tbody>
             </table>

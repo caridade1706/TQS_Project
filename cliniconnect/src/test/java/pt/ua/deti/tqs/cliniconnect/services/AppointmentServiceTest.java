@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -236,16 +237,26 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Test get appointments by date")
     void testGetAppointmentsByDate() {
+        
         Date date = Date.from(Instant.parse("2024-07-10T00:00:00Z"));
+        Date dateappoint = Date.from(Instant.parse("2024-07-10T09:00:00Z"));
+
+        Instant startOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant endOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant().minusSeconds(1);
+
+        Date startDate = Date.from(startOfDay);
+        Date endDate = Date.from(endOfDay);
 
         List<Appointment> expectedAppointments = new ArrayList<>();
-        expectedAppointments.add(new Appointment(UUID.randomUUID(), date, null, "confirmed", 50.0, "Cardiology", "EUR", null, null, null));
+        expectedAppointments.add(new Appointment(UUID.randomUUID(), dateappoint, null, "confirmed", 50.0, "Cardiology", "EUR", null, null, null));
 
-        when(appointmentRepository.findByDate(date)).thenReturn(expectedAppointments);
+        when(appointmentRepository.findByDateBetween(startDate, endDate)).thenReturn(expectedAppointments);
 
         List<Appointment> actualAppointments = appointmentService.getAppointmentsByDate(date);
 
         assertEquals(expectedAppointments, actualAppointments);
-        verify(appointmentRepository, times(1)).findByDate(date);
+        verify(appointmentRepository, times(1)).findByDateBetween(startDate, endDate);
     }
 }

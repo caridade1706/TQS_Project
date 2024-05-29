@@ -3,6 +3,7 @@ package pt.ua.deti.tqs.cliniconnect.services.impl;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
+import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
@@ -33,6 +34,11 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setRole(Roles.DOCTOR);
         doctorRepository.save(doctor);
         return doctor;
+    }
+    
+    @Override
+    public List<Doctor> getAllDoctors() {
+        return doctorRepository.findAll();
     }
 
     @Override

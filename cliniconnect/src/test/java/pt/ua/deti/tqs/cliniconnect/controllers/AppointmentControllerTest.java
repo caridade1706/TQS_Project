@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
@@ -60,6 +61,7 @@ class AppointmentControllerTest {
         doctor.setId(doctorId);
         doctor.setName("doctorName");
         doctor.setSpeciality("specialty");
+        doctor.setRole(Roles.DOCTOR);
         Set<Hospital> hospitals = new HashSet<>();
         hospitals.add(hospital);
         doctor.setHospitals(hospitals);
@@ -69,6 +71,7 @@ class AppointmentControllerTest {
         patient.setName("patientName");
         patient.setAddress("address");
         patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
 
         // Setup DTO
         CreateAppointmentDTO createAppointmentDTO = new CreateAppointmentDTO();
