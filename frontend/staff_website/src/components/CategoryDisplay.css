@@ -78,8 +78,8 @@
     background-color: #a00000;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .card-category {
          width: 100%;
-     }
+    }
  }

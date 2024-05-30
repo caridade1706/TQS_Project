@@ -39,7 +39,7 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         LocalTime lt = LocalTime.parse(createAppointmentDTO.getTime());
 
         appointment.setTime(lt);
-        appointment.setStatus("Created");
+        appointment.setStatus("CREATED");
         appointment.setPrice(createAppointmentDTO.getPrice());
         appointment.setType(createAppointmentDTO.getType());
         appointment.setCurrency("EUR");
@@ -48,10 +48,6 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         appointment.setPatient(patient.get());
 
         Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
-        // Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName",
-        // Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA",
-        // "Aveiro", "Cardiology", null, null);
-        // doctorRepository.save(doctor);
 
         appointment.setDoctor(doctor.get());
 
@@ -86,19 +82,6 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         }
         return false;
     }
-
-    // @Override
-    // public List<Appointment> getAppointmentsByDate(Date date) {
-
-    // System.out.println(date);
-
-    // // List<Appointment> appointments = appointmentRepository.findByDate(date);
-    // List<Appointment> appointments = appointmentRepository.findAll();
-
-    // System.out.println(appointments.size());
-
-    // return appointments;
-    // }
 
     @Override
     public List<Appointment> getAppointmentsByDate(Date date) {

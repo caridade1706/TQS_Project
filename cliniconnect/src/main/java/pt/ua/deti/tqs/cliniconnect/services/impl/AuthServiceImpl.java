@@ -49,6 +49,7 @@ public class AuthServiceImpl implements AuthService {
         patient.setAddress(registerPatientDTO.getAddress());
         patient.setCity(registerPatientDTO.getCity());
         patient.setRole(Roles.PATIENT);
+        patient.setPatientNumber(registerPatientDTO.getPatientNumber());
         patient.setPreferredHospital(registerPatientDTO.getPreferredHospital());
 
         patientRepository.save(patient);

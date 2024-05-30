@@ -23,7 +23,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
-import pt.ua.deti.tqs.cliniconnect.dto.CreateHospitalDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.DoctorServiceImpl;

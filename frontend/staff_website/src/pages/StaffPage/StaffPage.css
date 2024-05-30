@@ -1,3 +1,21 @@
 .staff-page {
     border-top: 1px solid #000000;
 }
+
+.btn-add {
+    margin-Top: 30px;
+    width: '9rem'; 
+    background-Color: #fff; 
+    color: #111111; 
+    font-Size: 1rem;
+    border: 2px solid #111111;
+    border-Radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+    background-Color: #111111; 
+    color: #fff; 
+}

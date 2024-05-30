@@ -1,49 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AddConsultationForm.css'; 
+import './AddConsultationForm.css';
 
-function AddConsultationForm() {
+function AddConsultationForm({ onClose, onAddConsultation }) {
     const [formData, setFormData] = useState({
         date: '',
         time: '',
         price: 12.00,
         type: '', 
         patientName: '', 
+        patientNumber: '', 
         doctorName: '', 
         hospitalName: ''
     });
 
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        axios.post('http://localhost:8080/api/appointments', {
-            date: formData.date,
-            time: formData.time,
-            price: formData.price,
-            type: formData.type,
-            patientName: formData.patientName,
-            doctorName: formData.doctorName,
-            hospitalName: formData.hospitalName
-        })
-            .then(response => {
-                alert('Consultation added successfully');
-                console.log('Response:', response); 
-                const newAppointment = response.data;
-                console.log('Detalhes da nova consulta:', newAppointment);
-                setFormData({ date: '', time: '', price: 12.00, type: '', patientName: '', doctorName: '', hospitalName: '' });
-
-            })
-            .catch(error => {
-                console.error('Error adding consultation', error);
-                alert('Failed to add consultation');
-            });
-    };
-
+    const [notification, setNotification] = useState(null);
     const [hospitals, setHospitals] = useState([]);
+    const [doctors, setDoctors] = useState([]);
+    const [patients, setPatients] = useState([]);
+    const [filteredDoctors, setFilteredDoctors] = useState([]);
+
+    useEffect(() => {
+        fetchHospitals(); 
+        fetchDoctors(); 
+        fetchPatients();
+    }, []);
 
     const fetchHospitals = async () => {
         try {
@@ -54,28 +35,108 @@ function AddConsultationForm() {
         }
     };
 
-    const [doctors, setDoctors] = useState([]);
-
     const fetchDoctors = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/doctors/');
-            setDoctors(response.data); 
+            setDoctors(response.data);
+            setFilteredDoctors(response.data); // Initialize filtered doctors
         } catch (error) {
             console.error('Erro ao buscar médicos', error);
         }
     };
 
-    useEffect(() => {
-        fetchHospitals(); 
-        fetchDoctors(); 
-    }, []);
+    const fetchPatients = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/patients/');
+            setPatients(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar patients', error);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+
+        if (name === 'patientNumber') {
+            if (value === '') {
+                // Reset to show all patients
+                setFormData(prevState => ({ ...prevState, patientName: '' }));
+            } else {
+                const selectedPatient = patients.find(patient => patient.patientNumber === value);
+                if (selectedPatient) {
+                    setFormData(prevState => ({ ...prevState, patientName: selectedPatient.name }));
+                } else {
+                    setFormData(prevState => ({ ...prevState, patientName: '' }));
+                }
+            }
+        } else if (name === 'patientName') {
+            const selectedPatient = patients.find(patient => patient.name === value);
+            if (selectedPatient) {
+                setFormData(prevState => ({ ...prevState, patientNumber: selectedPatient.patientNumber }));
+            } else {
+                setFormData(prevState => ({ ...prevState, patientNumber: '' }));
+            }
+        } else if (name === 'doctorName') {
+            const selectedDoctor = doctors.find(doctor => doctor.name === value);
+            if (selectedDoctor) {
+                setFormData(prevState => ({ ...prevState, type: selectedDoctor.speciality }));
+            }
+        } else if (name === 'type') {
+            if (value === '') {
+                setFilteredDoctors(doctors); // Reset to show all doctors
+            } else {
+                setFilteredDoctors(doctors.filter(doctor => doctor.speciality === value));
+            }
+            setFormData(prevState => ({ ...prevState, doctorName: '' })); // Clear selected doctor if type changes
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:8080/api/appointments', formData)
+            .then(response => {
+                setNotification('Consultation added successfully');
+                const newAppointment = response.data;
+                onAddConsultation(newAppointment);
+                setFormData({ date: '', time: '', price: 12.00, type: '', patientName: '', patientNumber: '', doctorName: '', hospitalName: '' });
+                setTimeout(() => {
+                    setNotification(null);
+                    onClose();
+                }, 2000);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error adding consultation', error);
+                alert('Failed to add consultation');
+            });
+    };
 
     return (
-        <div className="form-consultation-container">
+        <div>
+            <div className="close-btn-container">
+                <button className="close-button" onClick={onClose}>✕</button>
+            </div>
             <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-row">
-                    {/* <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="User Number" required /> */}
-                    <input type="text" name="patientName" value={formData.patientName} onChange={handleChange} placeholder="User Name" required />
+                    <input 
+                        type="text" 
+                        name="patientNumber" 
+                        value={formData.patientNumber} 
+                        onChange={handleChange} 
+                        placeholder="Patient Number" 
+                        required 
+                    />
+                    <select 
+                        name="patientName" 
+                        value={formData.patientName} 
+                        onChange={handleChange}
+                    >
+                        <option value="">Select a Patient</option>
+                        {patients.map((patient) => (
+                            <option key={patient.id} value={patient.name}>{patient.name}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-row">
                     <input type="date" name="date" value={formData.date} onChange={handleChange} required />
@@ -84,7 +145,7 @@ function AddConsultationForm() {
                 <div className="form-row">
                     <select name="doctorName" value={formData.doctorName} onChange={handleChange}>
                         <option value="">Select a Doctor</option>
-                        {doctors.map((doctor) => (
+                        {filteredDoctors.map((doctor) => (
                             <option key={doctor.id} value={doctor.name}>{doctor.name}</option>
                         ))}
                     </select>
@@ -100,6 +161,11 @@ function AddConsultationForm() {
                 </div>
                 <button className="add-consultation-btn" type="submit">Add Consultation</button>
             </form>
+            {notification && (
+                <div className="notification">
+                    {notification}
+                </div>
+            )}
         </div>
     );
 }

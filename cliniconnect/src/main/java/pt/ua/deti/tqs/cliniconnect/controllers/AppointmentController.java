@@ -42,6 +42,16 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping("/{id}/{status}")
+    public ResponseEntity<Void> changeStatus(@PathVariable UUID id, @PathVariable String status) {
+        boolean result = appointmentService.updateAppointmentStatus(id, status);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Appointment>> getAppointmentsByPatient(@PathVariable UUID patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatient(patientId);

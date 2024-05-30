@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cucumber.java.sl.In;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;

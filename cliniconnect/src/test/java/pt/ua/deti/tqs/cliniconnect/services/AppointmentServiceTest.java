@@ -181,7 +181,7 @@ class AppointmentServiceTest {
 
         Patient patient = new Patient(UUID.randomUUID(), "Roberto Castro", new Date(), "robertorcasto@ua.pt",
                 "password",
-                "989345890", "Rua do Hospital", "Porto", "Lisboa CliniConnect Hospital", null);
+                "989345890", "Rua do Hospital", "Porto", "3455533434433434","Lisboa CliniConnect Hospital", null);
 
         Appointment expectedAppointment = new Appointment(UUID.randomUUID(),
                 Date.from(Instant.parse("2024-07-10T00:00:00Z")),

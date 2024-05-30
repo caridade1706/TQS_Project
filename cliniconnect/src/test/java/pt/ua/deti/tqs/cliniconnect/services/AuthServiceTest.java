@@ -71,6 +71,7 @@ public class AuthServiceTest {
                 "1234567890",
                 "123 Street",
                 "Lisboa",
+                "3456789456",
                 "Lisboa CliniConnect Hospital");
 
         Patient savedPatient = new Patient();
