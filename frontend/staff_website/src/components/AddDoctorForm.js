@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddDoctorForm.css';
 
@@ -25,6 +25,21 @@ function AddDoctorForm() {
             });
     };
 
+    const [hospitals, setHospitals] = useState([]);
+    useEffect(() => {
+        fetchHospitals();
+    }, []);
+    
+    const fetchHospitals = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/hospitals/');
+            setHospitals(response.data);
+        } catch (error) {
+            console.error('Error fetching hospitals:', error);
+        }
+    };
+    
+
     return (
         <div className="form-doctor-container">
             <form onSubmit={handleSubmit} className="form-d-container">
@@ -35,7 +50,13 @@ function AddDoctorForm() {
                 <input type="text" name="address" value={doctorData.address} onChange={handleChange} placeholder="Address" required />
                 <input type="text" name="city" value={doctorData.city} onChange={handleChange} placeholder="City" required />
                 <input type="text" name="speciality" value={doctorData.speciality} onChange={handleChange} placeholder="Speciality" required />
-                <input type="text" name="hospital" value={doctorData.hospital} onChange={handleChange} placeholder="Hospital" required />
+                <select name="hospital" value={doctorData.hospital} onChange={handleChange} placeholder="Hospital" style={{height: "40px", marginTop: "10px"}} required>
+                    <option value="">Hospital</option>
+                    {hospitals.map(hospital => (
+                        <option key={hospital.id} value={hospital.name}>{hospital.name}</option>
+                    ))}
+                </select>
+
                 <button className="add-doctor-btn" type="submit">Add Doctor</button>
             </form>
         </div>

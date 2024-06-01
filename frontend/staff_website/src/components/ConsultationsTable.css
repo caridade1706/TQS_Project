@@ -6,15 +6,19 @@
 }
 
 .table-consultation-search {
-    max-width: 80%;
+    width: 80%;
     border-radius: 30px !important;
     font-size: large;
+    border: solid 1px #111111;
+    height: 34px;
+    padding-left: 15px;
+    margin-bottom: 20px;
 }
 
 .new-consultation-btn {
-    background-color: #fff;
-    color: #111111;
-    border: 1px solid #111111;
+    background-color: #5AA7FF;
+    color: white;
+    border: 1px solid #5AA7FF;
     border-radius: 30px;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -25,8 +29,8 @@
 }
 
 .new-consultation-btn:hover {
-    background-color: #5AA7FF; 
-    border: 1px solid #5AA7FF;
+    background-color: #014da5; 
+    border: 1px solid #014da5;
     color: #fff;
 }
 
@@ -34,4 +38,44 @@ table,
 table th,
 table td {
     border: none;
+}
+
+.table-consultations-btn {
+    color: white;
+    font-size: medium;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
+
+.btn-cancel {
+    background-color: #FF5757;
+    border: #FF5757;
+}
+
+.btn-cancel:hover {
+    background-color: #a00000;
+    border: #a00000;
+}
+
+.btn-pay {
+    background-color: #49C493;
+    border: #49C493;
+}
+
+.btn-pay:hover {
+    background-color: #008a53;
+    border: #008a53;
+}
+
+.btn-checkin {
+    background-color: #FFCB2F;
+    border: #FFCB2F;
+}
+
+.btn-checkin:hover {
+    background-color: #ce9a00;
+    border: #ce9a00;
 }

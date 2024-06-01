@@ -25,6 +25,13 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
         fetchDoctors(); 
         fetchPatients();
     }, []);
+    
+    useEffect(() => {
+        if (doctors.length > 0) {
+            extractUniqueSpecialties();
+        }
+    }, [doctors]);
+    
 
     const fetchHospitals = async () => {
         try {
@@ -54,6 +61,16 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
         }
     };
 
+    // Estado para armazenar as especialidades únicas
+    const [uniqueSpecialties, setUniqueSpecialties] = useState([]);
+
+    const extractUniqueSpecialties = () => {
+        const specialties = doctors.map(doctor => doctor.speciality).filter((value, index, self) => self.indexOf(value) === index);
+        console.log("Especialidades Únicas:", specialties);
+        setUniqueSpecialties(specialties); // Define uniqueSpecialties como as especialidades únicas
+    };
+
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -131,6 +148,7 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
                         name="patientName" 
                         value={formData.patientName} 
                         onChange={handleChange}
+                        required
                     >
                         <option value="">Select a Patient</option>
                         {patients.map((patient) => (
@@ -143,16 +161,21 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
                     <input type="time" name="time" value={formData.time} onChange={handleChange} required />
                 </div>
                 <div className="form-row">
-                    <select name="doctorName" value={formData.doctorName} onChange={handleChange}>
+                    <select name="doctorName" value={formData.doctorName} onChange={handleChange} required>
                         <option value="">Select a Doctor</option>
                         {filteredDoctors.map((doctor) => (
                             <option key={doctor.id} value={doctor.name}>{doctor.name}</option>
                         ))}
                     </select>
-                    <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="Specialty" required />
+                    <select name="type" value={formData.type} onChange={handleChange} required>
+                        <option value="">Select a Specialty</option>
+                        {uniqueSpecialties.map((specialty, index) => (
+                            <option key={index} value={specialty}>{specialty}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-row">
-                    <select name="hospitalName" value={formData.hospitalName} onChange={handleChange}>
+                    <select name="hospitalName" value={formData.hospitalName} onChange={handleChange} required>
                         <option value="">Select a Hospital</option>
                         {hospitals.map((hospital) => (
                             <option key={hospital.id} value={hospital.name}>{hospital.name}</option>
