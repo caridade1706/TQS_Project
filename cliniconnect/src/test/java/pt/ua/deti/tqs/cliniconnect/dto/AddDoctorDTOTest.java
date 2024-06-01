@@ -41,7 +41,7 @@ class AddDoctorDTOTest {
     @Test
     void testAllContructor() {
         Date date = new Date();
-        AddDoctorDTO addDoctorDTO = new AddDoctorDTO("name", date, "email", "123456789", "address", "city", "Cardiology");
+        AddDoctorDTO addDoctorDTO = new AddDoctorDTO("name", date, "email", "123456789", "address", "city", "Cardiology", "hospital");
 
         assertEquals("name", addDoctorDTO.getName());
         assertEquals(date, addDoctorDTO.getDob());
@@ -50,5 +50,6 @@ class AddDoctorDTOTest {
         assertEquals("address", addDoctorDTO.getAddress());
         assertEquals("city", addDoctorDTO.getCity());
         assertEquals("Cardiology", addDoctorDTO.getSpeciality());
+        assertEquals("hospital", addDoctorDTO.getHospital());
     }
 }

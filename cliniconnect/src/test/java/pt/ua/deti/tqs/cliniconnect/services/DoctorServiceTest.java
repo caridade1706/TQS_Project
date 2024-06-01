@@ -25,6 +25,7 @@ import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.repositories.DoctorRepository;
+import pt.ua.deti.tqs.cliniconnect.repositories.HospitalRepository;
 import pt.ua.deti.tqs.cliniconnect.services.impl.DoctorServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +33,9 @@ class DoctorServiceTest {
 
     @Mock(lenient = true)
     DoctorRepository doctorRepository;
+
+    @Mock(lenient = true)
+    HospitalRepository hospitalRepository;
 
     @InjectMocks
     DoctorServiceImpl doctorService;
@@ -49,6 +53,17 @@ class DoctorServiceTest {
         addDoctorDTO.setAddress("Rua");
         addDoctorDTO.setCity("Aveiro");
         addDoctorDTO.setSpeciality("Cardiology");
+        addDoctorDTO.setHospital("Hospital");
+
+        Hospital hospital = new Hospital();
+        hospital.setId(UUID.randomUUID());
+        hospital.setName(addDoctorDTO.getHospital());
+        hospital.setAddress("Hospital Address");
+        hospital.setCity("Hospital City");
+
+
+        Set<Hospital> hospitals = new HashSet<>();
+        hospitals.add(hospital);
 
         Doctor expectedDoctor = new Doctor();
         expectedDoctor.setId(doctorUuid);
@@ -56,9 +71,10 @@ class DoctorServiceTest {
         expectedDoctor.setAddress(addDoctorDTO.getAddress());
         expectedDoctor.setCity(addDoctorDTO.getCity());
         expectedDoctor.setAppointments(null);
-        expectedDoctor.setHospitals(null);
+        expectedDoctor.setHospitals(hospitals);
 
         // Mock the save operation
+        when(hospitalRepository.findByName(addDoctorDTO.getHospital())).thenReturn(java.util.Optional.of(hospital));
         when(doctorRepository.save(any(Doctor.class))).thenReturn(expectedDoctor);
 
         Doctor actualDoctor = doctorService.addDoctor(addDoctorDTO);

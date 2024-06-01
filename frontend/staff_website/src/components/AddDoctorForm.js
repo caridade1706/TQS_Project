@@ -13,11 +13,12 @@ function AddDoctorForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('Doctor data:', doctorData);
         axios.post('http://localhost:8080/api/doctors/', doctorData)
             .then(response => {
                 alert('Doctor added successfully!');
                 console.log(response.data);
-                setDoctorData({ name: '', address: '', city: '' }); // Reset form after successful submission
+                setDoctorData({ name: '', address: '', city: '', speciality: '', hospital: '' }); // Reset form after successful submission
             })
             .catch(error => {
                 console.error('Error adding doctor:', error);
