@@ -83,4 +83,23 @@ public class AppointmentController {
         }
         return ResponseEntity.ok(allAppointments);
     }
+
+    @GetMapping("/future/{userId}")
+    public ResponseEntity<List<Appointment>> getFutureAppointments(@PathVariable UUID userId) {
+        List<Appointment> appointments = appointmentService.getFutureAppointmentsByUserId(userId, new Date());
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
+    }
+
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<List<Appointment>> getPastAppointments(@PathVariable UUID userId) {
+        List<Appointment> appointments = appointmentService.getPastAppointmentsByUserId(userId, new Date());
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
+    }
+
 }

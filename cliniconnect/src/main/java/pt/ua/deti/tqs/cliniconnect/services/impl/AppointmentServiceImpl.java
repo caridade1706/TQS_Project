@@ -99,7 +99,18 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         return appointments;
     }
 
+    @Override
+    public List<Appointment> getFutureAppointmentsByUserId(UUID userId, Date currentDate) {
+        return appointmentRepository.findByPatient_IdAndDateAfter(userId, currentDate);
+    }
+
+    @Override
+    public List<Appointment> getPastAppointmentsByUserId(UUID userId, Date currentDate) {
+        return appointmentRepository.findByPatient_IdAndDateBefore(userId, currentDate);
+    }
+
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
+
 }

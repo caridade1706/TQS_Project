@@ -4,9 +4,11 @@ import axios from "axios";
 
 import "./UserPage.css";
 
-const HomeHospitalPage = () => {
+const AppointmentsHistory = ({ userId }) => {
+    
   const [userDetails, setUserDetails] = useState({});
-  const [futureAppointments, setFutureAppointments] = useState([]);
+  const [appointments, setAppointments] = useState([]); 
+  
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -29,27 +31,25 @@ const HomeHospitalPage = () => {
     };
 
     fetchUserDetails();
-    fetchFutureAppointments(); 
+    fetchPastAppointments();
   }, [token]);
 
-  const fetchFutureAppointments = async () => {
-    try {
-      const email = localStorage.getItem("email");
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}patients/${email}/future`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setFutureAppointments(response.data.appointments); // Supondo que a resposta contenha um campo 'appointments'
-    } catch (error) {
-      console.error("Failed to fetch future appointments:", error);
-    }
-  };
 
-  /* const appointments = [
+    const fetchPastAppointments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/appointments/history/${userId}`);
+        console.log(response.data); // Imprime a resposta da API no console
+        if (Array.isArray(response.data)) {
+          setAppointments(response.data);
+        } else {
+          console.error("Response data is not an array:", response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch past appointments:", error);
+      }
+    };
+
+/*   const appointments = [
     {
       specialty: "Cardiologia",
       doctor: "Dr. João",
@@ -97,32 +97,49 @@ const HomeHospitalPage = () => {
         </button>
       </Link>
 
+      {/* <div>
+        <h1>Historical Appointments</h1>
+        {appointments.length > 0? (
+            <ul>
+            {appointments.map(appointment => (
+                <li key={appointment.id}>
+                {appointment.date} - {appointment.time} - {appointment.doctor.name}
+                </li>
+            ))}
+            </ul>
+        ) : (
+            <p>No past appointments found.</p>
+        )}
+      </div> */}
+
       <table className="appointment-table">
         <thead>
-          <tr>
+            <tr>
             <th>Especialidade</th>
             <th>Médico</th>
             <th>Hospital</th>
             <th>Data</th>
-            <th></th>
-          </tr>
+            <th>Ações</th>
+            </tr>
         </thead>
         <tbody>
-        {futureAppointments.map((appointment, index) => (
-          <tr key={index}>
-            <td>{appointment.specialty}</td>
-            <td>{appointment.doctor}</td>
-            <td>{appointment.hospital}</td>
-            <td>{appointment.date}</td>
-            <td>
-              <button className="rebook-button">Reagendar</button>
-            </td>
-          </tr>
-        ))}
+            {appointments.map((appointment, index) => (
+            <tr key={index}>
+                <td>{appointment.specialty}</td>
+                <td>{appointment.doctor}</td>
+                <td>{appointment.hospital}</td>
+                <td>{appointment.date}</td>
+                <td>
+                {/* Aqui você pode adicionar botões ou links para ações relacionadas a cada consulta,
+                    como reagendar ou visualizar detalhes. Por exemplo: */}
+                <button className="rebook-button">Reagendar</button>
+                </td>
+            </tr>
+            ))}
         </tbody>
-      </table>
+        </table>
     </div>
   );
 };
 
-export default HomeHospitalPage;
+export default AppointmentsHistory;
