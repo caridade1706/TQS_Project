@@ -59,4 +59,24 @@ public class AppointmentController {
         }
         return ResponseEntity.ok(todayAppointments);
     }
+
+    // Endpoint para consultas futuras
+    @GetMapping("/future/{userId}")
+    public ResponseEntity<List<Appointment>> getFutureAppointments(@PathVariable UUID userId) {
+        List<Appointment> appointments = appointmentService.getFutureAppointmentsByUserId(userId, new Date());
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
+    }
+
+    // Endpoint para histÃ³rico de consultas
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<List<Appointment>> getPastAppointments(@PathVariable UUID userId) {
+        List<Appointment> appointments = appointmentService.getPastAppointmentsByUserId(userId, new Date());
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
+    }
 }

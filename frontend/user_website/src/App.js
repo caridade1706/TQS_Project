@@ -12,6 +12,7 @@ import AgendamentoPage from "./pages/AgendamentoPage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Profile from "./pages/ProfilePage/ProfilePage";
+import AppointmentsHistory from "./pages/HistoricoPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/historico" element={<AppointmentsHistory />} />
           </Routes>
         </div>
       </AuthProvider>

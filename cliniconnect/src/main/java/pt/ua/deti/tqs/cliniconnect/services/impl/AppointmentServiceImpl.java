@@ -88,4 +88,19 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     public List<Appointment> getAppointmentsByDate(Date date) {
         return appointmentRepository.findByDate(date);
     }
+
+    @Override
+    public List<Appointment> getFutureAppointmentsByUserId(UUID userId, Date currentDate) {
+        return null;
+    }
+
+    @Override
+    public List<Appointment> getPastAppointmentsByUserId(UUID userId, Date currentDate) {
+        // Convert the current date to Instant to match the database type
+        Instant now = Instant.ofEpochMilli(currentDate.getTime());
+
+        // Fetch all appointments of the user that have already happened
+        return appointmentRepository.findPastAppointmentsByUserIdAndDateBefore(userId, now);
+    }
+
 }
