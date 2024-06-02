@@ -1,4 +1,4 @@
-package pt.ua.deti.tqs.cliniconnect.Jwt;
+package pt.ua.deti.tqs.cliniconnect.jwt;
 
 import java.security.Key;
 import java.util.Date;
