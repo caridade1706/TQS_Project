@@ -13,4 +13,5 @@ public interface AppointmentService {
     List<Appointment> getAppointmentsByPatient(UUID patientId);
     boolean updateAppointmentStatus(UUID id, String status);
     List<Appointment> getAppointmentsByDate(Date date);
+    List<Appointment> getAllAppointments();
 }

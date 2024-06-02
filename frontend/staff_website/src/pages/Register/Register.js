@@ -21,7 +21,7 @@ function Register() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/staff/register",
+        process.env.REACT_APP_API_URL + "staff/register",
         {
           name,
           dob,

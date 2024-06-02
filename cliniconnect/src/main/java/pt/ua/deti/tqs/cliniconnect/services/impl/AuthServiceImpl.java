@@ -1,6 +1,8 @@
 package pt.ua.deti.tqs.cliniconnect.services.impl;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,8 @@ import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
 import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.models.Persona;
+import pt.ua.deti.tqs.cliniconnect.models.Appointment;
+import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Staff;
 import pt.ua.deti.tqs.cliniconnect.repositories.PatientRepository;
@@ -37,6 +41,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse registerPatient(RegisterPatientDTO registerPatientDTO) {
 
+        Set<Appointment> appointments = new HashSet<>();
+
         Patient patient = new Patient();
         patient.setName(registerPatientDTO.getName());
         patient.setDob(registerPatientDTO.getDob());
@@ -49,8 +55,9 @@ public class AuthServiceImpl implements AuthService {
         patient.setAddress(registerPatientDTO.getAddress());
         patient.setCity(registerPatientDTO.getCity());
         patient.setRole(Roles.PATIENT);
+        patient.setPatientNumber(registerPatientDTO.getPatientNumber());
         patient.setPreferredHospital(registerPatientDTO.getPreferredHospital());
-
+        patient.setAppointments(appointments);
         patientRepository.save(patient);
 
         return new AuthResponse(jwtService.getToken(patient));
@@ -60,6 +67,8 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse registerStaff(RegisterStaffDTO registerStaffDTO) {
 
         Staff staff = new Staff();
+
+        Set<Hospital> hospitals = new HashSet<>();
 
         staff.setName(registerStaffDTO.getName());
         staff.setDob(registerStaffDTO.getDob());
@@ -74,6 +83,7 @@ public class AuthServiceImpl implements AuthService {
         staff.setRole(Roles.STAFF);
         staff.setDepartment(registerStaffDTO.getDepartment());
         staff.setTask(registerStaffDTO.getTask());
+        staff.setHospitals(hospitals);
 
         staffRepository.save(staff);
 

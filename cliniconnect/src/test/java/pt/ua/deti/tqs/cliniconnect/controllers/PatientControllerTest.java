@@ -18,6 +18,7 @@ import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Specialties;
+import pt.ua.deti.tqs.cliniconnect.repositories.PatientRepository;
 import pt.ua.deti.tqs.cliniconnect.services.PatientService;
 import pt.ua.deti.tqs.cliniconnect.services.impl.AuthServiceImpl;
 import pt.ua.deti.tqs.cliniconnect.services.impl.SpecialtiesServiceImpl;
@@ -30,7 +31,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,6 +47,9 @@ class PatientControllerTest {
         private PatientService patientService;
 
         @MockBean
+        private PatientRepository patientRepository;
+
+        @MockBean
         private AuthServiceImpl authService;
 
         @MockBean
@@ -52,12 +59,11 @@ class PatientControllerTest {
 
         @BeforeEach
         void setUp() {
-
         }
 
         @Test
         @DisplayName("Testa a procura de um paciente por email")
-        public void testGetPatientByEmail() throws Exception {
+        void testGetPatientByEmail() throws Exception {
                 Patient patient = new Patient();
                 patient.setEmail("test@example.com");
                 patient.setRole(Roles.PATIENT);
@@ -82,7 +88,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a procura de um paciente por email e esse paciente não existir")
-        public void testGetPatientByEmailNotExists() throws Exception {
+        void testGetPatientByEmailNotExists() throws Exception {
                 // Simulação do serviço para retornar null quando o paciente não é encontrado
                 when(patientService.getPatientByEmail("test@example.com")).thenReturn(null);
 
@@ -96,8 +102,65 @@ class PatientControllerTest {
         }
 
         @Test
+        @DisplayName("Test Getting all Patients")
+        void testGetAllPatients() throws Exception {
+
+                UUID patientId1 = UUID.randomUUID();
+                UUID patientId2 = UUID.randomUUID();
+
+
+                Patient patient1 = new Patient();
+                patient1.setId(patientId1);
+                patient1.setName("Patient 1");
+                patient1.setDob(Date.valueOf("1990-01-01"));
+                patient1.setEmail("patient1@ua.pt");
+                patient1.setPassword(null);
+                patient1.setPhone("123456789");
+                patient1.setAddress("Rua do Teste");
+                patient1.setCity("Aveiro");
+                patient1.setRole(Roles.PATIENT);
+                patient1.setPatientNumber("123456789");
+                patient1.setPreferredHospital("Hospital de Aveiro");
+
+                Patient patient2 = new Patient();
+                patient2.setId(patientId2);
+                patient2.setName("Patient 2");
+                patient2.setDob(Date.valueOf("1999-01-01"));
+                patient2.setEmail("patient2@ua.pt");
+                patient2.setPassword(null);
+                patient2.setPhone("123456789");
+                patient2.setAddress("Rua do Teste");
+                patient2.setCity("Aveiro");
+                patient2.setRole(Roles.PATIENT);
+                patient2.setPatientNumber("123456789");
+                patient2.setPreferredHospital("Hospital de Aveiro");
+
+                when(patientRepository.findAll()).thenReturn(List.of(patient1, patient2));
+
+                mockMvc.perform(get(url + "/"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$[0].id").value(patientId1.toString()))
+                                .andExpect(jsonPath("$[0].name").value("Patient 1"))
+                                .andExpect(jsonPath("$[0].dob").value("1990-01-01"));
+
+        }
+
+        @Test
+        @DisplayName("Test Getting all Patients with no patients")
+        void testGetAllPatientsWithNoPatient() throws Exception {
+
+                List<Patient> patients = new ArrayList<>();
+
+                when(patientRepository.findAll()).thenReturn(patients);
+
+                mockMvc.perform(get(url + "/"))
+                                .andExpect(status().isNotFound());
+
+        }
+
+        @Test
         @DisplayName("Testa o register de um paciente")
-        public void testRegisterPatient() throws Exception {
+        void testRegisterPatient() throws Exception {
 
                 RegisterPatientDTO registerPatientDTO = new RegisterPatientDTO();
                 registerPatientDTO.setName("Test");
@@ -117,8 +180,7 @@ class PatientControllerTest {
                 // Perform POST request to login endpoint
                 mockMvc.perform(post(url + "/register")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(registerPatientDTO))) // Convert loginDTO
-                                                                                                     // to JSON string
+                                .content(new ObjectMapper().writeValueAsString(registerPatientDTO)))                                                        // to JSON string
                                 .andExpect(status().isOk());
 
                 // Verify the interaction with the authentication service
@@ -127,7 +189,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa o login de um paciente")
-        public void testLoginPatien() throws Exception {
+        void testLoginPatien() throws Exception {
                 Patient patient = new Patient();
                 patient.setEmail("test@example.com");
                 patient.setPassword("password123");
@@ -155,7 +217,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a procura de um paciente por email sem especialidades")
-        public void testGetPatientByEmailWithoutSpecialties() throws Exception {
+        void testGetPatientByEmailWithoutSpecialties() throws Exception {
                 Patient patient = new Patient();
                 patient.setEmail("test@example.com");
                 patient.setRole(Roles.PATIENT);
@@ -177,7 +239,7 @@ class PatientControllerTest {
         @SuppressWarnings("unchecked")
         @Test
         @DisplayName("Testa a adição de especialidades a um paciente")
-        public void testAddSpecialty() throws Exception {
+        void testAddSpecialty() throws Exception {
                 String email = "test@example.com";
                 Patient patient = new Patient();
                 patient.setEmail(email);
@@ -203,7 +265,7 @@ class PatientControllerTest {
         @SuppressWarnings("unchecked")
         @Test
         @DisplayName("Testa a adição de especialidades a um paciente que já tem especialidades")
-        public void testAddSpecialtyWhenPatientHasExistingSpecialties() throws Exception {
+        void testAddSpecialtyWhenPatientHasExistingSpecialties() throws Exception {
                 String email = "test@example.com";
                 Patient patient = new Patient();
                 patient.setEmail(email);
@@ -236,7 +298,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a remoção de uma especialidade de um paciente existente")
-        public void testDeleteSpecialty() throws Exception {
+        void testDeleteSpecialty() throws Exception {
                 String email = "test@example.com";
                 String specialty = "Cardiology";
                 Patient patient = new Patient();
@@ -261,7 +323,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a remoção de uma especialidade que não existe de um paciente")
-        public void testDeleteNonExistingSpecialty() throws Exception {
+        void testDeleteNonExistingSpecialty() throws Exception {
                 String email = "test@example.com";
                 String specialty = "Cardiology";
                 Patient patient = new Patient();
@@ -284,7 +346,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a remoção de uma especialidade de um paciente sem especialidades (retorno null)")
-        public void testDeleteSpecialtyNoSpecialties() throws Exception {
+        void testDeleteSpecialtyNoSpecialties() throws Exception {
                 String email = "test@example.com";
                 String specialty = "Cardiology";
                 Patient patient = new Patient();
@@ -305,7 +367,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a remoção de uma especialidade de um paciente não existente")
-        public void testDeleteSpecialtyPatientNotFound() throws Exception {
+        void testDeleteSpecialtyPatientNotFound() throws Exception {
                 String email = "test@example.com";
                 String specialty = "Cardiology";
 
@@ -321,7 +383,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a procura das especialidades de um paciente")
-        public void testGetSpecialtiesWithSpecialties() throws Exception {
+        void testGetSpecialtiesWithSpecialties() throws Exception {
                 String email = "test@example.com";
                 Patient patient = new Patient();
                 patient.setEmail(email);
@@ -346,7 +408,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a procura das especialidades de um paciente sem especialidades")
-        public void testGetSpecialtiesWithoutSpecialties() throws Exception {
+        void testGetSpecialtiesWithoutSpecialties() throws Exception {
                 String email = "test@example.com";
                 Patient patient = new Patient();
                 patient.setEmail(email);
@@ -368,7 +430,7 @@ class PatientControllerTest {
 
         @Test
         @DisplayName("Testa a procura das especialidades de um paciente não encontrado")
-        public void testGetSpecialtiesPatientNotFound() throws Exception {
+        void testGetSpecialtiesPatientNotFound() throws Exception {
                 String email = "test@example.com";
 
                 when(patientService.getPatientByEmail(email)).thenReturn(null);
@@ -384,7 +446,7 @@ class PatientControllerTest {
         @SuppressWarnings("unchecked")
         @Test
         @DisplayName("Testa a adição de especialidades a um paciente não existente")
-        public void testAddSpecialtyToNonExistentPatient() throws Exception {
+        void testAddSpecialtyToNonExistentPatient() throws Exception {
                 String email = "test@example.com";
                 HashMap<String, Integer> specialties = new HashMap<>();
                 specialties.put("Cardiology", 5);

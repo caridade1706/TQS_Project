@@ -37,7 +37,7 @@ class PatientServiceTest {
         Set<Appointment> appointments = new HashSet<>();
 
         Patient expectedPatient = new Patient(UUID.randomUUID(), "Roberto Castro", new Date(), email, "password",
-                "989345890", "Rua do Hospital", "Porto", "Lisboa CliniConnect Hospital", appointments);
+                "989345890", "Rua do Hospital", "Porto", "232442343434", "Lisboa CliniConnect Hospital", appointments);
 
         when(patientRepository.findByEmail(email)).thenReturn(expectedPatient);
 

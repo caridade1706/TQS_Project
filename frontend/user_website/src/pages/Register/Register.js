@@ -14,6 +14,7 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
+  const [patientNumber, setPatientNumber] = useState("");
   const [preferredHospital, setPreferredHospital] = useState("");
 
   const handleSubmit = async (e) => {
@@ -29,6 +30,7 @@ function Register() {
           phone,
           address,
           city,
+          patientNumber,
           preferredHospital,
         }
       );
@@ -82,6 +84,15 @@ function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              className="input-register"
+              required
+            />
+            <input
+              type="text"
+              name="patientNumber"
+              value={patientNumber}
+              onChange={(e) => setPatientNumber(e.target.value)}
+              placeholder="Patient Number"
               className="input-register"
               required
             />

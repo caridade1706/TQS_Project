@@ -1,5 +1,7 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -40,6 +42,16 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping("/{id}/{status}")
+    public ResponseEntity<Void> changeStatus(@PathVariable UUID id, @PathVariable String status) {
+        boolean result = appointmentService.updateAppointmentStatus(id, status);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Appointment>> getAppointmentsByPatient(@PathVariable UUID patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatient(patientId);
@@ -52,11 +64,23 @@ public class AppointmentController {
 
     @GetMapping("/today")
     public ResponseEntity<List<Appointment>> getAppointmentsToday() {
-        Date today = new Date();
+        LocalDate todayDate = LocalDate.now();
+        Date today = Date.from(todayDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         List<Appointment> todayAppointments = appointmentService.getAppointmentsByDate(today);
+
         if (todayAppointments.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(todayAppointments);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
+        List<Appointment> allAppointments = appointmentService.getAllAppointments();
+        if (allAppointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(allAppointments);
     }
 }

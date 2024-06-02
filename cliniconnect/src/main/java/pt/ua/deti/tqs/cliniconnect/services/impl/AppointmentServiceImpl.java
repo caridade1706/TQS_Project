@@ -10,6 +10,7 @@ import pt.ua.deti.tqs.cliniconnect.repositories.*;
 
 import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,17 +28,18 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     private PatientRepository patientRepository;
     private PersonaRepository personaRepository;
     private HospitalRepository hospitalRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
     public Appointment bookAppointment(CreateAppointmentDTO createAppointmentDTO) {
-        
+
         Appointment appointment = new Appointment();
         appointment.setDate(createAppointmentDTO.getDate());
 
-        LocalTime lt = LocalTime.now(); //mudar a logica da hora
+        LocalTime lt = LocalTime.parse(createAppointmentDTO.getTime());
 
         appointment.setTime(lt);
-        appointment.setStatus("Created");
+        appointment.setStatus("CREATED");
         appointment.setPrice(createAppointmentDTO.getPrice());
         appointment.setType(createAppointmentDTO.getType());
         appointment.setCurrency("EUR");
@@ -45,10 +47,9 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
         Optional<Patient> patient = patientRepository.findById(p.getId());
         appointment.setPatient(patient.get());
 
-        // Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
-        Doctor doctor = new Doctor(UUID.randomUUID(), "DoctorName", Date.from(Instant.now()), "email@ua.pt", "password", "9494949", "RUA", "Aveiro", "Cardiology", null, null);
+        Optional<Doctor> doctor = doctorRepository.findByName(createAppointmentDTO.getDoctorName());
 
-        appointment.setDoctor(doctor);
+        appointment.setDoctor(doctor.get());
 
         Optional<Hospital> hospital = hospitalRepository.findByName(createAppointmentDTO.getHospitalName());
         appointment.setHospital(hospital.get());
@@ -84,6 +85,21 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
 
     @Override
     public List<Appointment> getAppointmentsByDate(Date date) {
-        return appointmentRepository.findByDate(date);
+
+        Instant startOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant endOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant().minusSeconds(1);
+
+        Date startDate = Date.from(startOfDay);
+        Date endDate = Date.from(endOfDay);
+
+        List<Appointment> appointments = appointmentRepository.findByDateBetween(startDate, endDate);
+
+        return appointments;
+    }
+
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepository.findAll();
     }
 }

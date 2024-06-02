@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
@@ -19,6 +20,7 @@ import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -60,6 +62,7 @@ class AppointmentControllerTest {
         doctor.setId(doctorId);
         doctor.setName("doctorName");
         doctor.setSpeciality("specialty");
+        doctor.setRole(Roles.DOCTOR);
         Set<Hospital> hospitals = new HashSet<>();
         hospitals.add(hospital);
         doctor.setHospitals(hospitals);
@@ -69,6 +72,7 @@ class AppointmentControllerTest {
         patient.setName("patientName");
         patient.setAddress("address");
         patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
 
         // Setup DTO
         CreateAppointmentDTO createAppointmentDTO = new CreateAppointmentDTO();
@@ -120,6 +124,84 @@ class AppointmentControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(appointmentService, times(1)).bookAppointment(any(CreateAppointmentDTO.class));
+    }
+
+    @Test
+    @DisplayName("Test changing a the status of an existing appointment")
+    void testChangeAppointmentStatusSuccess() throws Exception {
+        UUID appointmentId = UUID.randomUUID();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.updateAppointmentStatus(appointmentId, "status")).thenReturn(true);
+
+        // Perform request and verify response
+        mockMvc.perform(post(url + "/" + appointmentId + "/status"))
+                .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).updateAppointmentStatus(appointmentId, "status");
+    }
+
+    @Test
+    @DisplayName("Test changing a the status of an non existing appointment")
+    void testChangeAppointmentStatusNonExsting() throws Exception {
+        UUID appointmentId = UUID.randomUUID();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.updateAppointmentStatus(appointmentId, "status")).thenReturn(false);
+
+        // Perform request and verify response
+        mockMvc.perform(post(url + "/" + appointmentId + "/status"))
+                .andExpect(status().isNotFound());
+
+        verify(appointmentService, times(1)).updateAppointmentStatus(appointmentId, "status");
+    }
+
+    @Test
+    @DisplayName("Test getting all the appointments success")
+    void testGettingAllAppointmentSuccess() throws Exception {
+        UUID appointmentId1 = UUID.randomUUID();
+        UUID appointmentId2 = UUID.randomUUID();
+
+        // Setup mock data
+        Appointment appointment1 = new Appointment();
+        appointment1.setId(appointmentId1);
+        appointment1.setType("type1");
+        appointment1.setStatus("Created");
+        appointment1.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment1.setPrice(10.0);
+
+        Appointment appointment2 = new Appointment();
+        appointment1.setId(appointmentId2);
+        appointment1.setType("type2");
+        appointment1.setStatus("Created");
+        appointment1.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment1.setPrice(10.0);
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.getAllAppointments()).thenReturn(List.of(appointment1, appointment2));
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/all"))
+                .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).getAllAppointments();
+    }
+
+    @Test
+    @DisplayName("Test getting all the appointments with 0")
+    void testGettingAllNoAppointment() throws Exception {
+
+        // Setup mock data
+        List<Appointment> appointments = new ArrayList<>();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.getAllAppointments()).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/all"))
+                .andExpect(status().isNoContent());
+
+        verify(appointmentService, times(1)).getAllAppointments();
     }
 
     @Test
