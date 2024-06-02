@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.Roles;
-import pt.ua.deti.tqs.cliniconnect.Jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterStaffDTO;
+import pt.ua.deti.tqs.cliniconnect.jwt.JwtService;
 import pt.ua.deti.tqs.cliniconnect.models.Persona;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
@@ -60,10 +60,7 @@ public class AuthServiceImpl implements AuthService {
         patient.setAppointments(appointments);
         patientRepository.save(patient);
 
-        return AuthResponse.builder()
-            .token(jwtService.getToken(patient))
-            .build();
-        
+        return new AuthResponse(jwtService.getToken(patient));
     }
 
     @Override
@@ -90,80 +87,40 @@ public class AuthServiceImpl implements AuthService {
 
         staffRepository.save(staff);
 
-        return AuthResponse.builder()
-            .token(jwtService.getToken(staff))
-            .build();
+        return new AuthResponse(jwtService.getToken(staff));
     }
 
     @Override
-    public AuthResponse loginPatient(LoginDTO loginDTO) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+    public AuthResponse loginPatient(LoginDTO loginDTO) throws RuntimeException {
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
+                loginDTO.getPassword()));
+
         UserDetails user = personaRepository.findByEmail(loginDTO.getEmail()).orElseThrow();
-        
-        if (user == null) {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+
         Optional<Persona> p = personaRepository.findByEmail(loginDTO.getEmail());
-        
-        
+
         if (p.get().getRole() != Roles.PATIENT) {
-            System.out.println("Invalid Permissions");
             throw new RuntimeException("Invalid Permissions");
         }
-        
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (encoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            String token = jwtService.getToken(user);
-            
-            System.out.println(AuthResponse.builder()
-                .token(token)
-                .build());
-            
-            return AuthResponse.builder()
-                .token(token)
-                .build();
-        } else {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+        return new AuthResponse(jwtService.getToken(user));
     }
 
     @Override
     public AuthResponse loginStaff(LoginDTO loginDTO) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
         UserDetails user = personaRepository.findByEmail(loginDTO.getEmail()).orElseThrow();
-        
-        if (user == null) {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+
         Optional<Persona> p = personaRepository.findByEmail(loginDTO.getEmail());
-        
-        
+
         if (p.get().getRole() != Roles.STAFF) {
-            System.out.println("Invalid Permissions");
             throw new RuntimeException("Invalid Permissions");
         }
-        
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (encoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            String token = jwtService.getToken(user);
-            
-            System.out.println(AuthResponse.builder()
-                .token(token)
-                .build());
-            
-            return AuthResponse.builder()
-                .token(token)
-                .build();
-        } else {
-            System.out.println("Invalid credentials");
-            throw new RuntimeException("Invalid credentials");
-        }
+        return new AuthResponse(jwtService.getToken(user));
     }
-
-
 }

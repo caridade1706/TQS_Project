@@ -6,7 +6,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PatientTest {
+class PatientTest {
 
     private Patient patient;
 

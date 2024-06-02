@@ -14,16 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
 
-    @Autowired
     private DoctorRepository doctorRepository;
     private HospitalRepository hospitalRepository;
 
@@ -65,7 +62,6 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> getDoctorsBySpeciality(String speciality) {
-        List<Doctor> doctors = doctorRepository.findBySpeciality(speciality);
-        return doctors;
+        return doctorRepository.findBySpeciality(speciality);
     }
 }

@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
+import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 
@@ -22,13 +22,13 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        Appointment createdAppointment = appointmentService.bookAppointment(appointment);
-        
+    public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentDTO createAppointmentDTO) {
+        Appointment createdAppointment = appointmentService.bookAppointment(createAppointmentDTO);
+
         if (createdAppointment == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         return ResponseEntity.ok(createdAppointment);
     }
 
@@ -53,7 +53,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<?> getAppointmentsByPatient(@PathVariable UUID patientId) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByPatient(@PathVariable UUID patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatient(patientId);
         if (appointments != null && !appointments.isEmpty()) {
             return ResponseEntity.ok(appointments);

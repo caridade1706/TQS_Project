@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.AuthResponse;
 import pt.ua.deti.tqs.cliniconnect.dto.LoginDTO;
@@ -35,7 +34,6 @@ public class PatientController {
     private SpecialtiesService specialtiesService;
 
     private PatientRepository patientRepository;
-
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterPatientDTO registerPatientDTO) {

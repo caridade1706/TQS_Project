@@ -1,12 +1,15 @@
 package pt.ua.deti.tqs.cliniconnect.models;
 
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.*;
+import pt.ua.deti.tqs.cliniconnect.Roles;
 
 @Getter
 @Setter
