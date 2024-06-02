@@ -37,11 +37,6 @@ function ConsultationsTable() {
         return new Date(`1970-01-01T${timeString}`).toLocaleTimeString('pt-PT', options);
     };
 
-    const formateDate = (dateString) => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    };
-
     const filteredConsultations = consultations.filter(consultation =>
         Object.values(consultation).some(value => {
             if (typeof value === 'object' && value!== null && 'name' in value) {

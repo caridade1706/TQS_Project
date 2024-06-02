@@ -100,12 +100,14 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     }
 
     @Override
-    public List<Appointment> getFutureAppointmentsByUserId(UUID userId, Date currentDate) {
+    public List<Appointment> getFutureAppointmentsByUserId(String email, Date currentDate) {
+        UUID userId = personaRepository.findByEmail(email).get().getId();
         return appointmentRepository.findByPatient_IdAndDateAfter(userId, currentDate);
     }
 
     @Override
-    public List<Appointment> getPastAppointmentsByUserId(UUID userId, Date currentDate) {
+    public List<Appointment> getPastAppointmentsByUserId(String email, Date currentDate) {
+        UUID userId = personaRepository.findByEmail(email).get().getId();
         return appointmentRepository.findByPatient_IdAndDateBefore(userId, currentDate);
     }
 

@@ -5,10 +5,9 @@ import axios from "axios";
 import "./UserPage.css";
 
 const AppointmentsHistory = ({ userId }) => {
-    
   const [userDetails, setUserDetails] = useState({});
-  const [appointments, setAppointments] = useState([]); 
-  
+  const [appointments, setAppointments] = useState([]);
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -34,55 +33,48 @@ const AppointmentsHistory = ({ userId }) => {
     fetchPastAppointments();
   }, [token]);
 
+  const fetchPastAppointments = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      const response = await axios.get(
+        `http://localhost:8080/api/appointments/history/${email}`
+      );
 
-    const fetchPastAppointments = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/appointments/history/${userId}`);
-        console.log(response.data); // Imprime a resposta da API no console
-        if (Array.isArray(response.data)) {
-          setAppointments(response.data);
-        } else {
-          console.error("Response data is not an array:", response.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch past appointments:", error);
+      if (Array.isArray(response.data)) {
+        setAppointments(response.data);
+      } else {
+        console.error("Response data is not an array:", response.data);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch past appointments:", error);
+    }
+  };
 
-/*   const appointments = [
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-  ]; */
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString("pt-PT", options);
+  };
+
+  const formatTime = (timeString) => {
+    const options = { hour: "numeric", minute: "numeric" };
+    return new Date(`1970-01-01T${timeString}`).toLocaleTimeString(
+      "pt-PT",
+      options
+    );
+  };
 
   return (
     <div className="user-page">
-      <h1 style={{ textAlign: 'start', marginLeft: '20rem' }}>Welcome back, {userDetails.name}!</h1>
+      <h1 style={{ textAlign: "start", marginLeft: "20rem" }}>
+        Welcome back, {userDetails.name}!
+      </h1>
       <Link to="/consultas">
-        <button className="userpage-button up-consultas-button up-consultas-button-active">
+        <button className="userpage-button up-consultas-button">
           Consultas
         </button>
       </Link>
       <Link to="/historico">
-        <button className="userpage-button up-historico-button">
+        <button className="userpage-button up-historico-button up-historico-button-active">
           Histórico
         </button>
       </Link>
@@ -97,47 +89,41 @@ const AppointmentsHistory = ({ userId }) => {
         </button>
       </Link>
 
-      {/* <div>
-        <h1>Historical Appointments</h1>
-        {appointments.length > 0? (
-            <ul>
-            {appointments.map(appointment => (
-                <li key={appointment.id}>
-                {appointment.date} - {appointment.time} - {appointment.doctor.name}
-                </li>
-            ))}
-            </ul>
-        ) : (
-            <p>No past appointments found.</p>
-        )}
-      </div> */}
-
       <table className="appointment-table">
         <thead>
-            <tr>
-            <th>Especialidade</th>
-            <th>Médico</th>
+          <tr>
+            <th>Speciality</th>
+            <th>Doctor</th>
             <th>Hospital</th>
-            <th>Data</th>
-            <th>Ações</th>
-            </tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-            {appointments.map((appointment, index) => (
-            <tr key={index}>
-                <td>{appointment.specialty}</td>
-                <td>{appointment.doctor}</td>
-                <td>{appointment.hospital}</td>
-                <td>{appointment.date}</td>
-                <td>
-                {/* Aqui você pode adicionar botões ou links para ações relacionadas a cada consulta,
-                    como reagendar ou visualizar detalhes. Por exemplo: */}
-                <button className="rebook-button">Reagendar</button>
-                </td>
+          {appointments.length === 0 ? (
+            <tr>
+              <td colSpan="9">
+                <h2>There were no appointments booked!</h2>
+              </td>
             </tr>
-            ))}
+          ) : (
+            appointments.map((appointment, index) => (
+              <tr key={index}>
+                <td>{appointment.type}</td>
+                <td>{appointment.doctor.name}</td>
+                <td>{appointment.hospital.name}</td>
+                <td>{formatDate(appointment.date)}</td>
+                <td>{formatTime(appointment.time)}</td>
+
+                <td>
+                  <button className="rebook-button">Reagendar</button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
-        </table>
+      </table>
     </div>
   );
 };

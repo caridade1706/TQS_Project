@@ -29,53 +29,45 @@ const HomeHospitalPage = () => {
     };
 
     fetchUserDetails();
-    fetchFutureAppointments(); 
+    fetchFutureAppointments();
   }, [token]);
 
   const fetchFutureAppointments = async () => {
     try {
       const email = localStorage.getItem("email");
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}patients/${email}/future`,
+        `${process.env.REACT_APP_API_URL}appointments/future/${email}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setFutureAppointments(response.data.appointments); // Supondo que a resposta contenha um campo 'appointments'
+      console.log(response.data);
+      setFutureAppointments(response.data); // Supondo que a resposta contenha um campo 'appointments'
     } catch (error) {
       console.error("Failed to fetch future appointments:", error);
     }
   };
 
-  /* const appointments = [
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-    {
-      specialty: "Cardiologia",
-      doctor: "Dr. João",
-      hospital: "Hospital ABC",
-      date: "20/04/2023",
-      rebook: "Reagendar",
-    },
-  ]; */
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString("pt-PT", options);
+  };
+
+  const formatTime = (timeString) => {
+    const options = { hour: "numeric", minute: "numeric" };
+    return new Date(`1970-01-01T${timeString}`).toLocaleTimeString(
+      "pt-PT",
+      options
+    );
+  };
 
   return (
     <div className="user-page">
-      <h1 style={{ textAlign: 'start', marginLeft: '20rem' }}>Welcome back, {userDetails.name}!</h1>
+      <h1 style={{ textAlign: "start", marginLeft: "20rem" }}>
+        Welcome back, {userDetails.name}!
+      </h1>
       <Link to="/consultas">
         <button className="userpage-button up-consultas-button up-consultas-button-active">
           Consultas
@@ -100,25 +92,37 @@ const HomeHospitalPage = () => {
       <table className="appointment-table">
         <thead>
           <tr>
-            <th>Especialidade</th>
-            <th>Médico</th>
+            <th>Speciality</th>
+            <th>Doctor</th>
             <th>Hospital</th>
-            <th>Data</th>
+            <th>Date</th>
+            <th>Time</th>
             <th></th>
           </tr>
         </thead>
+
         <tbody>
-        {futureAppointments.map((appointment, index) => (
-          <tr key={index}>
-            <td>{appointment.specialty}</td>
-            <td>{appointment.doctor}</td>
-            <td>{appointment.hospital}</td>
-            <td>{appointment.date}</td>
-            <td>
-              <button className="rebook-button">Reagendar</button>
-            </td>
-          </tr>
-        ))}
+          {futureAppointments.length === 0 ? (
+            <tr>
+              <td colSpan="9">
+                <h2>There are no appointments booked!</h2>
+              </td>
+            </tr>
+          ) : (
+            futureAppointments.map((appointment, index) => (
+              <tr key={index}>
+                <td>{appointment.type}</td>
+                <td>{appointment.doctor.name}</td>
+                <td>{appointment.hospital.name}</td>
+                <td>{formatDate(appointment.date)}</td>
+                <td>{formatTime(appointment.time)}</td>
+
+                <td>
+                  <button className="rebook-button">Reagendar</button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
