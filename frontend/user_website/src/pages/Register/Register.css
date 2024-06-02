@@ -32,7 +32,6 @@
     flex-direction: row;
     gap: 5%;
     justify-content: center;
-    align-items: center;
 }
 
 .input-register {

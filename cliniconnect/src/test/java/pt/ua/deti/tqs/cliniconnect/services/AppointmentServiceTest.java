@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -129,6 +130,31 @@ class AppointmentServiceTest {
     }
 
     @Test
+    @DisplayName("Test Get All Appointments")
+    void testGetAllAppointments() {
+
+        Appointment appointment = new Appointment();
+        appointment.setId(UUID.randomUUID());
+        appointment.setType("type");
+        appointment.setPatient(null);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment.setPrice(10.0);
+
+        List<Appointment> expectedAppointmentList = new ArrayList<Appointment>();
+        expectedAppointmentList.add(appointment);
+
+        when(appointmentRepository.findAll()).thenReturn(expectedAppointmentList);
+
+        List<Appointment> actualAppointmentList = appointmentService.getAllAppointments();
+
+        assertEquals(expectedAppointmentList, actualAppointmentList);
+        verify(appointmentRepository, times(1)).findAll();
+    }
+
+    @Test
     @DisplayName("Teste Cancel Appointment Existing")
     void testCancelAppointmentExist() {
 
@@ -180,7 +206,7 @@ class AppointmentServiceTest {
 
         Patient patient = new Patient(UUID.randomUUID(), "Roberto Castro", new Date(), "robertorcasto@ua.pt",
                 "password",
-                "989345890", "Rua do Hospital", "Porto", "Lisboa CliniConnect Hospital", null);
+                "989345890", "Rua do Hospital", "Porto", "3455533434433434","Lisboa CliniConnect Hospital", null);
 
         Appointment expectedAppointment = new Appointment(UUID.randomUUID(),
                 Date.from(Instant.parse("2024-07-10T00:00:00Z")),
@@ -236,16 +262,26 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Test get appointments by date")
     void testGetAppointmentsByDate() {
+        
         Date date = Date.from(Instant.parse("2024-07-10T00:00:00Z"));
+        Date dateappoint = Date.from(Instant.parse("2024-07-10T09:00:00Z"));
+
+        Instant startOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant endOfDay = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant().minusSeconds(1);
+
+        Date startDate = Date.from(startOfDay);
+        Date endDate = Date.from(endOfDay);
 
         List<Appointment> expectedAppointments = new ArrayList<>();
-        expectedAppointments.add(new Appointment(UUID.randomUUID(), date, null, "confirmed", 50.0, "Cardiology", "EUR", null, null, null));
+        expectedAppointments.add(new Appointment(UUID.randomUUID(), dateappoint, null, "confirmed", 50.0, "Cardiology", "EUR", null, null, null));
 
-        when(appointmentRepository.findByDate(date)).thenReturn(expectedAppointments);
+        when(appointmentRepository.findByDateBetween(startDate, endDate)).thenReturn(expectedAppointments);
 
         List<Appointment> actualAppointments = appointmentService.getAppointmentsByDate(date);
 
         assertEquals(expectedAppointments, actualAppointments);
-        verify(appointmentRepository, times(1)).findByDate(date);
+        verify(appointmentRepository, times(1)).findByDateBetween(startDate, endDate);
     }
 }

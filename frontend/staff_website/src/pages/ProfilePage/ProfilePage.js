@@ -16,7 +16,7 @@ const ProfilePage = () => {
       try {
         const email = localStorage.getItem("email"); // Assuming email is stored in localStorage
         const response = await axios.get(
-          `http://localhost:8080/api/staff/${email}`,
+          process.env.REACT_APP_API_URL + `staff/${email}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

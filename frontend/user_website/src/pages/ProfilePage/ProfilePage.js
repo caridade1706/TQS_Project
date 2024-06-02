@@ -67,6 +67,10 @@ const ProfilePage = () => {
               <p>{userDetails.phone}</p>
             </div>
             <div className="info-item">
+              <h2>Patient Number:</h2>
+              <p>{userDetails.patientNumber}</p>
+            </div>
+            <div className="info-item">
               <h2>Prefered Hospital:</h2>
               <p>{userDetails.preferredHospital}</p>
             </div>

@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
 
@@ -42,10 +41,12 @@ public class Hospital implements java.io.Serializable{
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "doctor_id")
     )
+    @JsonBackReference
     private Set<Doctor> doctors;
 
     @OneToMany(mappedBy = "hospital")
-    @JsonManagedReference
+    // @JsonManagedReference
+    @JsonBackReference
     private Set<Appointment> appointments;
 
     @OneToOne(mappedBy = "hospital")

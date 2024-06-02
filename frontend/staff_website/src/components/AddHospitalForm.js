@@ -13,7 +13,7 @@ function AddHospitalForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/api/hospitals/', hospitalData)
+        axios.post(process.env.REACT_APP_API_URL + 'hospitals/', hospitalData)
             .then(response => {
                 alert('Hospital added successfully!');
                 console.log(response.data);
@@ -27,7 +27,7 @@ function AddHospitalForm() {
 
     return (
         <div className="form-hospital-container">
-            <form onSubmit={handleSubmit} className="form-container">
+            <form onSubmit={handleSubmit} className="form-h-container">
                 <input type="text" name="name" value={hospitalData.name} onChange={handleChange} placeholder="Hospital Name" required />
                 <input type="text" name="address" value={hospitalData.address} onChange={handleChange} placeholder="Address" required />
                 <input type="text" name="city" value={hospitalData.city} onChange={handleChange} placeholder="City" required />

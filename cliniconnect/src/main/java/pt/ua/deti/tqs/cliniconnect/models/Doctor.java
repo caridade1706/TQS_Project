@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 
@@ -19,7 +21,10 @@ public class Doctor extends Persona {
     @ManyToMany(mappedBy = "doctors")
     private transient Set<Hospital> hospitals;
 
+    // @OneToMany(mappedBy = "doctor")
+    // private transient Set<Appointment> appointments;
     @OneToMany(mappedBy = "doctor")
+    @JsonBackReference
     private transient Set<Appointment> appointments;
 
     public Doctor(UUID id, String name, Date dob, String email, String password, String phone, String address, String city, String speciality, Set<Hospital> hospitals, Set<Appointment> appointments) {

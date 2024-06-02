@@ -1,15 +1,15 @@
-.form-hospital-container {
+.form-doctor-container {
     padding: 20px;
-    background-color: #dfedff;
+    background-color: #e5fff6;
     border-radius: 5px;
     margin-bottom: 20px;
 }
 
-.form-h-container {
-    background-color: #dfedff;
+.form-d-container {
+    background-color: #e5fff6;
 }
 
-.form-h-container input, .form-h-container button {
+.form-d-container input, .form-d-container button {
     display: block;
     width: 100%;
     margin-top: 10px;
@@ -17,20 +17,21 @@
     border-radius: 8px;
 }
 
-.form-h-container input {
+.form-d-container input {
     width: 98.5%;
 }
 
-.add-hospital-btn {
-    background-color: #5AA7FF;
+.add-doctor-btn {
+    background-color: #49C493;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 50%;
 }
 
-.add-hospital-btn:hover {
-    background-color: #014da5;
+.add-doctor-btn:hover {
+    background-color: #008a53;
 }

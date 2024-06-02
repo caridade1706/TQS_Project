@@ -21,7 +21,7 @@ function Login(props) {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/staff/login",
+        process.env.REACT_APP_API_URL + "staff/login",
         credentials
       );
       if (response.data) {

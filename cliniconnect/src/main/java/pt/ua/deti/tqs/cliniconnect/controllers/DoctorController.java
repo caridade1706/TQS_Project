@@ -27,6 +27,18 @@ public class DoctorController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/")
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        List<Doctor> doctors = doctorService.getAllDoctors();
+    
+        if (doctors == null || doctors.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+    
+        return ResponseEntity.ok(doctors);
+    }
+    
 
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {

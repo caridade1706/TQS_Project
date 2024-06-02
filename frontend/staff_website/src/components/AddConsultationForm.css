@@ -1,22 +1,24 @@
-.form-consultation-container{
-    padding-bottom: 30px;
-    border-bottom: solid 1px #111111;
-    margin-bottom: 20px;
-}
-
 .form-container{
-    display: 'flex';
-    background-color: #f5f2f2;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 30px;
 }
 
 .form-row {
     display: flex;
+    flex-direction: row;
+    gap: 20px;
+    height: 40px;
 }
 
 .form-row input {
-    margin-left: 10px;
-    margin-right: 10px;
+    width: 100%;
+}
+
+.form-row select {
+    width: 100%;
+    width: 100%;
 }
 
 .add-consultation-btn {
@@ -33,8 +35,35 @@
     margin-bottom: 20px;
 }
 
+.close-btn-container {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center; 
+}
+
+.close-button {
+    border: none;
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background-color: white;
+}
+
 .add-consultation-btn:hover {
     background-color: #014da5; 
     border: 1px solid #014da5;
     color: #fff;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }

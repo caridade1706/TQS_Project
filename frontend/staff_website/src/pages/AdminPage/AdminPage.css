@@ -1,0 +1,14 @@
+.admin-page {
+    border-top: 1px solid #000000;
+}
+
+.container-admin {
+    margin: 40px 20% 40px 20%;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .container-admin {
+        margin: 40px 10% 0 10%;
+    }    
+}

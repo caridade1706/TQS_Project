@@ -1,6 +1,7 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import pt.ua.deti.tqs.cliniconnect.dto.PatientDetailsDTO;
 import pt.ua.deti.tqs.cliniconnect.dto.RegisterPatientDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.models.Specialties;
+import pt.ua.deti.tqs.cliniconnect.repositories.PatientRepository;
 import pt.ua.deti.tqs.cliniconnect.services.PatientService;
 import pt.ua.deti.tqs.cliniconnect.services.AuthService;
 import pt.ua.deti.tqs.cliniconnect.services.SpecialtiesService;
@@ -30,6 +32,8 @@ public class PatientController {
     private PatientService patientService;
     private AuthService authService;
     private SpecialtiesService specialtiesService;
+
+    private PatientRepository patientRepository;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterPatientDTO registerPatientDTO) {
@@ -51,6 +55,18 @@ public class PatientController {
             HashMap<String, Integer> specialties = specialtiesService.getByPatient(patient);
             PatientDetailsDTO patientDetails = new PatientDetailsDTO(patient, specialties);
             return ResponseEntity.ok(patientDetails);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Patient>> getAllPatients() {
+
+        List<Patient> patients = patientRepository.findAll();
+        
+        if (patients.size() != 0) {
+            return ResponseEntity.ok(patients);
         } else {
             return ResponseEntity.notFound().build();
         }
