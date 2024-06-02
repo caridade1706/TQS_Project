@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.models.QueueManagement;
 import pt.ua.deti.tqs.cliniconnect.services.QueueManagementService;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,8 +18,13 @@ public class QueueManagementController {
     private final QueueManagementService queueManagementService;
 
     @GetMapping
-    public List<QueueManagement> getAllQueueManagements() {
-        return queueManagementService.getAllQueueManagements();
+    public ResponseEntity<QueueManagement> getAllQueueManagements() {
+        QueueManagement queueManagement = queueManagementService.getAllQueueManagements();
+        if (queueManagement != null) {
+            return ResponseEntity.ok(queueManagement);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{id}")

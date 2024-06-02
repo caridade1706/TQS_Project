@@ -7,7 +7,7 @@ import java.util.UUID;
 import pt.ua.deti.tqs.cliniconnect.models.QueueManagement;
 
 public interface QueueManagementService {
-    List<QueueManagement> getAllQueueManagements();
+    QueueManagement getAllQueueManagements();
     Optional<QueueManagement> queueManagementService(UUID id);
     QueueManagement saveQueueManagement(QueueManagement queueManagement);
     void deleteQueueManagementById(UUID id);

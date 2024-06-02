@@ -14,7 +14,7 @@ function AddDoctorForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Doctor data:', doctorData);
-        axios.post('http://localhost:8080/api/doctors/', doctorData)
+        axios.post(process.env.REACT_APP_API_URL + 'doctors/', doctorData)
             .then(response => {
                 alert('Doctor added successfully!');
                 console.log(response.data);

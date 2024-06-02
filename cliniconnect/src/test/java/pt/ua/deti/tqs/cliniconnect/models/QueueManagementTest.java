@@ -29,7 +29,7 @@ class QueueManagementTest {
         LocalDateTime arrivalTime = LocalDateTime.now();
         LocalDateTime calledTime = LocalDateTime.now();
 
-        queueManagement = new QueueManagement(id, PriorityStatus.A , arrivalTime, calledTime, false, "4",  "4", hospital);
+        queueManagement = new QueueManagement(id, PriorityStatus.A , arrivalTime, calledTime, false, false, "4",  "4", hospital);
 
         assertEquals(id, queueManagement.getId());
         assertEquals(PriorityStatus.A, queueManagement.getPriorityStatus());

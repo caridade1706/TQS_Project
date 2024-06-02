@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +25,17 @@ public class QueueManagementServiceImpl implements QueueManagementService {
     private HospitalRepository hospitalRepository;
 
     @Override
-    public List<QueueManagement> getAllQueueManagements() {
-        return queueManagementRepository.findAll();
+    public QueueManagement getAllQueueManagements() {
+        PageRequest pageRequest = PageRequest.of(0, 1);
+        List<QueueManagement> tickets = queueManagementRepository.findFirstByCalledTrueAndCalledOnBoardFalseOrderByCalledTimeDesc(pageRequest);    
+        
+        QueueManagement ticket = tickets.isEmpty() ? null : tickets.get(0);
+        if (ticket != null) {
+            ticket.setCalledOnBoard(true);
+            queueManagementRepository.save(ticket);
+            return ticket;
+        }
+        return null;
     }
 
     @Override
@@ -51,8 +61,8 @@ public class QueueManagementServiceImpl implements QueueManagementService {
         if (!queueManagements.isEmpty()) {
             QueueManagement nextTicket = queueManagements.get(0);
             nextTicket.setCalledTime(LocalDateTime.now());
-            nextTicket.setCalled(true);
             nextTicket.setCounterNumber(counter);
+            nextTicket.setCalled(true);
             queueManagementRepository.save(nextTicket);  // Save the updated ticket
             return Optional.of(nextTicket);
         }
@@ -75,7 +85,7 @@ public class QueueManagementServiceImpl implements QueueManagementService {
         queueManagement.setArrivalTime(LocalDateTime.now());
         queueManagement.setHospital(hospitalRepository.findByName(hospitalName).get());
         queueManagement.setCalled(false);
-
+        queueManagement.setCalledOnBoard(false);
         return queueManagementRepository.save(queueManagement);
     }
 

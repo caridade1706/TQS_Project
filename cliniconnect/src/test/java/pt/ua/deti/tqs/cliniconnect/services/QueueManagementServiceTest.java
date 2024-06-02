@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 
 import pt.ua.deti.tqs.cliniconnect.PriorityStatus;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
@@ -48,7 +49,6 @@ class QueueManagementServiceTest {
     void testGetAllQueueManagement() {
 
         UUID id = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
 
         List<QueueManagement> queueManagements = new ArrayList<>();
 
@@ -62,30 +62,32 @@ class QueueManagementServiceTest {
         queueManagement.setQueueNumber("A1");
         queueManagement.setHospital(null);
 
-        QueueManagement queueManagement2 = new QueueManagement();
-        queueManagement2.setId(id2);
-        queueManagement2.setPriorityStatus(PriorityStatus.B);
-        queueManagement2.setArrivalTime(null);
-        queueManagement2.setCalledTime(null);
-        queueManagement2.setCalled(true);
-        queueManagement2.setCounterNumber("2");
-        queueManagement2.setQueueNumber("B1");
-        queueManagement2.setHospital(null);
-
         queueManagements.add(queueManagement);
-        queueManagements.add(queueManagement2);
 
-        when(queueManagementRepository.findAll()).thenReturn(queueManagements);
+        when(queueManagementRepository.findFirstByCalledTrueAndCalledOnBoardFalseOrderByCalledTimeDesc(any(PageRequest.class))).thenReturn(queueManagements);
 
-        List<QueueManagement> result = queueManagementServiceImpl.getAllQueueManagements();
+        QueueManagement result = queueManagementServiceImpl.getAllQueueManagements();
 
-        assertEquals(2, result.size());
-        assertEquals(id, result.get(0).getId());
-        assertEquals(id2, result.get(1).getId());
+        assertEquals(id, result.getId());
 
-        verify(queueManagementRepository, times(1)).findAll();
-        
+        verify(queueManagementRepository, times(1)).findFirstByCalledTrueAndCalledOnBoardFalseOrderByCalledTimeDesc(any(PageRequest.class));
     }
+
+    @Test
+    @DisplayName("Test get all queue management")
+    void testGetAllQueueManagementIsEmpty() {
+
+        List<QueueManagement> queueManagements = new ArrayList<>();
+
+        when(queueManagementRepository.findFirstByCalledTrueAndCalledOnBoardFalseOrderByCalledTimeDesc(any(PageRequest.class))).thenReturn(queueManagements);
+
+        QueueManagement result = queueManagementServiceImpl.getAllQueueManagements();
+
+        assertEquals(null ,result);
+
+        verify(queueManagementRepository, times(1)).findFirstByCalledTrueAndCalledOnBoardFalseOrderByCalledTimeDesc(any(PageRequest.class));
+    }
+
 
     @Test
     @DisplayName("Test get queue management by id")

@@ -8,14 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
-
 import pt.ua.deti.tqs.cliniconnect.PriorityStatus;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.models.QueueManagement;
 import pt.ua.deti.tqs.cliniconnect.services.QueueManagementService;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,7 +35,7 @@ class QueueManagementControllerTest {
 
     @Test
     @DisplayName("Test Getting all QueueManagements")
-    void testGetAllQueueManagementd() throws Exception {
+    void testGetAllQueueManagement() throws Exception {
 
         Hospital hospital = new Hospital();
         hospital.setId(UUID.randomUUID());
@@ -50,21 +47,30 @@ class QueueManagementControllerTest {
         hospital.setAppointments(null);
         hospital.setQueueManagement(null);
 
-        List<QueueManagement> queueManagements = List.of(
-                new QueueManagement(UUID.randomUUID(), PriorityStatus.A, null, null, false, "1", "A12", hospital),
-                new QueueManagement(UUID.randomUUID(), PriorityStatus.B, null, null, false, "3", "B10", hospital));
+        QueueManagement queueManagement = new QueueManagement(UUID.randomUUID(), PriorityStatus.A, null, null, false, false, "1", "A12", hospital);
 
         // Mock service call with any instance
-        when(queueManagementService.getAllQueueManagements()).thenReturn(queueManagements);
+        when(queueManagementService.getAllQueueManagements()).thenReturn(queueManagement);
 
         // Perform request and verify response
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].priorityStatus").value("A"))
-                .andExpect(jsonPath("$[0].queueNumber").value("A12"))
-                .andExpect(jsonPath("$[1].priorityStatus").value("B"))
-                .andExpect(jsonPath("$[1].queueNumber").value("B10"));
+                .andExpect(jsonPath("$.priorityStatus").value("A"))
+                .andExpect(jsonPath("$.queueNumber").value("A12"));
+
+        verify(queueManagementService, times(1)).getAllQueueManagements();
+    }
+
+    @Test
+    @DisplayName("Test Getting all QueueManagements null")
+    void testGetAllQueueManagementNull() throws Exception {
+
+        // Mock service call with any instance
+        when(queueManagementService.getAllQueueManagements()).thenReturn(null);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url))
+                .andExpect(status().isNotFound());
 
         verify(queueManagementService, times(1)).getAllQueueManagements();
     }
@@ -85,7 +91,7 @@ class QueueManagementControllerTest {
 
         UUID queueId = UUID.randomUUID();
 
-        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false,
+        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false, false,
                 "1", "A12", hospital);
 
         // Mock service call
@@ -132,7 +138,7 @@ class QueueManagementControllerTest {
 
         UUID queueId = UUID.randomUUID();
 
-        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false,
+        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false, false,
                 "1", "A12", hospital);
 
         // Mock service call
@@ -169,7 +175,7 @@ class QueueManagementControllerTest {
         hospital.setCity("Hospital City");
 
         UUID queueId = UUID.randomUUID();
-        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false, "1", "A12", hospital);
+        QueueManagement queueManagement = new QueueManagement(queueId, PriorityStatus.A, null, null, false, false, "1", "A12", hospital);
 
         when(queueManagementService.callNextTicket("A", "Counter1")).thenReturn(Optional.of(queueManagement));
 

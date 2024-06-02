@@ -29,6 +29,7 @@ public class QueueManagement implements java.io.Serializable {
     private LocalDateTime calledTime;
 
     private boolean isCalled;
+    private boolean isCalledOnBoard;
     private String counterNumber;
 
     @Column(unique = true)
