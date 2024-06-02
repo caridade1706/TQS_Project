@@ -1,5 +1,6 @@
 package pt.ua.deti.tqs.cliniconnect.services;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +63,6 @@ class DoctorServiceTest {
         hospital.setAddress("Hospital Address");
         hospital.setCity("Hospital City");
 
-
         Set<Hospital> hospitals = new HashSet<>();
         hospitals.add(hospital);
 
@@ -84,6 +85,53 @@ class DoctorServiceTest {
         assertEquals(expectedDoctor.getCity(), expectedDoctor.getCity());
 
         verify(doctorRepository, times(1)).save(any(Doctor.class));
+    }
+
+    @Test
+    void testSaveDoctorWithNoHospital() {
+
+        AddDoctorDTO addDoctorDTO = new AddDoctorDTO();
+        addDoctorDTO.setName("DoctorName");
+        addDoctorDTO.setDob(new Date());
+        addDoctorDTO.setEmail("d@ua.pt");
+        addDoctorDTO.setPhone("123456789");
+        addDoctorDTO.setAddress("Rua");
+        addDoctorDTO.setCity("Aveiro");
+        addDoctorDTO.setSpeciality("Cardiology");
+        addDoctorDTO.setHospital("Hospital");
+
+        // Mock the findByName operation to return an empty Optional
+        when(hospitalRepository.findByName(addDoctorDTO.getHospital())).thenReturn(Optional.empty());
+
+        Doctor actualDoctor = doctorService.addDoctor(addDoctorDTO);
+
+        // Assert that the doctor is not saved when the hospital is not found
+        assertNull(actualDoctor);
+
+        verify(hospitalRepository, times(1)).findByName(addDoctorDTO.getHospital());
+        verify(doctorRepository, times(0)).save(any(Doctor.class));
+    }
+
+    @Test
+    void testGetAllDoctors() {
+        String speciality = "Cardiologist";
+
+        Set<Hospital> hospitals = new HashSet<>();
+        Set<Appointment> appointments = new HashSet<>();
+
+        Doctor doctor = new Doctor(UUID.randomUUID(), "Jaime Cordeiro", new Date(), "jaimecordeiro@ua.pt", "password",
+                "989345890", "Rua do Hospital", "Porto", speciality, hospitals, appointments);
+
+        List<Doctor> expectedDoctors = new ArrayList<>();
+        expectedDoctors.add(doctor);
+
+        when(doctorRepository.findAll()).thenReturn(expectedDoctors);
+
+        List<Doctor> actualDoctors = doctorService.getAllDoctors();
+
+        assertEquals(expectedDoctors, actualDoctors);
+        verify(doctorRepository, times(1)).findAll();
+
     }
 
     @Test

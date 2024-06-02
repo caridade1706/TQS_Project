@@ -130,6 +130,31 @@ class AppointmentServiceTest {
     }
 
     @Test
+    @DisplayName("Test Get All Appointments")
+    void testGetAllAppointments() {
+
+        Appointment appointment = new Appointment();
+        appointment.setId(UUID.randomUUID());
+        appointment.setType("type");
+        appointment.setPatient(null);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment.setPrice(10.0);
+
+        List<Appointment> expectedAppointmentList = new ArrayList<Appointment>();
+        expectedAppointmentList.add(appointment);
+
+        when(appointmentRepository.findAll()).thenReturn(expectedAppointmentList);
+
+        List<Appointment> actualAppointmentList = appointmentService.getAllAppointments();
+
+        assertEquals(expectedAppointmentList, actualAppointmentList);
+        verify(appointmentRepository, times(1)).findAll();
+    }
+
+    @Test
     @DisplayName("Teste Cancel Appointment Existing")
     void testCancelAppointmentExist() {
 
