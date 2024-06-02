@@ -1,10 +1,10 @@
 package pt.ua.deti.tqs.cliniconnect.services;
 
+import java.util.List;
+
 import pt.ua.deti.tqs.cliniconnect.models.Staff;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public interface StaffService {
-
+    Staff getPatientByEmail(String email);
+    boolean updateStaffHospitals(String email, List<String> hospitals);
 }

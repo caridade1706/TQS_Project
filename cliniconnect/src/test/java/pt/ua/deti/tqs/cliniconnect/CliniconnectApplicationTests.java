@@ -6,7 +6,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CliniconnectApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
+
+    @Test
+    void main() {
+        CliniconnectApplication.main(new String[] {});
+    }
 }

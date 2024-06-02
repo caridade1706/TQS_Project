@@ -9,4 +9,7 @@ public interface AppointmentService {
     Appointment bookAppointment(Appointment appointment);
     boolean cancelAppointment(UUID id);
     List<Appointment> getAppointmentsByPatient(UUID patientId);
+    boolean updateAppointmentStatus(UUID id, String status);
+    List<Appointment> getAppointmentsByDate(Date date);
+    List<Appointment> getAllAppointments();
 }

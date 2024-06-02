@@ -18,12 +18,19 @@ public class PatientTest {
     @Test
     void testSettersAndGetters() {
         assertNotNull(patient);
+        patient.setPatientNumber("876556789");
         patient.setAppointments(new HashSet<>());
         patient.setEmail("email");
 
-        
+        assertEquals("876556789", patient.getPatientNumber());
         assertEquals(new HashSet<>(), patient.getAppointments());
         assertEquals("email", patient.getUsername());
+    }
+
+    @Test
+    void testPatientNumber() {
+        patient.setPatientNumber("876556789");
+        assertEquals("876556789", patient.getPatientNumber());
     }
 
     @Test
@@ -40,6 +47,4 @@ public class PatientTest {
         patient.setAppointments(appointments);
         assertEquals(appointments, patient.getAppointments());
     }
-
-    
 }

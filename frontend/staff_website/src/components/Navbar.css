@@ -1,0 +1,57 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding-right: 20rem;
+    padding-left: 20rem;
+    background-color: #fff;
+}
+  
+.navbar-text {
+    text-align: center;
+    font-family: 'Roboto'; 
+    color: #111111;
+    font-size: 1.5rem;
+}
+
+.navbar-icon {
+    margin-right: 1rem;
+}
+
+.navbar-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    text-align: center;
+    font-family: 'Roboto'; 
+    color: #111111;
+    font-size: 1.5rem;
+}
+  
+.navbar-button {
+    width: 9rem;
+    background-color: #fff;
+    color: #111111;
+    font-size: 1rem;
+    border: 2px solid #111111;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-link {
+    margin-right: 2%;
+}
+  
+.navbar-button:hover {
+    background-color: #111111; 
+    color: #fff;
+}
+
+.active {
+    background-color: #111111; 
+    color: #fff;
+}

@@ -1,0 +1,36 @@
+.form-hospital-container {
+    padding: 20px;
+    background-color: #dfedff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.form-h-container {
+    background-color: #dfedff;
+}
+
+.form-h-container input, .form-h-container button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.form-h-container input {
+    width: 98.5%;
+}
+
+.add-hospital-btn {
+    background-color: #5AA7FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-hospital-btn:hover {
+    background-color: #014da5;
+}

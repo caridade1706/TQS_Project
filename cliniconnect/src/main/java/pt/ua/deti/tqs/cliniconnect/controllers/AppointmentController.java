@@ -1,8 +1,11 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,6 @@ import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
-    @Autowired
     private final AppointmentService appointmentService;
 
     @PostMapping
@@ -40,6 +42,16 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping("/{id}/{status}")
+    public ResponseEntity<Void> changeStatus(@PathVariable UUID id, @PathVariable String status) {
+        boolean result = appointmentService.updateAppointmentStatus(id, status);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<?> getAppointmentsByPatient(@PathVariable UUID patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatient(patientId);
@@ -48,5 +60,27 @@ public class AppointmentController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<Appointment>> getAppointmentsToday() {
+        LocalDate todayDate = LocalDate.now();
+        Date today = Date.from(todayDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        List<Appointment> todayAppointments = appointmentService.getAppointmentsByDate(today);
+
+        if (todayAppointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(todayAppointments);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
+        List<Appointment> allAppointments = appointmentService.getAllAppointments();
+        if (allAppointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(allAppointments);
     }
 }

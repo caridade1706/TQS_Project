@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 
 @Getter
@@ -13,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Hospital {
+public class Hospital implements java.io.Serializable{
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -30,6 +32,7 @@ public class Hospital {
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
+    @JsonBackReference 
     private Set<Staff> staffs;
 
     @ManyToMany
@@ -38,11 +41,14 @@ public class Hospital {
         joinColumns = @JoinColumn(name = "hospital_id"),
         inverseJoinColumns = @JoinColumn(name = "doctor_id")
     )
+    @JsonBackReference
     private Set<Doctor> doctors;
 
     @OneToMany(mappedBy = "hospital")
+    // @JsonManagedReference
+    @JsonBackReference
     private Set<Appointment> appointments;
 
     @OneToOne(mappedBy = "hospital")
-    private QueueManagement queueManagement;
+    private transient QueueManagement queueManagement;
 }

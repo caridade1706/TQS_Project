@@ -6,16 +6,18 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Appointment {
+public class Appointment implements java.io.Serializable  {
+    
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -31,13 +33,19 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    // @JsonBackReference
+    @JsonManagedReference
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
+    // @JsonBackReference
+    @JsonManagedReference
     private Doctor doctor;
 
     @ManyToOne
     @JoinColumn(name = "hospital_id")
+    // @JsonBackReference
+    @JsonManagedReference
     private Hospital hospital;
 }
