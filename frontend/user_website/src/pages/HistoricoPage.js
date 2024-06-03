@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Tab from "../components/Tab/Tab";
 import axios from "axios";
 
 import "./UserPage.css";
@@ -65,29 +65,8 @@ const AppointmentsHistory = ({ userId }) => {
 
   return (
     <div className="user-page">
-      <h1 style={{ textAlign: "start", marginLeft: "20rem" }}>
-        Welcome back, {userDetails.name}!
-      </h1>
-      <Link to="/consultas">
-        <button className="userpage-button up-consultas-button">
-          Consultas
-        </button>
-      </Link>
-      <Link to="/historico">
-        <button className="userpage-button up-historico-button up-historico-button-active">
-          Histórico
-        </button>
-      </Link>
-      <Link to="/agendamento">
-        <button className="userpage-button up-agendamento-button">
-          Agendamento
-        </button>
-      </Link>
-      <Link to="/pesquisa">
-        <button className="userpage-button up-pesquisa-button">
-          Hospitais
-        </button>
-      </Link>
+
+      <Tab userName={userDetails.name} />
 
       <table className="appointment-table">
         <thead>

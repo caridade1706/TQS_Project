@@ -31,6 +31,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/historico" element={<AppointmentsHistory />} />
+            <Route path="/pesquisa" element={<HomeHospitalPage />} />
           </Routes>
         </div>
       </AuthProvider>

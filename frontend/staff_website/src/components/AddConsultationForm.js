@@ -35,7 +35,7 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
 
     const fetchHospitals = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/hospitals/');
+            const response = await axios.get(process.env.REACT_APP_API_URL + 'hospitals/');
             setHospitals(response.data);
         } catch (error) {
             console.error('Erro ao buscar hospitais', error);
@@ -44,7 +44,7 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
 
     const fetchDoctors = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/doctors/');
+            const response = await axios.get(process.env.REACT_APP_API_URL + 'doctors/');
             setDoctors(response.data);
             setFilteredDoctors(response.data); // Initialize filtered doctors
         } catch (error) {
@@ -54,7 +54,7 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
 
     const fetchPatients = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/patients/');
+            const response = await axios.get(process.env.REACT_APP_API_URL + 'patients/');
             setPatients(response.data);
         } catch (error) {
             console.error('Erro ao buscar patients', error);
@@ -111,7 +111,7 @@ function AddConsultationForm({ onClose, onAddConsultation }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/api/appointments', formData)
+        axios.post(process.env.REACT_APP_API_URL + 'appointments', formData)
             .then(response => {
                 setNotification('Consultation added successfully');
                 const newAppointment = response.data;

@@ -7,66 +7,6 @@
     padding-bottom: 20px;
 }  
 
-/*   B U T T O N S  */
-
-.userpage-button {
-    margin-top: 20px;
-    margin-bottom: 30px;
-    margin-right: 5px;
-    background-color: #fff;
-    font-size: 1rem;
-    border-radius: 30px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 10%;
-}
-
-.up-consultas-button {
-    border: 2px solid #49C493;
-    color: #49C493;
-    border-radius: 30px 0px 0px 30px;
-
-}
-
-.up-historico-button {
-    border: 2px solid #FFCB2F;
-    color: #FFCB2F;
-    border-radius: 0px;
-}
-
-.up-agendamento-button {
-    border: 2px solid #FF6363;
-    color: #FF6363;
-    border-radius: 0px 0px 0px 0px;
-}
-
-.up-pesquisa-button {
-    border: 2px solid #5AA7FF;
-    color: #5AA7FF;
-    border-radius: 0px 30px 30px 0px;
-}
-
-.up-consultas-button:hover, .up-consultas-button-active {
-    background-color: #49C493; 
-    color: #fff;
-}
-
-.up-historico-button:hover, .up-historico-button-active {
-    background-color: #FFCB2F; 
-    color: #fff;
-}
-
-.up-agendamento-button:hover, .up-agendamento-button-active {
-    background-color: #FF5757; 
-    color: #fff;
-}
-
-.up-pesquisa-button:hover, .up-pesquisa-button-active {
-    background-color: #5AA7FF; 
-    color: #fff;
-}
-
 /*   T A B E L A   */
 
 .appointment-table {
