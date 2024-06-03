@@ -1,5 +1,6 @@
 package pt.ua.deti.tqs.cliniconnect.controllers;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -82,5 +83,29 @@ public class AppointmentController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(allAppointments);
+    }
+
+    @GetMapping("/future/{email}")
+    public ResponseEntity<List<Appointment>> getFutureAppointments(@PathVariable String email) {
+        
+        Date date = Date.from(Instant.now());
+        
+        List<Appointment> appointments = appointmentService.getFutureAppointmentsByUserId(email, date);
+    
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
+    }
+
+    @GetMapping("/history/{email}")
+    public ResponseEntity<List<Appointment>> getPastAppointments(@PathVariable String email) {
+        
+        Date date = Date.from(Instant.now());
+        List<Appointment> appointments = appointmentService.getPastAppointmentsByUserId(email, date);
+        if (appointments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(appointments);
     }
 }

@@ -33,7 +33,7 @@ const ProfilePage = () => {
     const fetchAvailableHospitals = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/hospitals/`,
+          process.env.REACT_APP_API_URL + `hospitals/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ const ProfilePage = () => {
     if (selectedHospitals.length > 0) {
       try {
         const response = await axios.post(
-          `http://localhost:8080/api/staff/addHospitals`,
+          process.env.REACT_APP_API_URL + `staff/addHospitals`,
           { hospitals: selectedHospitals },
           {
             headers: {
