@@ -33,7 +33,7 @@ function AddDoctorForm() {
     
     const fetchHospitals = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/hospitals/');
+            const response = await axios.get(process.env.REACT_APP_API_URL + 'hospitals/');
             setHospitals(response.data);
         } catch (error) {
             console.error('Error fetching hospitals:', error);
