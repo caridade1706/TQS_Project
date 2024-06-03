@@ -136,6 +136,84 @@ class AppointmentControllerTest {
     }
 
     @Test
+    @DisplayName("Test changing a the status of an existing appointment")
+    void testChangeAppointmentStatusSuccess() throws Exception {
+        UUID appointmentId = UUID.randomUUID();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.updateAppointmentStatus(appointmentId, "status")).thenReturn(true);
+
+        // Perform request and verify response
+        mockMvc.perform(post(url + "/" + appointmentId + "/status"))
+                .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).updateAppointmentStatus(appointmentId, "status");
+    }
+
+    @Test
+    @DisplayName("Test changing a the status of an non existing appointment")
+    void testChangeAppointmentStatusNonExsting() throws Exception {
+        UUID appointmentId = UUID.randomUUID();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.updateAppointmentStatus(appointmentId, "status")).thenReturn(false);
+
+        // Perform request and verify response
+        mockMvc.perform(post(url + "/" + appointmentId + "/status"))
+                .andExpect(status().isNotFound());
+
+        verify(appointmentService, times(1)).updateAppointmentStatus(appointmentId, "status");
+    }
+
+    @Test
+    @DisplayName("Test getting all the appointments success")
+    void testGettingAllAppointmentSuccess() throws Exception {
+        UUID appointmentId1 = UUID.randomUUID();
+        UUID appointmentId2 = UUID.randomUUID();
+
+        // Setup mock data
+        Appointment appointment1 = new Appointment();
+        appointment1.setId(appointmentId1);
+        appointment1.setType("type1");
+        appointment1.setStatus("Created");
+        appointment1.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment1.setPrice(10.0);
+
+        Appointment appointment2 = new Appointment();
+        appointment1.setId(appointmentId2);
+        appointment1.setType("type2");
+        appointment1.setStatus("Created");
+        appointment1.setDate(Date.from(Instant.parse("2020-02-10T00:00:00Z")));
+        appointment1.setPrice(10.0);
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.getAllAppointments()).thenReturn(List.of(appointment1, appointment2));
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/all"))
+                .andExpect(status().isOk());
+
+        verify(appointmentService, times(1)).getAllAppointments();
+    }
+
+    @Test
+    @DisplayName("Test getting all the appointments with 0")
+    void testGettingAllNoAppointment() throws Exception {
+
+        // Setup mock data
+        List<Appointment> appointments = new ArrayList<>();
+
+        // Mock service call to return true indicating successful status change
+        when(appointmentService.getAllAppointments()).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/all"))
+                .andExpect(status().isNoContent());
+
+        verify(appointmentService, times(1)).getAllAppointments();
+    }
+
+    @Test
     @DisplayName("Test canceling an existing appointment")
     void testCancelAppointmentSuccess() throws Exception {
         UUID appointmentId = UUID.randomUUID();

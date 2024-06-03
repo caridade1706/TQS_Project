@@ -13,7 +13,7 @@ function ConsultationsTable() {
 
     useEffect(() => {
         const fetchConsultations = () => {
-            axios.get('http://localhost:8080/api/appointments/today')
+            axios.get(process.env.REACT_APP_API_URL + 'appointments/today')
                 .then(response => {
                     if (response.status === 204 || response.data.length === 0) {
                         setConsultations([]);
