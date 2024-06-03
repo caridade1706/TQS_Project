@@ -48,6 +48,13 @@ services:
     depends_on:
       - backend
 
+  frontend_dashboard_queue_website:
+    build: ./frontend/dashboard_queue_management
+    ports:
+      - "3002:3002" 
+    depends_on:
+      - backend
+
 
 networks:
   app-network:
