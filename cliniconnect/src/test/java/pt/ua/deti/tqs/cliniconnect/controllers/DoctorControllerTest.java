@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
-import pt.ua.deti.tqs.cliniconnect.models.Patient;
 import pt.ua.deti.tqs.cliniconnect.services.DoctorService;
 
 import java.sql.Date;
