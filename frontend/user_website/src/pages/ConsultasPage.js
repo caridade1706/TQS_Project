@@ -65,7 +65,7 @@ const HomeHospitalPage = () => {
 
   const handleCancel = (id) => {
     axios
-      .delete(`http://localhost:8080/api/appointments/${id}`)
+      .delete(process.env.REACT_APP_API_URL + `appointments/${id}`)
       .then(() => {
         setFutureAppointments(
           futureAppointments.filter((fetchFutureAppointment) => fetchFutureAppointment.id !== id)

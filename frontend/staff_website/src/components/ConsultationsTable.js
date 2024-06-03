@@ -13,7 +13,7 @@ function ConsultationsTable() {
 
     useEffect(() => {
         const fetchConsultations = () => {
-            axios.get('http://localhost:8080/api/appointments/today')
+            axios.get(process.env.REACT_APP_API_URL + 'appointments/today')
                 .then(response => {
                     if (response.status === 204 || response.data.length === 0) {
                         setConsultations([]);
@@ -54,7 +54,7 @@ function ConsultationsTable() {
     );
 
     const handleCheckIn = (id) => {
-        axios.post(`http://localhost:8080/api/appointments/${id}/WAITING`)
+        axios.post(process.env.REACT_APP_API_URL + `appointments/${id}/WAITING`)
             .then(() => {
                 setConsultations(consultations.map(consultation =>
                     consultation.id === id ? { ...consultation, status: 'WAITING' } : consultation
@@ -64,7 +64,7 @@ function ConsultationsTable() {
     };
 
     const handlePayment = (id) => {
-        axios.post(`http://localhost:8080/api/appointments/${id}/PAYED`)
+        axios.post(process.env.REACT_APP_API_URL + `appointments/${id}/PAYED`)
             .then(() => {
                 setConsultations(consultations.map(consultation =>
                     consultation.id === id ? { ...consultation, status: 'PAYED' } : consultation
@@ -74,7 +74,7 @@ function ConsultationsTable() {
     };
 
     const handleCancel = (id) => {
-        axios.delete(`http://localhost:8080/api/appointments/${id}`)
+        axios.delete(process.env.REACT_APP_API_URL + `appointments/${id}`)
             .then(() => {
                 setConsultations(consultations.filter(consultation => consultation.id !== id));
             })

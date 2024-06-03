@@ -13,7 +13,7 @@ function AddHospitalForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/api/hospitals/', hospitalData)
+        axios.post(process.env.REACT_APP_API_URL + 'hospitals/', hospitalData)
             .then(response => {
                 alert('Hospital added successfully!');
                 console.log(response.data);

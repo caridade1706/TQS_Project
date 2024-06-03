@@ -37,7 +37,7 @@ const AppointmentsHistory = ({ userId }) => {
     try {
       const email = localStorage.getItem("email");
       const response = await axios.get(
-        `http://localhost:8080/api/appointments/history/${email}`
+        process.env.REACT_APP_API_URL + `appointments/history/${email}`
       );
 
       if (Array.isArray(response.data)) {
