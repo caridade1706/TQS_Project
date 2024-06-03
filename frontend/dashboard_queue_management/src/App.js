@@ -5,7 +5,6 @@ import Home from "./Pages/Home/HomePage";
 import Queue from "./Pages/Queue/QueuePage";
 import ChooseTicket from './Pages/ChooseTicket/ChooseTicket';
 import Navbar from "./Components/Navbar/Navbar";
-import Footer from "./Components/Footer/Footer";
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
         <Route path="/queue" element={<Queue />} />
         <Route path="/chosseTicket" element={<ChooseTicket />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
