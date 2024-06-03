@@ -37,11 +37,6 @@ function ConsultationsTable() {
         return new Date(`1970-01-01T${timeString}`).toLocaleTimeString('pt-PT', options);
     };
 
-    const formateDate = (dateString) => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    };
-
     const filteredConsultations = consultations.filter(consultation =>
         Object.values(consultation).some(value => {
             if (typeof value === 'object' && value!== null && 'name' in value) {
@@ -59,7 +54,7 @@ function ConsultationsTable() {
     );
 
     const handleCheckIn = (id) => {
-        axios.post(`http://localhost:8080/api/appointments/${id}/WAITING`)
+        axios.post(process.env.REACT_APP_API_URL + `appointments/${id}/WAITING`)
             .then(() => {
                 setConsultations(consultations.map(consultation =>
                     consultation.id === id ? { ...consultation, status: 'WAITING' } : consultation
@@ -69,7 +64,7 @@ function ConsultationsTable() {
     };
 
     const handlePayment = (id) => {
-        axios.post(`http://localhost:8080/api/appointments/${id}/PAYED`)
+        axios.post(process.env.REACT_APP_API_URL + `appointments/${id}/PAYED`)
             .then(() => {
                 setConsultations(consultations.map(consultation =>
                     consultation.id === id ? { ...consultation, status: 'PAYED' } : consultation
@@ -79,7 +74,7 @@ function ConsultationsTable() {
     };
 
     const handleCancel = (id) => {
-        axios.delete(`http://localhost:8080/api/appointments/${id}`)
+        axios.delete(process.env.REACT_APP_API_URL + `appointments/${id}`)
             .then(() => {
                 setConsultations(consultations.filter(consultation => consultation.id !== id));
             })
