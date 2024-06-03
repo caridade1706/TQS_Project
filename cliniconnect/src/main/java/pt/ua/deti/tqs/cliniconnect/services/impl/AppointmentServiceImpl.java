@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.checkerframework.checker.units.qual.s;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -102,7 +103,9 @@ public class AppointmentServiceImpl implements pt.ua.deti.tqs.cliniconnect.servi
     @Override
     public List<Appointment> getFutureAppointmentsByUserId(String email, Date currentDate) {
         UUID userId = personaRepository.findByEmail(email).get().getId();
-        return appointmentRepository.findByPatient_IdAndDateAfter(userId, currentDate);
+        List<Appointment> appointments = appointmentRepository.findByPatient_IdAndDateAfter(userId, currentDate);
+        System.out.println("Appointments: " + appointments);
+        return appointments;
     }
 
     @Override

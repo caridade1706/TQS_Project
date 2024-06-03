@@ -27,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
@@ -259,4 +260,91 @@ class AppointmentServiceTest {
         assertEquals(expectedAppointments, actualAppointments);
         verify(appointmentRepository, times(1)).findByDateBetween(startDate, endDate);
     }
+
+    @Test
+    @DisplayName("Test Get Future Appointments by email Succefully")
+    void testGetFutureAppointmentsByEmailSuccefully() {
+        
+        String email = "email@ua.pt";
+
+        UUID appointmentId = UUID.randomUUID();
+
+        Patient patient = new Patient();
+        patient.setId(UUID.randomUUID());
+        patient.setEmail(email);
+        patient.setName("patientName");
+        patient.setAddress("address");
+        patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
+        patient.setAppointments(new HashSet<>());
+
+        // Setup mock data
+        Appointment appointment = new Appointment();
+        appointment.setId(appointmentId);
+        appointment.setType("type");
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2024-06-10T00:00:00Z")));
+        appointment.setTime(LocalTime.parse("10:30"));
+        appointment.setPrice(10.0);
+        appointment.setPatient(patient);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+
+        List<Appointment> expectedAppointments = List.of(appointment);
+
+        Date date = Date.from(Instant.now());
+
+        when(personaRepository.findByEmail(email)).thenReturn(Optional.of(patient));
+        when(appointmentRepository.findByPatient_IdAndDateAfter(patient.getId(), date)).thenReturn(expectedAppointments);
+
+        List<Appointment> actualAppointments = appointmentService.getFutureAppointmentsByUserId(patient.getEmail(), date);
+        assertEquals(expectedAppointments.get(0).getId(), actualAppointments.get(0).getId());
+        
+        verify(personaRepository, times(1)).findByEmail(any(String.class));
+        verify(appointmentRepository, times(1)).findByPatient_IdAndDateAfter(any(UUID.class), any(Date.class));
+    }
+
+    @Test
+    @DisplayName("Test Get Past Appointments by email Succefully")
+    void testGetPastAppointmentsByEmailSuccefully() {
+        
+        String email = "email@ua.pt";
+
+        UUID appointmentId = UUID.randomUUID();
+
+        Patient patient = new Patient();
+        patient.setId(UUID.randomUUID());
+        patient.setEmail(email);
+        patient.setName("patientName");
+        patient.setAddress("address");
+        patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
+        patient.setAppointments(new HashSet<>());
+
+        // Setup mock data
+        Appointment appointment = new Appointment();
+        appointment.setId(appointmentId);
+        appointment.setType("type");
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2024-06-01T00:00:00Z")));
+        appointment.setTime(LocalTime.parse("10:30"));
+        appointment.setPrice(10.0);
+        appointment.setPatient(patient);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+
+        List<Appointment> expectedAppointments = List.of(appointment);
+
+        Date date = Date.from(Instant.now());
+
+        when(personaRepository.findByEmail(email)).thenReturn(Optional.of(patient));
+        when(appointmentRepository.findByPatient_IdAndDateBefore(patient.getId(), date)).thenReturn(expectedAppointments);
+
+        List<Appointment> actualAppointments = appointmentService.getPastAppointmentsByUserId(patient.getEmail(), date);
+        assertEquals(expectedAppointments.get(0).getId(), actualAppointments.get(0).getId());
+        
+        verify(personaRepository, times(1)).findByEmail(any(String.class));
+        verify(appointmentRepository, times(1)).findByPatient_IdAndDateBefore(any(UUID.class), any(Date.class));
+    }
+
 }

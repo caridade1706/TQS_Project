@@ -11,21 +11,28 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.cucumber.java.lu.an;
+import io.cucumber.java.lu.dann;
 import pt.ua.deti.tqs.cliniconnect.Roles;
 import pt.ua.deti.tqs.cliniconnect.dto.CreateAppointmentDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Appointment;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
 import pt.ua.deti.tqs.cliniconnect.models.Hospital;
 import pt.ua.deti.tqs.cliniconnect.models.Patient;
+import pt.ua.deti.tqs.cliniconnect.repositories.PersonaRepository;
 import pt.ua.deti.tqs.cliniconnect.services.AppointmentService;
 
 import java.time.Instant;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,6 +46,9 @@ class AppointmentControllerTest {
 
     @MockBean
     private AppointmentService appointmentService;
+
+    @MockBean
+    private PersonaRepository personaRepository;
 
     private String url = "/api/appointments";
 
@@ -246,5 +256,117 @@ class AppointmentControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(appointmentService, times(1)).getAppointmentsByDate(any(Date.class));
+    }
+
+    @Test
+    @DisplayName("Test getting future appointments by User Email Successfully")
+    void testGetAllFutureAppointmentsByEmailSuccess() throws Exception {
+        String email = "email@ua.pt";
+
+        UUID appointmentId = UUID.randomUUID();
+
+        Patient patient = new Patient();
+        patient.setId(UUID.randomUUID());
+        patient.setEmail(email);
+        patient.setName("patientName");
+        patient.setAddress("address");
+        patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
+        patient.setAppointments(new HashSet<>());
+
+        // Setup mock data
+        Appointment appointment = new Appointment();
+        appointment.setId(appointmentId);
+        appointment.setType("type");
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2024-06-10T00:00:00Z")));
+        appointment.setTime(LocalTime.parse("10:30"));
+        appointment.setPrice(10.0);
+        appointment.setPatient(patient);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+
+        List<Appointment> appointments = List.of(appointment);
+
+        when(appointmentService.getFutureAppointmentsByUserId(anyString(), any(Date.class))).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/future/" + email))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(appointment.getId().toString()));
+
+        verify(appointmentService, times(1)).getFutureAppointmentsByUserId(anyString(), any(Date.class));
+    }
+
+    @Test
+    @DisplayName("Test getting future appointments by User Email No Content")
+    void testGetAllFutureAppointmentsByEmailNoContent() throws Exception {
+        String email = "email@ua.pt";
+        
+        List<Appointment> appointments = new ArrayList<>();
+
+        when(appointmentService.getFutureAppointmentsByUserId(anyString(), any(Date.class))).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/future/" + email))
+                .andExpect(status().isNoContent());
+
+        verify(appointmentService, times(1)).getFutureAppointmentsByUserId(anyString(), any(Date.class));
+    }
+
+    @Test
+    @DisplayName("Test getting Past appointments by User Email Successfully")
+    void testGetAllPastAppointmentsByEmailSuccess() throws Exception {
+        String email = "email@ua.pt";
+
+        UUID appointmentId = UUID.randomUUID();
+
+        Patient patient = new Patient();
+        patient.setId(UUID.randomUUID());
+        patient.setEmail(email);
+        patient.setName("patientName");
+        patient.setAddress("address");
+        patient.setCity("city");
+        patient.setRole(Roles.PATIENT);
+        patient.setAppointments(new HashSet<>());
+
+        // Setup mock data
+        Appointment appointment = new Appointment();
+        appointment.setId(appointmentId);
+        appointment.setType("type");
+        appointment.setStatus("Created");
+        appointment.setDate(Date.from(Instant.parse("2024-06-01T00:00:00Z")));
+        appointment.setTime(LocalTime.parse("10:30"));
+        appointment.setPrice(10.0);
+        appointment.setPatient(patient);
+        appointment.setDoctor(null);
+        appointment.setHospital(null);
+
+        List<Appointment> appointments = List.of(appointment);
+
+        when(appointmentService.getPastAppointmentsByUserId(anyString(), any(Date.class))).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/history/" + email))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(appointment.getId().toString()));
+
+        verify(appointmentService, times(1)).getPastAppointmentsByUserId(anyString(), any(Date.class));
+    }
+
+    @Test
+    @DisplayName("Test getting past appointments by User Email No Content")
+    void testGetAllPastAppointmentsByEmailNoContent() throws Exception {
+        String email = "email@ua.pt";
+        
+        List<Appointment> appointments = new ArrayList<>();
+
+        when(appointmentService.getPastAppointmentsByUserId(anyString(), any(Date.class))).thenReturn(appointments);
+
+        // Perform request and verify response
+        mockMvc.perform(get(url + "/history/" + email))
+                .andExpect(status().isNoContent());
+
+        verify(appointmentService, times(1)).getPastAppointmentsByUserId(anyString(), any(Date.class));
     }
 }

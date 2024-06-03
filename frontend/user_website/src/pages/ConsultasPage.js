@@ -63,6 +63,17 @@ const HomeHospitalPage = () => {
     );
   };
 
+  const handleCancel = (id) => {
+    axios
+      .delete(`http://localhost:8080/api/appointments/${id}`)
+      .then(() => {
+        setFutureAppointments(
+          futureAppointments.filter((fetchFutureAppointment) => fetchFutureAppointment.id !== id)
+        );
+      })
+      .catch((error) => console.error("Failed to cancel appointment", error));
+  };
+
   return (
     <div className="user-page">
       <Tab userName={userDetails.name} />
@@ -75,6 +86,7 @@ const HomeHospitalPage = () => {
             <th>Hospital</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Status</th>
             <th></th>
           </tr>
         </thead>
@@ -95,9 +107,41 @@ const HomeHospitalPage = () => {
                 <td>{formatDate(appointment.date)}</td>
                 <td>{formatTime(appointment.time)}</td>
 
-                <td>
-                  <button className="rebook-button">Reagendar</button>
-                </td>
+                {appointment.status === "CREATED" ? (
+                  <>
+                    <td>
+                      <span style={{ color: "#5AA7FF" }}>◉</span>{" "}
+                      {appointment.status}
+                    </td>
+                    <td>
+                      <button
+                        className="table-consultations-btn btn-cancel"
+                        onClick={() => handleCancel(appointment.id)}
+                      >
+                        Cancel
+                      </button>
+                    </td>
+                  </>
+                ) : appointment.status === "WAITING" ? (
+                  <>
+                    <td>
+                      <span style={{ color: "#FFCB2F" }}>◉</span>{" "}
+                      {appointment.status}
+                    </td>
+                    <td>
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td>
+                      <span style={{ color: "#49C493" }}>◉</span>{" "}
+                      {appointment.status}
+                    </td>
+                    <td>
+                      <span></span>
+                    </td>
+                  </>
+                )}
               </tr>
             ))
           )}

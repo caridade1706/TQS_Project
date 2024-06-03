@@ -59,3 +59,23 @@
 .appointment-table tr:hover td .rebook-button {
     background-color: #fff;
 }
+
+.btn-cancel {
+    background-color: #FF5757;
+    border: #FF5757;
+}
+
+.btn-cancel:hover {
+    background-color: #a00000;
+    border: #a00000;
+}
+
+.table-consultations-btn {
+    color: white;
+    font-size: medium;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
