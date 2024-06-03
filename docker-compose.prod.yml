@@ -52,6 +52,16 @@ services:
     depends_on:
       - backend
 
+  frontend_dashboard_queue_website:
+    build: 
+      context: ./frontend/dashboard_queue_management
+      dockerfile: Dockerfile.prod
+    image: ghcr.io/caridade1706/dashboard_queue_management:${TAG:-latest}
+    ports:
+      - "3002:3002" 
+    depends_on:
+      - backend
+
 
 networks:
   app-network:
