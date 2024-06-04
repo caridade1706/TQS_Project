@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import pt.ua.deti.tqs.cliniconnect.dto.AddDoctorDTO;
 import pt.ua.deti.tqs.cliniconnect.models.Doctor;
@@ -17,7 +20,12 @@ public class DoctorController {
     
     private DoctorService doctorService;
 
-    @PostMapping(path = "/")
+    @Operation(summary = "Add a new doctor")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully added a new doctor"),
+        @ApiResponse(responseCode = "404", description = "Doctor could not be added")
+    })
+    @PostMapping("/")
     public ResponseEntity<Doctor> addDoctor(@RequestBody AddDoctorDTO addDoctorDTO) {
         Doctor doctor = doctorService.addDoctor(addDoctorDTO);
 
@@ -28,6 +36,11 @@ public class DoctorController {
         }
     }
     
+    @Operation(summary = "Get all doctors")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrive the doctors"),
+        @ApiResponse(responseCode = "404", description = "No doctors found")
+    })
     @GetMapping("/")
     public ResponseEntity<List<Doctor>> getAllDoctors() {
         List<Doctor> doctors = doctorService.getAllDoctors();
@@ -40,6 +53,11 @@ public class DoctorController {
     }
     
 
+    @Operation(summary = "Get doctors by speciality")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrive the doctors by speciality"),
+        @ApiResponse(responseCode = "404", description = "No doctors found with the given speciality")
+    })
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {
         
